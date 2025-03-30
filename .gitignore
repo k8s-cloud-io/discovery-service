@@ -1,0 +1,12 @@
+/.obj
+/.vscode
+/bin
+/autom4te*
+/data
+/config.h
+/config.h.in~
+/config.log
+/config.status
+/configure
+/configure~
+/Makefile
