@@ -1,8 +1,20 @@
+#include <cstddef>
+#include "StringList.h"
 #include "String.h"
 
-string String::trim(string s, const string &chars) {
-    size_t begin = 0;
-    size_t end = s.size()-1;
+String::String()
+:string() {}
+
+String::String(const char *str)
+:string(str) {}
+
+String::String(const string &str)
+:string(str) {}
+
+String String::trim(const string &chars) {
+    String s(c_str());
+    std::size_t begin = 0;
+    std::size_t end = s.size()-1;
 
     for(; begin < s.size(); begin++)
         if(chars.find_first_of(s[begin]) == string::npos)
@@ -14,8 +26,9 @@ string String::trim(string s, const string &chars) {
     return s.substr(begin, end-begin+1);
 }
 
-StringList String::split(const std::string& s, const std::string& delimiter) {
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+StringList String::split(const string& delimiter) {
+    String s(c_str());
+    std::size_t pos_start = 0, pos_end, delim_len = delimiter.length();
     std::string token;
     StringList res;
     while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {

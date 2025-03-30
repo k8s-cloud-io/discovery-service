@@ -2,11 +2,10 @@
 #define STRINGMAP_H
 
 #include <map>
-#include <string>
+#include "String.h"
 
 using std::map;
-using std::string;
 
-typedef map<string, string> StringMap;
+typedef map<String, String> StringMap;
 
 #endif // STRINGMAP_H
