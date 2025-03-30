@@ -1,5 +1,5 @@
 CXX=g++
-CFLAGS:=-O3
+CFLAGS:=-O3 -Wall -Wextra -std=c++17 -pedantic
 CPPFLAGS=-I./src/include \
 	$(shell pkg-config --cflags libcurl) \
 	$(shell pkg-config --cflags libxml-2.0) \
