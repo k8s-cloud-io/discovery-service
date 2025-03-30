@@ -1,12 +1,11 @@
 #ifndef DIR_H
 #define DIR_H
 
-#include <string>
-using std::string;
+#include "String.h"
 
 class Dir {
     public:
-        static string currentDir();
+        static String currentDir();
 };
 
 #endif // DIR_H

@@ -11,7 +11,7 @@ FeedReader::FeedReader() {
     LIBXML_TEST_VERSION;
 }
 
-FeedList FeedReader::loadFeed(const string &url) {
+FeedList FeedReader::loadFeed(const String &url) {
     FeedList list;
 
     HttpRequest req(HttpRequest::GET, url);
@@ -25,8 +25,6 @@ FeedList FeedReader::loadFeed(const string &url) {
             string content(buffer.data());
 
             xmlDocPtr doc = xmlReadDoc(reinterpret_cast<const xmlChar *>(content.c_str()), nullptr, nullptr, 0 );
-            int ret;
-            
             xmlNode *node = doc->children;
             string version;
 

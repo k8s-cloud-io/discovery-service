@@ -1,9 +1,9 @@
 #include "Exception.h"
 
-Exception::Exception(const string msg)
+Exception::Exception(const String &msg)
 :message(msg) {
 }
 
-string Exception::getMessage() const {
+String Exception::getMessage() const {
     return message;
 }

@@ -2,9 +2,7 @@
 #define SQLDATABASE_H
 
 #include <sqlite3.h>
-#include <string>
-
-using std::string;
+#include "String.h"
 
 class SqlDatabase {
     public:
@@ -14,17 +12,17 @@ class SqlDatabase {
             CLOSED
         };
 
-        static SqlDatabase addDatabase(const string &);
+        static SqlDatabase addDatabase(const String &);
 
         void open();
         void close();
-        void query(const string &);
+        void query(const String &);
 
     private:
         SqlDatabase();
         State state;
         sqlite3 *db;
-        string path;
+        String path;
         static int __internal_query(void *, int, char **, char **);
 };
 

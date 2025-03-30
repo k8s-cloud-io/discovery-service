@@ -3,6 +3,7 @@
 
 #include "CharBuffer.h"
 #include "HttpHeader.h"
+#include "String.h"
 
 class HttpRequest;
 
@@ -11,8 +12,8 @@ class HttpResponse {
     unsigned int getStatusCode() const;
         CharBuffer getBody() const;
         HttpHeaders getHeaders();
-        string getHeader(const string &);
-        bool containsHeader(const string &);
+        String getHeader(const String &);
+        bool containsHeader(const String &);
 
     private:
         friend class HttpRequest;

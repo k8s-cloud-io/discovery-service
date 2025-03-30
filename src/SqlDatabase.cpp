@@ -13,14 +13,14 @@ using std::endl;
 
 namespace fs = std::filesystem;
 
-SqlDatabase SqlDatabase::addDatabase(const string &path) {
+SqlDatabase SqlDatabase::addDatabase(const String &path) {
     if(File::isDirectory(path)) {
         throw ( string("unable to add database: path ") + path + " is a directory" );
     }
 
     File file(path);
-    string dir = file.getDirectory();
-    fs::create_directories(dir);
+    String dir = file.getDirectory();
+    fs::create_directories(dir.c_str());
 
     SqlDatabase database;
     database.path = path;
@@ -32,7 +32,7 @@ void SqlDatabase::open() {
     state = o == SQLITE_OK ? SqlDatabase::OPEN : SqlDatabase::CLOSED;
 }
 
-void SqlDatabase::query(const string &q) {
+void SqlDatabase::query(const String &q) {
     if(state != SqlDatabase::OPEN) {
         throw new Exception("Unable to query database: database is not open");
     }
@@ -59,10 +59,9 @@ SqlDatabase::SqlDatabase()
 }
 
 int SqlDatabase::__internal_query(void *NotUsed, int argc, char **argv, char **azColName) {
-    int i;
-    for(i = 0; i<argc; i++) {
-       printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n");
+    (void)NotUsed;
+    (void)argc;
+    (void)argv;
+    (void)azColName;
     return 0;
  }

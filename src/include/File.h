@@ -1,22 +1,21 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include <string>
-using std::string;
+#include "String.h"
 
 class File {
     public:
-        File(const string &);
+        File(const String &);
         virtual ~File(){}
-        string getAbsolutePath() const;
-        string getDirectory();
+        String getAbsolutePath() const;
+        String getDirectory();
 
-        static bool exists(const string &);
-        static bool isDirectory(const string &);
+        static bool exists(const String &);
+        static bool isDirectory(const String &);
 
     private:
         File();
-        string path;
+        String path;
 };
 
 #endif

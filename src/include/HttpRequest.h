@@ -1,13 +1,11 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <string>
 #include <curl/curl.h>
 
 #include "HttpHeader.h"
 #include "HttpResponse.h"
-
-using std::string;
+#include "String.h"
 
 class HttpRequest {
     public:
@@ -18,20 +16,20 @@ class HttpRequest {
             PATCH
         };
 
-        HttpRequest(HttpRequest::RequestMethod, const string &);
-        void setHeaders(HttpHeaders);
-        void setHeader(const string &, const string &);
+        HttpRequest(HttpRequest::RequestMethod, const String &);
+        void setHeaders(const HttpHeaders &);
+        void setHeader(const String &, const String &);
 
         HttpResponse *exec();
         RequestMethod getRequestMethod() const;
-        string getUrl() const;
+        String getUrl() const;
 
     private:
         HttpRequest();
-        static size_t WriteCallback(void *, size_t, size_t, void *);
+        static std::size_t WriteCallback(void *, std::size_t, std::size_t, void *);
 
         RequestMethod requestMethod;
-        string url;
+        String url;
         HttpHeaders headers;
 };
 

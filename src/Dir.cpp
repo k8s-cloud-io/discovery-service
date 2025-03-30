@@ -3,6 +3,6 @@
 
 namespace fs = std::filesystem;
 
-string Dir::currentDir() {
-    return fs::current_path();
+String Dir::currentDir() {
+    return (String)fs::current_path();
 }

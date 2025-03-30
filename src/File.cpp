@@ -4,15 +4,15 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-File::File(const string &p)
+File::File(const String &p)
 :path(p) {}
 
-string File::getDirectory() {
+String File::getDirectory() {
     if(File::isDirectory(path)) {
         return path;
     }
 
-    const size_t pos = path.rfind('/');
+    const std::size_t pos = path.rfind('/');
     if(pos != string::npos) {
         return path.substr(0, pos);
     }
@@ -20,22 +20,22 @@ string File::getDirectory() {
     return Dir::currentDir();
 }
 
-string File::getAbsolutePath() const {
-    string p = path;
-    size_t pos = path.find("./");
-    if(pos != string::npos && pos == 0) {
+String File::getAbsolutePath() const {
+    String p = path;
+    std::size_t pos = path.find("./");
+    if(pos != String::npos && pos == 0) {
         p = path.substr(2);
     }
     
-    return fs::absolute(p);
+    return (String)fs::absolute(p.c_str());
 }
 
-bool File::exists(const string &path) {
-    return fs::exists(path);
+bool File::exists(const String &path) {
+    return fs::exists(path.c_str());
 }
 
-bool File::isDirectory(const string &path) {
-    return fs::is_directory(path);
+bool File::isDirectory(const String &path) {
+    return fs::is_directory(path.c_str());
 }
 
 // private

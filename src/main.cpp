@@ -1,17 +1,20 @@
-//#include "SqlDatabase.h"
-//#include "Exception.h"
-//#include "FeedReader.h"
+#include "Global.h"
+#include "SqlDatabase.h"
+#include "Exception.h"
+#include "FeedReader.h"
 #include "Xdg.h"
 
 #include <iostream>
-using namespace std;
+using std::cout;
+using std::endl;
 
 int main(int argc, char *argv[]) {
-    string dir = Xdg::getDirectory(Xdg::XDG_DESKTOP_DIR);
-    cout << "DIR = " << dir << endl;
-    return 0;
+    Q_UNUSED(argc);
+    Q_UNUSED(argv);
 
-    /*
+    string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
+    cout << "DIR = " << dir << endl;
+
     FeedReader reader;
     FeedList feed = reader.loadFeed("https://www.n-tv.de/rss");
 
@@ -37,5 +40,4 @@ int main(int argc, char *argv[]) {
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
-    */
 }

@@ -1,7 +1,7 @@
 #include <algorithm>
+#include <cctype>
 #include <curl/curl.h>
 #include <iostream>
-#include <stdlib.h>
 
 #include "HttpRequest.h"
 #include "CharBuffer.h"
@@ -10,8 +10,9 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::transform;
+using std::tolower;
 
-HttpRequest::HttpRequest(HttpRequest::RequestMethod m, const string &u)
+HttpRequest::HttpRequest(HttpRequest::RequestMethod m, const String &u)
     :requestMethod(m), url(u) {
 }
 
@@ -19,7 +20,7 @@ HttpRequest::RequestMethod HttpRequest::getRequestMethod() const {
     return requestMethod;
 }
 
-string HttpRequest::getUrl() const {
+String HttpRequest::getUrl() const {
     return url;
 }
 
@@ -49,12 +50,12 @@ HttpResponse *HttpRequest::exec() {
             response->statusCode = http_code;
 
             struct curl_header *h;
-            struct curl_header *prev = NULL;
+            struct curl_header *prev = nullptr;
             do {
                 h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
 
                 if(h) {
-                    string header = h->name;
+                    String header = h->name;
                     transform(header.begin(), header.end(), header.begin(),
                         [](unsigned char c){ return std::tolower(c); });
                     response->headers[header] = h->value;
@@ -68,19 +69,19 @@ HttpResponse *HttpRequest::exec() {
     return response;
 }
 
-void HttpRequest::setHeaders(HttpHeaders h) {
+void HttpRequest::setHeaders(const HttpHeaders &h) {
     headers = h;
 };
 
-void HttpRequest::setHeader(const string &k, const string &v) {
+void HttpRequest::setHeader(const String &k, const String &v) {
     headers[k] = v;
 }
 
 // private
-size_t HttpRequest::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
-    size_t realSize = size * nmemb;
+std::size_t HttpRequest::WriteCallback(void *contents, std::size_t size, std::size_t nmemb, void *userp) {
+    std::size_t realSize = size * nmemb;
     const char *data = reinterpret_cast<const char *>(contents);
-    for(size_t index = 0; index < realSize; index++) {
+    for(std::size_t index = 0; index < realSize; index++) {
         ((CharBuffer *)userp)->push_back(data[index]);
     }
     return realSize;

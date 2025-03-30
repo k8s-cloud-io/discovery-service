@@ -2,8 +2,6 @@
 #define XDG_H
 
 #include <map>
-#include <string>
-using std::string;
 using std::map;
 
 #include "StringMap.h"
@@ -22,11 +20,11 @@ class Xdg {
             XDG_PUBLICSHARE_DIR
         };
         virtual ~Xdg(){}
-        static string getDirectory(const XdgDirectory &);
+        static String getDirectory(const XdgDirectory &);
 
     private:
         Xdg();
-        typedef map<Xdg::XdgDirectory, string> XdgMap;
+        typedef map<Xdg::XdgDirectory, String> XdgMap;
         static bool initialized;
         static XdgMap config;
         static void loadConfig();

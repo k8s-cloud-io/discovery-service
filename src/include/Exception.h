@@ -1,16 +1,15 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-#include <string>
-using std::string;
+#include "String.h"
 
 class Exception {
     public:
-        explicit Exception(const string msg = nullptr);
-        string getMessage() const;
+        explicit Exception(const String &msg = nullptr);
+        String getMessage() const;
 
     private:
-        string message;
+        String message;
 };
 
 #endif // EXCEPTION_H

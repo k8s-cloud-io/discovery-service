@@ -1,16 +1,15 @@
 #ifndef FEEDREADER_H
 #define FEEDREADER_H
 
-#include <string>
+#include "String.h"
 #include <vector>
 
-using std::string;
 using std::vector;
 
 struct FeedItem {
-    string pubDate;
-    string title;
-    string link;
+    String pubDate;
+    String title;
+    String link;
 };
 
 typedef vector<FeedItem> FeedList;
@@ -18,7 +17,7 @@ typedef vector<FeedItem> FeedList;
 class FeedReader {
     public:
         FeedReader();
-        FeedList loadFeed(const string &);
+        FeedList loadFeed(const String &);
 };
 
 #endif // FEEDREADER_H
