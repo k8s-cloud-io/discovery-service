@@ -5,6 +5,7 @@
 
 class File {
     public:
+        File();
         File(const String &);
         virtual ~File(){}
         String getAbsolutePath() const;
@@ -14,7 +15,6 @@ class File {
         static bool isDirectory(const String &);
 
     private:
-        File();
         String path;
 };
 

@@ -1,29 +1,25 @@
 #ifndef SQLDATABASE_H
 #define SQLDATABASE_H
 
-#include <sqlite3.h>
+#include "SqlDriver.h"
 #include "String.h"
 
 class SqlDatabase {
     public:
-        enum State {
-            NONE,
-            OPEN,
-            CLOSED
+        enum Type {
+            TYPE_NONE,
+            TYPE_SQLITE
         };
 
-        static SqlDatabase addDatabase(const String &);
+        SqlDatabase();
+        static SqlDatabase addDatabase(SqlDatabase::Type);
 
-        void open();
+        SqlDriver *getDriver();
+        bool open();
         void close();
-        void query(const String &);
 
     private:
-        SqlDatabase();
-        State state;
-        sqlite3 *db;
-        String path;
-        static int __internal_query(void *, int, char **, char **);
+        SqlDriver *driver;
 };
 
 #endif // SQLDATABASE_H

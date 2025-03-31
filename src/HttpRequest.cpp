@@ -8,7 +8,6 @@
 
 using std::cout;
 using std::endl;
-using std::vector;
 using std::transform;
 using std::tolower;
 
@@ -78,7 +77,7 @@ void HttpRequest::setHeader(const String &k, const String &v) {
 }
 
 // private
-std::size_t HttpRequest::WriteCallback(void *contents, std::size_t size, std::size_t nmemb, void *userp) {
+size_t HttpRequest::WriteCallback(void *contents, std::size_t size, std::size_t nmemb, void *userp) {
     std::size_t realSize = size * nmemb;
     const char *data = reinterpret_cast<const char *>(contents);
     for(std::size_t index = 0; index < realSize; index++) {

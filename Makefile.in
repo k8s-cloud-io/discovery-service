@@ -32,4 +32,4 @@ $(PROG): $(OBJS)
 
 .PHONY : clean
 clean:
-	rm -rf $(OBJS) $(BINDIR)/$(PROG) $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJS) data $(BINDIR)/$(PROG) $(OBJDIR) $(BINDIR)
