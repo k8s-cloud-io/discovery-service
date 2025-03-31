@@ -14,6 +14,9 @@ class SqlQuery {
         SqlQuery(const String &, const SqlDatabase &);
         void bindValue(int, Variant);
         void exec();
+        void clearBindings() {
+            bindings.clear();
+        }
 
         String getQuery() const;
         SqlBindingList getBindings() const;

@@ -63,11 +63,47 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
             // TODO implement needed types for Variant's
 
-            // bind text values
-            const char *text = v;
-            sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
+            switch( v.getType() ) {
+                case Variant::TYPE_CONST_CHAR: {
+                        const char *text = v;
+                        sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
+                    }
+                    break;
 
-            // bind numeric values
+                case Variant::TYPE_STRING: {
+                        String data = v;
+                        const char *text = data.c_str();
+                        sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
+                    }
+                    break;
+
+                case Variant::TYPE_INT: {
+                        int i = v;
+                        sqlite3_bind_int(stmt, b.getPosition(), i);
+                    }
+                    break;
+
+                case Variant::TYPE_UNSIGNED_INT: {
+                        unsigned int i = v;
+                        sqlite3_bind_int(stmt, b.getPosition(), i);
+                    }
+                    break;
+
+                case Variant::TYPE_FLOAT: {
+                        float i = v;
+                        sqlite3_bind_int(stmt, b.getPosition(), i);
+                    }
+                    break;
+
+                case Variant::TYPE_DOUBLE: {
+                        double i = v;
+                        sqlite3_bind_int(stmt, b.getPosition(), i);
+                    }
+                    break;
+                    
+                default:
+                    throw new Exception("unable to bind parameter: invalid Variant type");
+            }
 
             // bind blob values
         }

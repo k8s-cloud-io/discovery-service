@@ -17,8 +17,9 @@ int main(int argc, char *argv[]) {
     string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
     cout << "DIR = " << dir << endl;
 
+    String feedUrl = "https://www.n-tv.de/rss";
     FeedReader reader;
-    FeedList feed = reader.loadFeed("https://www.n-tv.de/rss");
+    FeedList feed = reader.loadFeed(feedUrl);
 
     try {
         SqlDatabase db = SqlDatabase::addDatabase(SqlDatabase::TYPE_SQLITE);
@@ -36,17 +37,16 @@ int main(int argc, char *argv[]) {
         query.exec();
 
         query = SqlQuery("INSERT INTO feed_item (feed, title, pub_date, link) VALUES (?, ?, ?, ?)", db);
-        query.bindValue(1, "feed-url");
-        query.bindValue(2, "feed-title");
-        query.bindValue(3, "feed-pub_date");
-        query.bindValue(4, "feed-link");
-        query.exec();
+        for(FeedItem item: feed) {
+            query.clearBindings();
+            query.bindValue(1, feedUrl);
+            query.bindValue(2, item.title);
+            query.bindValue(3, item.pubDate);
+            query.bindValue(4, item.link);
+            query.exec();
+        }
 
         db.close();
-
-        for(FeedList::iterator it = feed.begin(); it != feed.end(); ++it) {
-            cout << it->link << endl;
-        }
         cout << "retrieved " << feed.size() << " feed items." << endl;
     } catch(Exception *e) {
         cout << e->getMessage() << endl;

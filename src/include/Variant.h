@@ -11,6 +11,16 @@ class VariantClassHolder {
 
 class Variant {
     public:
+        enum Type {
+            TYPE_UNKNOWN = 0,
+            TYPE_INT,
+            TYPE_UNSIGNED_INT,
+            TYPE_FLOAT,
+            TYPE_DOUBLE,
+            TYPE_CONST_CHAR,
+            TYPE_STRING
+        };
+
         Variant();
         Variant(const String &);
         Variant(const char *);
@@ -19,15 +29,18 @@ class Variant {
         Variant(float);
         Variant(double);
 
-        template<typename T>
-        void setValue(const T &value);
+        Type getType() const;
 
-        operator String() {
-            return static_cast<VariantClassHolder<String> *>(v)->value;
+        String toString() {
+            return reinterpret_cast<VariantClassHolder<String> *>(v)->value;
+        }
+
+        operator String() const {
+            return reinterpret_cast<VariantClassHolder<String> *>(v)->value;
         }
 
         operator const char*() {
-            return static_cast<VariantClassHolder<const char *> *>(v)->value;
+            return reinterpret_cast<VariantClassHolder<const char *> *>(v)->value;
         }
 
         operator int() {
@@ -47,7 +60,10 @@ class Variant {
         }
 
     private:
+        template<typename T>
+        void setValue(const T &value);
         void *v;
+        Type type;
 };
 
 #endif
