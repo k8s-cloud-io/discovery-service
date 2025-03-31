@@ -46,6 +46,9 @@ int main(int argc, char *argv[]) {
             query.exec();
         }
 
+        query = SqlQuery("SELECT * FROM feed_item", db);
+        query.exec();
+
         db.close();
         cout << "retrieved " << feed.size() << " feed items." << endl;
     } catch(Exception *e) {

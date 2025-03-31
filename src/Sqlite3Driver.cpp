@@ -47,10 +47,8 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         throw new Exception("Unable to query database: database is not open");
     }
 
-    char *error = nullptr;
-    void *columns;
-
     int result;
+    char *error = nullptr;
     if(q.getBindings().size() > 0) {
         result = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
         if(result != SQLITE_OK) {
@@ -71,8 +69,8 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
                     break;
 
                 case Variant::TYPE_STRING: {
-                        String data = v;
-                        const char *text = data.c_str();
+                        const String data = v.toString();
+                        const char *text = data.data();
                         sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
                     }
                     break;
@@ -112,6 +110,8 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         close();
     }
     else {
+        void *columns;
+
         result = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &columns, &error);
         if(result != SQLITE_OK) {
             throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
@@ -124,8 +124,15 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
 int Sqlite3Driver::__internal_query(void *NotUsed, int argc, char **argv, char **azColName) {
     (void)NotUsed;
-    (void)argc;
-    (void)argv;
+    //(void)argc;
+    //(void)argv;
     (void)azColName;
+
+    for(int i = 0; i < argc; i++) {
+        cout << String(argv[i]) << endl;
+    }
+
+    cout << "------------------------------------------------" << endl;
+
     return 0;
  }
