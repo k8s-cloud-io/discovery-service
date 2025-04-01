@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
         query = SqlQuery("INSERT INTO feed_item (feed, title, pub_date, link) VALUES (?, ?, ?, ?)", db);
         for(FeedItem item: feed) {
-            query.clearBindings();
+            query.clear();
             query.bindValue(1, feedUrl);
             query.bindValue(2, item.title);
             query.bindValue(3, item.pubDate);
@@ -49,20 +49,20 @@ int main(int argc, char *argv[]) {
 
         query = SqlQuery("SELECT * FROM feed_item", db);
         query.exec();
+        SqlRecordList records = query.getResult()->getRecords();
         db.close();
 
-        cout << "retrieved " << feed.size() << " feed items:" << endl;
-        /*
+        cout << "retrieved " << records.size() << " feed items:" << endl;
+
         for(SqlRecord record: records) {
             for(int i = 0; i < record.count(); i++) {
                 SqlField field = record.getField(i);
-                cout << "NAME: " << field.getName() << ", TYPE: " << field.getType() <<  endl;
+                cout << "NAME: " << field.getName() << endl; 
+                cout << "TYPE: " << field.getType() <<  endl;
                 cout << "VALUE: " << field.getValue().toString() << endl;
-                cout << " ---------------------- END FIELD ------------------------" << endl;
             }
             cout << "-----------------------------" << endl;
         }
-        */
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }

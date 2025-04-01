@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 Sqlite3Driver::Sqlite3Driver()
-:SqlDriver(), db(nullptr) {
+:SqlDriver(), db(nullptr), result(nullptr) {
 
     filePath = File("sqlite3.db");
     String dir = filePath.getDirectory();
@@ -49,11 +49,11 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         throw new Exception("Unable to query database: database is not open");
     }
 
-    int result;
+    int rc;
     char *error = nullptr;
     if(q.getBindings().size() > 0) {
-        result = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
-        if(result != SQLITE_OK) {
+        rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+        if(rc != SQLITE_OK) {
             throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
         }
 
@@ -119,15 +119,21 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         close();
     }
     else {
-        SqlRecordList records; 
-        result = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &records, &error);
-        if(result != SQLITE_OK) {
+        result = new SqlResult();
+        SqlRecordList records;
+        rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &records, &error);
+        if(rc != SQLITE_OK) {
             throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
         }
+        result->setRecords(records);
         close();
     }
 
     return SQLITE_OK;
+}
+
+SqlResult *Sqlite3Driver::createResult() const {
+    return result;
 }
 
 int Sqlite3Driver::__internal_query(void *recordsPtr, int argc, char **argv, char **azColName) {
@@ -138,7 +144,7 @@ int Sqlite3Driver::__internal_query(void *recordsPtr, int argc, char **argv, cha
     SqlRecord record;
     for(int i = 0; i < argc; i++) {
         SqlField field(azColName[i], Variant::TYPE_STRING, "unknown");
-        field.setValue(argv[i]);
+        field.setValue(String(argv[i]));
         record.append(field);
     }
     records->push_back(record);

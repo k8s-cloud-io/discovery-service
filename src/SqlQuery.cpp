@@ -3,7 +3,7 @@
 #include "Global.h"
 
 SqlQuery::SqlQuery(const String &query, const SqlDatabase &db)
-:query(query), db(db) {
+:query(query), db(db), result(nullptr) {
 }
 
 void SqlQuery::bindValue(int pos, Variant value) {
@@ -25,6 +25,15 @@ String SqlQuery::getQuery() const {
 
 SqlBindingList SqlQuery::getBindings() const {
     return bindings;
+}
+
+void SqlQuery::clear() {
+    bindings.clear();
+}
+
+const SqlResult *SqlQuery::getResult() {
+    SqlDriver *driver = db.getDriver();
+    return driver->createResult();
 }
 
 // private access

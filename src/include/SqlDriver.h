@@ -2,6 +2,7 @@
 #define SQLDRIVER_H
 
 class SqlQuery;
+class SqlResult;
 
 class SqlDriver {
     public:
@@ -19,6 +20,7 @@ class SqlDriver {
 
         virtual bool open() = 0;
         virtual void close() = 0;
+        virtual SqlResult *createResult() const = 0;
         virtual int exec(const SqlQuery &) = 0;
 
     protected:
