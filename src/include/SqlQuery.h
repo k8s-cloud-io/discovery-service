@@ -7,13 +7,14 @@ using std::vector;
 #include "String.h"
 #include "SqlBinding.h"
 #include "SqlDatabase.h"
+#include "SqlRecord.h"
 #include "Variant.h"
 
 class SqlQuery {
     public:
         SqlQuery(const String &, const SqlDatabase &);
         void bindValue(int, Variant);
-        void exec();
+        int exec();
         void clearBindings() {
             bindings.clear();
         }

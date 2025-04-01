@@ -1,6 +1,8 @@
 #include "Exception.h"
+#include "SqlField.h"
 #include "Sqlite3Driver.h"
 #include "SqlQuery.h"
+#include "SqlRecord.h"
 
 #include <cstring>
 #include <filesystem>
@@ -63,18 +65,24 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
             switch( v.getType() ) {
                 case Variant::TYPE_CONST_CHAR: {
-                        const char *text = v;
-                        sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
+                        const char *data = v;
+                        long size = std::strlen(data);
+                        char *text = new char[size + 1];
+                        sprintf(text, "%s", data );
+                        sqlite3_bind_text(stmt, b.getPosition(), text, size, SQLITE_STATIC);
                     }
                     break;
 
                 case Variant::TYPE_STRING: {
                         const String data = v.toString();
-                        const char *text = data.data();
-                        sqlite3_bind_text(stmt, b.getPosition(), text, std::strlen(text), SQLITE_STATIC);
+                        long size = data.length();
+                        char *text = new char[size+1];
+                        sprintf(text, "%s", data.c_str() );
+                        sqlite3_bind_text(stmt, b.getPosition(), text, size, SQLITE_STATIC);
                     }
                     break;
 
+                /*
                 case Variant::TYPE_INT: {
                         int i = v;
                         sqlite3_bind_int(stmt, b.getPosition(), i);
@@ -98,6 +106,7 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
                         sqlite3_bind_int(stmt, b.getPosition(), i);
                     }
                     break;
+                */
                     
                 default:
                     throw new Exception("unable to bind parameter: invalid Variant type");
@@ -110,9 +119,8 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         close();
     }
     else {
-        void *columns;
-
-        result = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &columns, &error);
+        SqlRecordList records; 
+        result = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &records, &error);
         if(result != SQLITE_OK) {
             throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
         }
@@ -122,17 +130,18 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
     return SQLITE_OK;
 }
 
-int Sqlite3Driver::__internal_query(void *NotUsed, int argc, char **argv, char **azColName) {
-    (void)NotUsed;
-    //(void)argc;
-    //(void)argv;
+int Sqlite3Driver::__internal_query(void *recordsPtr, int argc, char **argv, char **azColName) {
     (void)azColName;
 
-    for(int i = 0; i < argc; i++) {
-        cout << String(argv[i]) << endl;
-    }
+    SqlRecordList *records = reinterpret_cast<SqlRecordList *>(recordsPtr);
 
-    cout << "------------------------------------------------" << endl;
+    SqlRecord record;
+    for(int i = 0; i < argc; i++) {
+        SqlField field(azColName[i], Variant::TYPE_STRING, "unknown");
+        field.setValue(argv[i]);
+        record.append(field);
+    }
+    records->push_back(record);
 
     return 0;
  }

@@ -32,4 +32,4 @@ $(PROG): $(OBJS)
 
 .PHONY : clean
 clean:
-	rm -rf $(OBJS) data $(BINDIR)/$(PROG) $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJS) data sqlite3.db config.status config.h config.h.in~ config.log configure configure~ autom4te.cache $(BINDIR)/$(PROG) $(OBJDIR) $(BINDIR)

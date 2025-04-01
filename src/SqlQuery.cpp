@@ -11,12 +11,12 @@ void SqlQuery::bindValue(int pos, Variant value) {
     bindings.push_back(b);
 }
 
-void SqlQuery::exec() {
+int SqlQuery::exec() {
     SqlDriver *driver = db.getDriver();
     if(driver == nullptr) {
         throw new Exception("SqlQuery: driver is not initialized.");
     }
-    db.getDriver()->exec(*this);
+    return db.getDriver()->exec(*this);
 }
 
 String SqlQuery::getQuery() const {

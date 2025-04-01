@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "SqlDatabase.h"
 #include "SqlQuery.h"
+#include "SqlRecord.h"
 #include "Exception.h"
 #include "FeedReader.h"
 #include "Variant.h"
@@ -48,9 +49,20 @@ int main(int argc, char *argv[]) {
 
         query = SqlQuery("SELECT * FROM feed_item", db);
         query.exec();
-
         db.close();
-        cout << "retrieved " << feed.size() << " feed items." << endl;
+
+        cout << "retrieved " << feed.size() << " feed items:" << endl;
+        /*
+        for(SqlRecord record: records) {
+            for(int i = 0; i < record.count(); i++) {
+                SqlField field = record.getField(i);
+                cout << "NAME: " << field.getName() << ", TYPE: " << field.getType() <<  endl;
+                cout << "VALUE: " << field.getValue().toString() << endl;
+                cout << " ---------------------- END FIELD ------------------------" << endl;
+            }
+            cout << "-----------------------------" << endl;
+        }
+        */
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
