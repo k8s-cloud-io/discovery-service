@@ -1,4 +1,5 @@
 #include "Global.h"
+/*
 #include "SqlDatabase.h"
 #include "SqlQuery.h"
 #include "SqlRecord.h"
@@ -6,6 +7,7 @@
 #include "FeedReader.h"
 #include "Variant.h"
 #include "Xdg.h"
+*/
 
 #include <iostream>
 using std::cout;
@@ -15,8 +17,8 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
+    /*
     string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
-    cout << "DIR = " << dir << endl;
 
     String feedUrl = "https://www.n-tv.de/rss";
     FeedReader reader;
@@ -53,17 +55,8 @@ int main(int argc, char *argv[]) {
         db.close();
 
         cout << "retrieved " << records.size() << " feed items:" << endl;
-
-        for(SqlRecord record: records) {
-            for(int i = 0; i < record.count(); i++) {
-                SqlField field = record.getField(i);
-                cout << "NAME: " << field.getName() << endl; 
-                cout << "TYPE: " << field.getType() <<  endl;
-                cout << "VALUE: " << field.getValue().toString() << endl;
-            }
-            cout << "-----------------------------" << endl;
-        }
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
+    */
 }
