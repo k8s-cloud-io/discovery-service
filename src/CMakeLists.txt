@@ -17,7 +17,7 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
-set(SOURCES Dir.cpp Exception.cpp FeedReader.cpp File.cpp HttpRequest.cpp HttpResponse.cpp SqlBinding.cpp SqlDatabase.cpp SqlDriver.cpp SqlField.cpp Sqlite3Driver.cpp SqlQuery.cpp SqlRecord.cpp SqlResult.cpp String.cpp Variant.cpp Xdg.cpp main.cpp)
+file(GLOB_RECURSE SOURCES *.cpp)
 include_directories(./include)
 
 # add the executable
