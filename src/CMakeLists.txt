@@ -17,6 +17,9 @@ include_directories(${LIBXML2_INCLUDE_DIRS})
 pkg_check_modules(CURL REQUIRED libcurl)
 include_directories(${CURL_INCLUDE_DIRS})
 
+pkg_check_modules(GIO REQUIRED gio-2.0)
+include_directories( ${GIO_INCLUDE_DIRS} )
+
 pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0)
 include_directories( ${GDKPIXBUF_INCLUDE_DIRS} )
 
@@ -26,4 +29,4 @@ include_directories(./include)
 
 # add the executable
 add_executable(cinnamon-discovery ${SOURCES})
-target_link_libraries(cinnamon-discovery ${LIBXML2_LIBRARIES} ${CURL_LIBRARIES} ${GDKPIXBUF_LIBRARIES} ${SQLITE3_LIBRARIES})
+target_link_libraries(cinnamon-discovery ${LIBXML2_LIBRARIES} ${CURL_LIBRARIES} ${GIO_LIBRARIES} ${GDKPIXBUF_LIBRARIES} ${SQLITE3_LIBRARIES})
