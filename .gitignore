@@ -1,6 +1,8 @@
+/.idea
 /.obj
 /.vscode
 /bin
 /data
 /build
+/cmake-build-*
 /sqlite3.db
