@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "HttpRequest.h"
-#include "CharBuffer.h"
+#include "ByteArray.h"
 
 using std::cout;
 using std::endl;
@@ -26,7 +26,7 @@ String HttpRequest::getUrl() const {
 HttpResponse *HttpRequest::exec() {
     CURL *curl;
     CURLcode res;
-    CharBuffer buffer;
+    ByteArray buffer;
     HttpResponse *response = new HttpResponse();
 
     curl = curl_easy_init();
@@ -81,7 +81,7 @@ size_t HttpRequest::WriteCallback(void *contents, std::size_t size, std::size_t 
     std::size_t realSize = size * nmemb;
     const char *data = reinterpret_cast<const char *>(contents);
     for(std::size_t index = 0; index < realSize; index++) {
-        ((CharBuffer *)userp)->push_back(data[index]);
+        ((ByteArray *)userp)->push_back(data[index]);
     }
     return realSize;
 }

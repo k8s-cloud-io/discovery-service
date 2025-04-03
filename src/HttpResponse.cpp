@@ -12,7 +12,7 @@ unsigned int HttpResponse::getStatusCode() const {
     return statusCode;
 }
 
-CharBuffer HttpResponse::getBody() const {
+ByteArray HttpResponse::getBody() const {
     return body;
 }
 

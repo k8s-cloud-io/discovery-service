@@ -1,7 +1,7 @@
 #ifndef HTTPRESPONSE_H
 #define HTTPRESPONSE_H
 
-#include "CharBuffer.h"
+#include "ByteArray.h"
 #include "HttpHeader.h"
 #include "String.h"
 
@@ -10,7 +10,7 @@ class HttpRequest;
 class HttpResponse {
     public:
     unsigned int getStatusCode() const;
-        CharBuffer getBody() const;
+        ByteArray getBody() const;
         HttpHeaders getHeaders();
         String getHeader(const String &);
         bool containsHeader(const String &);
@@ -20,7 +20,7 @@ class HttpResponse {
         HttpResponse();
 
         unsigned int statusCode;
-        CharBuffer body;
+        ByteArray body;
         HttpHeaders headers;
 };
 
