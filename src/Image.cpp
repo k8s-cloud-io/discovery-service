@@ -30,7 +30,7 @@ Image Image::fromUri(const String &resource) {
     return img;
 }
 
-void Image::scale(const int width, const int height, Image::InterpType type) {
+void Image::scale(const int width, const int height, const InterpType type) {
     if(pixbuf != nullptr) {
         GdkInterpType interp;
 
