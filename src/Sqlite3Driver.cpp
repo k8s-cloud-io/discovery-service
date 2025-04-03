@@ -121,6 +121,7 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         SqlRecordList records;
         rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::_internal_query, &records, &error);
         if(rc != SQLITE_OK) {
+            lastError = String(sqlite3_errmsg(db));
             throw new Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
         }
         result->setRecords(records);
@@ -146,6 +147,9 @@ int Sqlite3Driver::_internal_query(void *recordsPtr, const int argc, char **argv
         record.append(field);
     }
     records->push_back(record);
-
     return 0;
- }
+}
+
+String Sqlite3Driver::getLastError() {
+    return lastError;
+}

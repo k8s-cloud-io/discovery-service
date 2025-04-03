@@ -10,6 +10,7 @@ class Sqlite3Driver: public SqlDriver {
         Sqlite3Driver();
         bool open() override;
         int exec(const SqlQuery &) override;
+        String getLastError() override;
         [[nodiscard]] SqlResult *createResult() const override;
 
         void close() override;
@@ -19,6 +20,7 @@ class Sqlite3Driver: public SqlDriver {
         sqlite3_stmt *stmt{};
         File filePath;
         SqlResult *result;
+        String lastError;
 
         static int _internal_query(void *, int, char **, char **);
 };

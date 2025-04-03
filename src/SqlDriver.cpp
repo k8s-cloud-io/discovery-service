@@ -18,3 +18,4 @@ bool SqlDriver::isOpen() const {
 bool SqlDriver::isClosed() const {
     return driverState == STATE_CLOSED || driverState == STATE_NONE;
 }
+

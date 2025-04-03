@@ -1,5 +1,6 @@
 #ifndef SQL_DRIVER_H
 #define SQL_DRIVER_H
+#include <String.h>
 
 class SqlQuery;
 class SqlResult;
@@ -20,6 +21,7 @@ class SqlDriver {
         [[nodiscard]] bool isOpen() const;
         [[nodiscard]] bool isClosed() const;
 
+        virtual String getLastError() = 0;
         virtual bool open() = 0;
         virtual void close() = 0;
         [[nodiscard]] virtual SqlResult *createResult() const = 0;
