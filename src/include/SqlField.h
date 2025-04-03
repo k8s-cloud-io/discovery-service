@@ -1,5 +1,5 @@
-#ifndef SQLFIELD_H
-#define SQLFIELD_H
+#ifndef SQL_FIELD_H
+#define SQL_FIELD_H
 
 #include "String.h"
 #include "Variant.h"
@@ -11,11 +11,11 @@ typedef vector<SqlField> SqlFieldList;
 
 class SqlField {
     public:
-        SqlField(const String &, Variant::Type, const String &);
-        Variant::Type getType() const;
-        String getName() const;
-        String getTableName() const;
-        Variant getValue() const;
+        SqlField(String , Variant::Type, String );
+        [[nodiscard]] Variant::Type getType() const;
+        [[nodiscard]] String getName() const;
+        [[nodiscard]] String getTableName() const;
+        [[nodiscard]] Variant getValue() const;
 
         void setType(Variant::Type);
         void setName(const String &);
@@ -30,4 +30,4 @@ class SqlField {
 
 };
 
-#endif // SQLFIELD_H
+#endif // SQL_FIELD_H

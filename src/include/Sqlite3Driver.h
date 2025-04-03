@@ -1,27 +1,26 @@
-#ifndef SQLITE3DRIVER_H
-#define SQLITE3DRIVER_H
+#ifndef SQLITE3_DRIVER_H
+#define SQLITE3_DRIVER_H
 
 #include "sqlite3.h"
 #include "File.h"
 #include "SqlDriver.h"
-#include "SqlResult.h"
 
 class Sqlite3Driver: public SqlDriver {
     public:
         Sqlite3Driver();
-        bool open();
-        int exec(const SqlQuery &);
-        SqlResult *createResult() const;
+        bool open() override;
+        int exec(const SqlQuery &) override;
+        [[nodiscard]] SqlResult *createResult() const override;
 
-        void close();
+        void close() override;
 
     private:
         sqlite3 *db;
-        sqlite3_stmt *stmt;
+        sqlite3_stmt *stmt{};
         File filePath;
         SqlResult *result;
 
-        static int __internal_query(void *, int, char **, char **);
+        static int _internal_query(void *, int, char **, char **);
 };
 
-#endif // SQLITE3DRIVER_H
+#endif // SQLITE3_DRIVER_H

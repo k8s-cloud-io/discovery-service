@@ -1,5 +1,5 @@
-#ifndef STRINGLIST_H
-#define STRINGLIST_H
+#ifndef STRING_LIST_H
+#define STRING_LIST_H
 
 #include <vector>
 using std::vector;
@@ -7,4 +7,4 @@ using std::vector;
 class String;
 typedef vector<String> StringList;
 
-#endif // STRINGLIST_H
+#endif // STRING_LIST_H

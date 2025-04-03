@@ -33,7 +33,7 @@ FeedList FeedReader::loadFeed(const String &url) {
                     xmlAttr *attributes = node->properties;
                     while(attributes) {
                         if(xmlStrcmp(attributes->name, reinterpret_cast<const xmlChar *>("version")) == 0) {
-                            version = (char *)xmlGetProp(node, attributes->name);
+                            version = reinterpret_cast<char *>(xmlGetProp(node, attributes->name));
                             break;
                         }
                         attributes = attributes->next;
@@ -45,7 +45,7 @@ FeedList FeedReader::loadFeed(const String &url) {
                     node = node->children;
                 }
                 else 
-                if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("item")) == 0 && version.compare("2.0") == 0) {
+                if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("item")) == 0 && version == "2.0") {
                     xmlNode *itemTags = node->children;
                     string title, link, pubDate;
                     while(itemTags) {
@@ -61,7 +61,7 @@ FeedList FeedReader::loadFeed(const String &url) {
                         itemTags = itemTags->next;
                     }
 
-                    if(title.length() && link.length() && pubDate.length()) {
+                    if(!title.empty() && !link.empty() && !pubDate.empty()) {
                         FeedItem feedItem;
                         feedItem.link = link;
                         feedItem.pubDate = pubDate;

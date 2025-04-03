@@ -1,5 +1,5 @@
-#ifndef SQLRECORD_H
-#define SQLRECORD_H
+#ifndef SQL_RECORD_H
+#define SQL_RECORD_H
 
 #include "SqlField.h"
 #include "Variant.h"
@@ -13,9 +13,9 @@ class SqlRecord {
     public:
         SqlRecord();
 
-        SqlField getField(int) const;
-        Variant getValue(int) const;
-        int count() const;
+        [[nodiscard]] SqlField getField(int) const;
+        [[nodiscard]] Variant getValue(int) const;
+        [[nodiscard]] size_t count() const;
 
         void append(const SqlField &);
         void clear();
@@ -24,4 +24,4 @@ class SqlRecord {
         SqlFieldList fields;
 };
 
-#endif // SQLRECORD_H
+#endif // SQL_RECORD_H

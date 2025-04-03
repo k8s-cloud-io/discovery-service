@@ -1,5 +1,5 @@
-#ifndef HTTPHEADER
-#define HTTPHEADER
+#ifndef HTTPHEADER_H
+#define HTTPHEADER_H
 
 #include <iterator>
 #include <ostream>
@@ -17,10 +17,10 @@ using std::vector;
 typedef StringMap HttpHeaders;
 
 inline
-ostream& operator << ( std::ostream& outs, HttpHeaders headers ) {
+ostream& operator << ( std::ostream& outs, const HttpHeaders& headers ) {
   StringList v;
-  for(HttpHeaders::iterator it = headers.begin(); it != headers.end(); ++it) {
-    v.push_back("{" + it->first + ": " + it->second + "}");
+  for(auto &[fst, snd] : headers) {
+    v.emplace_back("{" + fst + ": " + snd + "}");
   }
 
   stringstream s;

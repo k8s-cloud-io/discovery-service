@@ -1,19 +1,20 @@
 #include "Exception.h"
 #include "SqlQuery.h"
+
+#include <utility>
 #include "Global.h"
 
-SqlQuery::SqlQuery(const String &query, const SqlDatabase &db)
-:query(query), db(db), result(nullptr) {
+SqlQuery::SqlQuery(String query, const SqlDatabase &db)
+:query(std::move(query)), db(db), result(nullptr) {
 }
 
-void SqlQuery::bindValue(int pos, Variant value) {
-    SqlBinding b(pos, value);
+void SqlQuery::bindValue(const int pos, const Variant value) {
+    const SqlBinding b(pos, value);
     bindings.push_back(b);
 }
 
-int SqlQuery::exec() {
-    SqlDriver *driver = db.getDriver();
-    if(driver == nullptr) {
+int SqlQuery::exec() const {
+    if(const SqlDriver *driver = db.getDriver(); driver == nullptr) {
         throw new Exception("SqlQuery: driver is not initialized.");
     }
     return db.getDriver()->exec(*this);
@@ -31,10 +32,10 @@ void SqlQuery::clear() {
     bindings.clear();
 }
 
-const SqlResult *SqlQuery::getResult() {
-    SqlDriver *driver = db.getDriver();
+const SqlResult *SqlQuery::getResult() const {
+    const SqlDriver *driver = db.getDriver();
     return driver->createResult();
 }
 
 // private access
-SqlQuery::SqlQuery() {}
+SqlQuery::SqlQuery() = default;

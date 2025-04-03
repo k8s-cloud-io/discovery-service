@@ -1,8 +1,7 @@
 #include "SqlResult.h"
 #include "SqlRecord.h"
 
-SqlResult::SqlResult() {
-}
+SqlResult::SqlResult() = default;
 
 SqlRecordList SqlResult::getRecords() const {
     return records;

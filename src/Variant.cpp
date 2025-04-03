@@ -2,7 +2,7 @@
 #include "Variant.h"
 
 Variant::Variant()
-:v(nullptr) {
+:v(nullptr) ,type(TYPE_UNKNOWN){
 }
 
 Variant::Type Variant::getType() const {
@@ -11,35 +11,35 @@ Variant::Type Variant::getType() const {
 
 Variant::Variant(const String &val) {
     setValue(val);
-    type = Variant::TYPE_STRING;
+    type = TYPE_STRING;
 }
 
-Variant::Variant(int val) {
+Variant::Variant(const int val) {
     setValue(val);
-    type = Variant::TYPE_INT;
+    type = TYPE_INT;
 }
 
 Variant::Variant(const char *val) {
     setValue(val);
-    type = Variant::TYPE_CONST_CHAR;
+    type = TYPE_CONST_CHAR;
 }
 
-Variant::Variant(unsigned int val) {
+Variant::Variant(const unsigned int val) {
     setValue(val);
-    type = Variant::TYPE_UNSIGNED_INT;
+    type = TYPE_UNSIGNED_INT;
 }
-Variant::Variant(float val) {
+Variant::Variant(const float val) {
     setValue(val);
-    type = Variant::TYPE_FLOAT;
+    type = TYPE_FLOAT;
 }
-Variant::Variant(double val) {
+Variant::Variant(const double val) {
     setValue(val);
-    type = Variant::TYPE_DOUBLE;
+    type = TYPE_DOUBLE;
 }
 
 template<typename T>
 void Variant::setValue(const T &value) {
-    VariantClassHolder<T> *holder = new VariantClassHolder<T>();
+    auto *holder = new VariantClassHolder<T>();
     holder->value = value;
     v = holder;
 }

@@ -1,5 +1,5 @@
-#ifndef SQLRESULT_H
-#define SQLRESULT_H
+#ifndef SQL_RESULT_H
+#define SQL_RESULT_H
 
 #include "SqlRecord.h"
 
@@ -8,10 +8,10 @@ class SqlResult {
         SqlResult();
 
         void setRecords(const SqlRecordList &);
-        SqlRecordList getRecords() const;
+        [[nodiscard]] SqlRecordList getRecords() const;
 
     private:
         SqlRecordList records;
 };
 
-#endif // SQLRESULT_H
+#endif // SQL_RESULT_H

@@ -1,5 +1,5 @@
-#ifndef SQLBINDING_H
-#define SQLBINDING_H
+#ifndef SQL_BINDING_H
+#define SQL_BINDING_H
 
 #include "Variant.h"
 #include <vector>
@@ -7,8 +7,8 @@
 class SqlBinding {
     public:
         SqlBinding(int, Variant);
-        Variant getValue() const;
-        int getPosition() const;
+        [[nodiscard]] Variant getValue() const;
+        [[nodiscard]] int getPosition() const;
 
     private:
         int pos;
@@ -17,4 +17,4 @@ class SqlBinding {
 
 typedef std::vector<SqlBinding> SqlBindingList;
 
-#endif // SQLBINDING_H
+#endif // SQL_BINDING_H

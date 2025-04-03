@@ -1,5 +1,5 @@
 #include "Global.h"
-/*
+
 #include "SqlDatabase.h"
 #include "SqlQuery.h"
 #include "SqlRecord.h"
@@ -7,7 +7,8 @@
 #include "FeedReader.h"
 #include "Variant.h"
 #include "Xdg.h"
-*/
+
+#include "ByteArray.h"
 
 #include <iostream>
 using std::cout;
@@ -19,17 +20,23 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
-    Image img = Image::fromUri("https://wallpapers.com/images/hd/aesthetic-easter-eggs-and-purple-flowers-20vibq9er4gi649w.jpg");
+    Image img = Image::fromUri(String("https://wallpapers.com/images/hd/aesthetic-easter-eggs-and-purple-flowers-20vibq9er4gi649w.jpg"));
     img.scale(640, 480);
-    /*
-    string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
+
+    const ByteArray ba = img.getBytes();
+    cout << "BYTES: ";
+    cout << ba.size();
+    cout << endl;
+
+    const string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
+    cout << dir << endl;
 
     String feedUrl = "https://www.n-tv.de/rss";
     FeedReader reader;
-    FeedList feed = reader.loadFeed(feedUrl);
+    FeedList feed = FeedReader::loadFeed(feedUrl);
 
     try {
-        SqlDatabase db = SqlDatabase::addDatabase(SqlDatabase::TYPE_SQLITE);
+        const SqlDatabase db = SqlDatabase::addDatabase(SqlDatabase::TYPE_SQLITE);
         SqlQuery query(
             "CREATE TABLE IF NOT EXISTS feed_item (" \
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," \
@@ -44,7 +51,7 @@ int main(int argc, char *argv[]) {
         query.exec();
 
         query = SqlQuery("INSERT INTO feed_item (feed, title, pub_date, link) VALUES (?, ?, ?, ?)", db);
-        for(FeedItem item: feed) {
+        for(const FeedItem& item: feed) {
             query.clear();
             query.bindValue(1, feedUrl);
             query.bindValue(2, item.title);
@@ -55,12 +62,11 @@ int main(int argc, char *argv[]) {
 
         query = SqlQuery("SELECT * FROM feed_item", db);
         query.exec();
-        SqlRecordList records = query.getResult()->getRecords();
+        const SqlRecordList records = query.getResult()->getRecords();
         db.close();
 
-        cout << "retrieved " << records.size() << " feed items:" << endl;
+        cout << "retrieved " << records.size() << " feed items" << endl;
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
-    */
 }

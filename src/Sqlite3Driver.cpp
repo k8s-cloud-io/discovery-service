@@ -15,7 +15,7 @@ Sqlite3Driver::Sqlite3Driver()
 :SqlDriver(), db(nullptr), result(nullptr) {
 
     filePath = File("sqlite3.db");
-    String dir = filePath.getDirectory();
+    const String dir = filePath.getDirectory();
     fs::create_directories(dir.c_str());
 }
 
@@ -25,9 +25,9 @@ bool Sqlite3Driver::open() {
     }
 
     int o = sqlite3_open(filePath.getAbsolutePath().c_str(), &db);
-    setState(o == SQLITE_OK ? SqlDriver::STATE_OPEN : SqlDriver::STATE_CLOSED);
+    setState(o == SQLITE_OK ? STATE_OPEN : STATE_CLOSED);
 
-    return state() == SqlDriver::STATE_OPEN;
+    return state() == STATE_OPEN;
 }
 
 void Sqlite3Driver::close() {
@@ -35,17 +35,17 @@ void Sqlite3Driver::close() {
         sqlite3_close(db);
         db = nullptr;
     }
-    setState(SqlDriver::STATE_CLOSED);
+    setState(STATE_CLOSED);
 }
 
 int Sqlite3Driver::exec(const SqlQuery &q) {
-    String query = q.getQuery();
+    const String query = q.getQuery();
 
     if(!isOpen()) {
         open();
     }
 
-    if(state() != SqlDriver::STATE_OPEN) {
+    if(state() != STATE_OPEN) {
         throw new Exception("Unable to query database: database is not open");
     }
 
@@ -54,20 +54,18 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
     if(q.getBindings().size() > 0) {
         rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
         if(rc != SQLITE_OK) {
-            throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
+            throw new Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
         }
 
         SqlBindingList bindings = q.getBindings();
         for(SqlBinding b: bindings) {
-            Variant v = b.getValue();
-
             // TODO implement needed types for Variant's
 
-            switch( v.getType() ) {
+            switch(Variant v = b.getValue(); v.getType() ) {
                 case Variant::TYPE_CONST_CHAR: {
                         const char *data = v;
-                        long size = std::strlen(data);
-                        char *text = new char[size + 1];
+                        const size_t size = std::strlen(data);
+                        const auto text = new char[size + 1];
                         sprintf(text, "%s", data );
                         sqlite3_bind_text(stmt, b.getPosition(), text, size, SQLITE_STATIC);
                     }
@@ -75,8 +73,8 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
                 case Variant::TYPE_STRING: {
                         const String data = v.toString();
-                        long size = data.length();
-                        char *text = new char[size+1];
+                        const int size = static_cast<int>(data.length());
+                        auto *text = new char[size+1];
                         sprintf(text, "%s", data.c_str() );
                         sqlite3_bind_text(stmt, b.getPosition(), text, size, SQLITE_STATIC);
                     }
@@ -121,9 +119,9 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
     else {
         result = new SqlResult();
         SqlRecordList records;
-        rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::__internal_query, &records, &error);
+        rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::_internal_query, &records, &error);
         if(rc != SQLITE_OK) {
-            throw new Exception(error ? error : String(sqlite3_errmsg(db)) + ": "  + query);
+            throw new Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
         }
         result->setRecords(records);
         close();
@@ -136,15 +134,15 @@ SqlResult *Sqlite3Driver::createResult() const {
     return result;
 }
 
-int Sqlite3Driver::__internal_query(void *recordsPtr, int argc, char **argv, char **azColName) {
+int Sqlite3Driver::_internal_query(void *recordsPtr, const int argc, char **argv, char **azColName) {
     (void)azColName;
 
-    SqlRecordList *records = reinterpret_cast<SqlRecordList *>(recordsPtr);
+    auto *records = static_cast<SqlRecordList *>(recordsPtr);
 
     SqlRecord record;
     for(int i = 0; i < argc; i++) {
-        SqlField field(azColName[i], Variant::TYPE_STRING, "unknown");
-        field.setValue(String(argv[i]));
+        SqlField field(String(azColName[i]), Variant::TYPE_STRING, String("unknown"));
+        field.setValue(Variant(String(argv[i])));
         record.append(field);
     }
     records->push_back(record);

@@ -1,8 +1,7 @@
-#ifndef SQLDATABASE_H
-#define SQLDATABASE_H
+#ifndef SQL_DATABASE_H
+#define SQL_DATABASE_H
 
 #include "SqlDriver.h"
-#include "String.h"
 
 class SqlDatabase {
     public:
@@ -12,14 +11,14 @@ class SqlDatabase {
         };
 
         SqlDatabase();
-        static SqlDatabase addDatabase(SqlDatabase::Type);
+        static SqlDatabase addDatabase(Type);
 
-        SqlDriver *getDriver();
-        bool open();
-        void close();
+        SqlDriver *getDriver() const;
+        bool open() const;
+        void close() const;
 
     private:
         SqlDriver *driver;
 };
 
-#endif // SQLDATABASE_H
+#endif // SQL_DATABASE_H

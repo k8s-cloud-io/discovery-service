@@ -1,8 +1,6 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <curl/curl.h>
-
 #include "HttpHeader.h"
 #include "HttpResponse.h"
 #include "String.h"
@@ -10,23 +8,24 @@
 class HttpRequest {
     public:
         enum RequestMethod {
+            UNKNOWN = 0,
             GET,
             POST,
             PUT,
             PATCH
         };
 
-        HttpRequest(HttpRequest::RequestMethod, const String &);
+        HttpRequest(RequestMethod, String );
         void setHeaders(const HttpHeaders &);
         void setHeader(const String &, const String &);
 
-        HttpResponse *exec();
-        RequestMethod getRequestMethod() const;
-        String getUrl() const;
+        [[nodiscard]] HttpResponse *exec() const;
+        [[nodiscard]] RequestMethod getRequestMethod() const;
+        [[nodiscard]] String getUrl() const;
 
     private:
         HttpRequest();
-        static std::size_t WriteCallback(void *, std::size_t, std::size_t, void *);
+        static std::size_t WriteCallback(const void *, std::size_t, std::size_t, void *);
 
         RequestMethod requestMethod;
         String url;

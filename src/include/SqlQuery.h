@@ -1,5 +1,5 @@
-#ifndef SQLQUERY_H
-#define SQLQUERY_H
+#ifndef SQL_QUERY_H
+#define SQL_QUERY_H
 
 #include "SqlResult.h"
 #include <vector>
@@ -12,21 +12,21 @@ using std::vector;
 
 class SqlQuery {
     public:
-        SqlQuery(const String &, const SqlDatabase &);
+        SqlQuery(String , const SqlDatabase &);
         void bindValue(int, Variant);
-        int exec();
+        int exec() const;
         void clear();
 
-        String getQuery() const;
-        SqlBindingList getBindings() const;
-        const SqlResult *getResult();
+        [[nodiscard]] String getQuery() const;
+        [[nodiscard]] SqlBindingList getBindings() const;
+        const SqlResult *getResult() const;
 
     private:
         SqlQuery();
         String query;
         SqlDatabase db;
         SqlBindingList bindings;
-        SqlResult *result;
+        SqlResult *result{};
 };
 
-#endif // SQLQUERY_H
+#endif // SQL_QUERY_H

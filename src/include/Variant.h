@@ -29,40 +29,40 @@ class Variant {
         Variant(float);
         Variant(double);
 
-        Type getType() const;
+        [[nodiscard]] Type getType() const;
 
-        String toString() {
-            return reinterpret_cast<VariantClassHolder<String> *>(v)->value;
+        [[nodiscard]] String toString() const {
+            return static_cast<VariantClassHolder<String> *>(v)->value;
         }
 
         operator String() const {
-            return reinterpret_cast<VariantClassHolder<String> *>(v)->value;
+            return static_cast<VariantClassHolder<String> *>(v)->value;
         }
 
-        operator const char*() {
-            return reinterpret_cast<VariantClassHolder<const char *> *>(v)->value;
+        operator const char*() const {
+            return static_cast<VariantClassHolder<const char *> *>(v)->value;
         }
 
-        operator int() {
-            return reinterpret_cast<VariantClassHolder<int> *>(v)->value;
+        operator int() const {
+            return static_cast<VariantClassHolder<int> *>(v)->value;
         }
 
-        operator unsigned int() {
-            return reinterpret_cast<VariantClassHolder<unsigned int> *>(v)->value;
+        operator unsigned int() const {
+            return static_cast<VariantClassHolder<unsigned int> *>(v)->value;
         }
 
-        operator float() {
-            return reinterpret_cast<VariantClassHolder<float> *>(v)->value;
+        operator float() const {
+            return static_cast<VariantClassHolder<float> *>(v)->value;
         }
 
-        operator double() {
-            return reinterpret_cast<VariantClassHolder<double> *>(v)->value;
+        operator double() const {
+            return static_cast<VariantClassHolder<double> *>(v)->value;
         }
 
     private:
         template<typename T>
         void setValue(const T &value);
-        void *v;
+        void *v{};
         Type type;
 };
 

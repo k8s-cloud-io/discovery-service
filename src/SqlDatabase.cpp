@@ -4,22 +4,22 @@
 SqlDatabase::SqlDatabase()
 :driver(nullptr){}
 
-SqlDatabase SqlDatabase::addDatabase(SqlDatabase::Type type) {
+SqlDatabase SqlDatabase::addDatabase(const Type type) {
     SqlDatabase database;
-    if( type == SqlDatabase::TYPE_SQLITE) {
+    if( type == TYPE_SQLITE) {
         database.driver = new Sqlite3Driver();
     }
     return database;
 }
 
-SqlDriver *SqlDatabase::getDriver() {
+SqlDriver *SqlDatabase::getDriver() const {
     return driver;
 }
 
-bool SqlDatabase::open() {
+bool SqlDatabase::open() const {
     return driver->open();
 }
 
-void SqlDatabase::close() {
+void SqlDatabase::close() const {
     driver->close();
 }

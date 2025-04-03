@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -Wall -Wextra -pedantic")
 
+include_directories(/usr/include)
+include_directories(./include)
+
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 include_directories(${SQLITE3_INCLUDE_DIRS})
 
@@ -25,7 +28,6 @@ include_directories( ${GDKPIXBUF_INCLUDE_DIRS} )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 file(GLOB_RECURSE SOURCES *.cpp)
-include_directories(./include)
 
 # add the executable
 add_executable(cinnamon-discovery ${SOURCES})

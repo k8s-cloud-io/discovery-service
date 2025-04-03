@@ -1,12 +1,12 @@
 #include "SqlRecord.h"
 
-SqlRecord::SqlRecord() {}
+SqlRecord::SqlRecord() = default;
 
-SqlField SqlRecord::getField(int index) const {
+SqlField SqlRecord::getField(const int index) const {
     return fields.at(index);
 }
 
-Variant SqlRecord::getValue(int index) const {
+Variant SqlRecord::getValue(const int index) const {
     SqlField field = getField(index);
     return field.getValue();
 }
@@ -15,7 +15,7 @@ void SqlRecord::append(const SqlField & field) {
     fields.push_back(field);
 }
 
-int SqlRecord::count() const {
+size_t SqlRecord::count() const {
     return fields.size();
 }
 

@@ -6,9 +6,10 @@
 class File {
     public:
         File();
-        File(const String &);
-        virtual ~File(){}
-        String getAbsolutePath() const;
+        explicit File(String );
+
+        virtual ~File()= default;
+        [[nodiscard]] String getAbsolutePath() const;
         String getDirectory();
 
         static bool exists(const String &);

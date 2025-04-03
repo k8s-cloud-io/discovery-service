@@ -6,7 +6,7 @@ using std::map;
 
 #include "StringMap.h"
 
-class Xdg {
+class Xdg final {
     public:
         enum XdgDirectory {
             XDG_UNKNOWN = 0,
@@ -17,14 +17,14 @@ class Xdg {
             XDG_VIDEOS_DIR,
             XDG_DESKTOP_DIR,
             XDG_MUSIC_DIR,
-            XDG_PUBLICSHARE_DIR
+            XDG_PUBLIC_SHARE_DIR
         };
-        virtual ~Xdg(){}
+        virtual ~Xdg()= default;
         static String getDirectory(const XdgDirectory &);
 
     private:
         Xdg();
-        typedef map<Xdg::XdgDirectory, String> XdgMap;
+        typedef map<XdgDirectory, String> XdgMap;
         static bool initialized;
         static XdgMap config;
         static void loadConfig();

@@ -1,5 +1,5 @@
-#ifndef STRINGMAP_H
-#define STRINGMAP_H
+#ifndef STRING_MAP_H
+#define STRING_MAP_H
 
 #include <map>
 #include "String.h"
@@ -8,4 +8,4 @@ using std::map;
 
 typedef map<String, String> StringMap;
 
-#endif // STRINGMAP_H
+#endif // STRING_MAP_H

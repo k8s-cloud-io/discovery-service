@@ -2,32 +2,31 @@
 #include "File.h"
 
 #include <filesystem>
+#include <utility>
 namespace fs = std::filesystem;
 
-File::File(const String &p)
-:path(p) {}
+File::File(String p)
+:path(std::move(p)) {}
 
 String File::getDirectory() {
     if(File::isDirectory(path)) {
         return path;
     }
 
-    const std::size_t pos = path.rfind('/');
-    if(pos != string::npos) {
-        return path.substr(0, pos);
+    if(const std::size_t pos = path.rfind('/'); pos != string::npos) {
+        return String(path.substr(0, pos));
     }
 
     return Dir::currentDir();
 }
 
 String File::getAbsolutePath() const {
-    String p = path;
-    std::size_t pos = path.find("./");
-    if(pos != String::npos && pos == 0) {
+    string p = path;
+    if(const std::size_t pos = path.find("./"); pos != String::npos && pos == 0) {
         p = path.substr(2);
     }
     
-    return (String)fs::absolute(p.c_str());
+    return static_cast<String>(fs::absolute(p.c_str()));
 }
 
 bool File::exists(const String &path) {
@@ -39,4 +38,4 @@ bool File::isDirectory(const String &path) {
 }
 
 // private
-File::File(){}
+File::File() = default;

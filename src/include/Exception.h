@@ -5,8 +5,8 @@
 
 class Exception {
     public:
-        explicit Exception(const String &msg = nullptr);
-        String getMessage() const;
+        explicit Exception(String msg);
+        [[nodiscard]] String getMessage() const;
 
     private:
         String message;

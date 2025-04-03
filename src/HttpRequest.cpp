@@ -2,6 +2,7 @@
 #include <cctype>
 #include <curl/curl.h>
 #include <iostream>
+#include <utility>
 
 #include "HttpRequest.h"
 #include "ByteArray.h"
@@ -11,8 +12,8 @@ using std::endl;
 using std::transform;
 using std::tolower;
 
-HttpRequest::HttpRequest(HttpRequest::RequestMethod m, const String &u)
-    :requestMethod(m), url(u) {
+HttpRequest::HttpRequest(const HttpRequest::RequestMethod m, String u)
+    :requestMethod(m), url(std::move(u)) {
 }
 
 HttpRequest::RequestMethod HttpRequest::getRequestMethod() const {
@@ -23,14 +24,11 @@ String HttpRequest::getUrl() const {
     return url;
 }
 
-HttpResponse *HttpRequest::exec() {
-    CURL *curl;
-    CURLcode res;
+HttpResponse *HttpRequest::exec() const {
     ByteArray buffer;
-    HttpResponse *response = new HttpResponse();
+    auto *response = new HttpResponse();
 
-    curl = curl_easy_init();
-    if(curl != nullptr) {
+    if(CURL *curl = curl_easy_init(); curl != nullptr) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &HttpRequest::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
@@ -38,8 +36,7 @@ HttpResponse *HttpRequest::exec() {
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 2000L);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK) {
+        if(const CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
             cout << "CURL ERROR: " << curl_easy_strerror(res) << endl;
         } else {
             response->body = buffer;
@@ -54,10 +51,10 @@ HttpResponse *HttpRequest::exec() {
                 h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
 
                 if(h) {
-                    String header = h->name;
+                    String header = String(h->name);
                     transform(header.begin(), header.end(), header.begin(),
                         [](unsigned char c){ return std::tolower(c); });
-                    response->headers[header] = h->value;
+                    response->headers[header] = String(h->value);
                 }
                 prev = h;
             } while(h);
@@ -77,13 +74,14 @@ void HttpRequest::setHeader(const String &k, const String &v) {
 }
 
 // private
-size_t HttpRequest::WriteCallback(void *contents, std::size_t size, std::size_t nmemb, void *userp) {
-    std::size_t realSize = size * nmemb;
-    const char *data = reinterpret_cast<const char *>(contents);
+size_t HttpRequest::WriteCallback(const void *contents, std::size_t size, std::size_t nmemb, void *userp) {
+    const std::size_t realSize = size * nmemb;
+    const auto data = static_cast<const char *>(contents);
     for(std::size_t index = 0; index < realSize; index++) {
-        ((ByteArray *)userp)->push_back(data[index]);
+        static_cast<ByteArray *>(userp)->push_back(data[index]);
     }
     return realSize;
 }
 
-HttpRequest::HttpRequest() {}
+HttpRequest::HttpRequest()
+    :requestMethod(UNKNOWN){}

@@ -2,6 +2,7 @@
 #define IMAGE_H
 
 #include "String.h"
+#include "ByteArray.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 class Image {
@@ -13,11 +14,12 @@ class Image {
             INTERP_HYPER
         };
 
-        void scale(int, int, Image::InterpType type = Image::INTERP_BILINEAR);
+        void scale(int, int, InterpType type = INTERP_BILINEAR);
         
         static Image fromUri(const String &);
-        int getWidth() const;
-        int getHeight() const;
+        [[nodiscard]] ByteArray getBytes() const;
+        [[nodiscard]] int getWidth() const;
+        [[nodiscard]] int getHeight() const;
 
     private:
         Image();

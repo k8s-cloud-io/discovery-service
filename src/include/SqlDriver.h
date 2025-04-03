@@ -1,26 +1,28 @@
-#ifndef SQLDRIVER_H
-#define SQLDRIVER_H
+#ifndef SQL_DRIVER_H
+#define SQL_DRIVER_H
 
 class SqlQuery;
 class SqlResult;
 
 class SqlDriver {
     public:
+        virtual ~SqlDriver() = default;
+
         enum State {
-            STATE_NONE,
+            STATE_NONE = 0,
             STATE_OPEN,
             STATE_CLOSED
         };
 
         SqlDriver();
-        State state() const;
+        [[nodiscard]] State state() const;
 
-        bool isOpen() const;
-        bool isClosed() const;
+        [[nodiscard]] bool isOpen() const;
+        [[nodiscard]] bool isClosed() const;
 
         virtual bool open() = 0;
         virtual void close() = 0;
-        virtual SqlResult *createResult() const = 0;
+        [[nodiscard]] virtual SqlResult *createResult() const = 0;
         virtual int exec(const SqlQuery &) = 0;
 
     protected:
@@ -30,4 +32,4 @@ class SqlDriver {
         State driverState;
 };
 
-#endif // SQLDRIVER_H
+#endif // SQL_DRIVER_H

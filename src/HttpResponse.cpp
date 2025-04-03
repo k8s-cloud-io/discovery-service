@@ -22,15 +22,16 @@ HttpHeaders HttpResponse::getHeaders() {
 
 String HttpResponse::getHeader(const String &value) {
     String key = value;
-    transform(key.begin(), key.end(), key.begin(), [](unsigned char c){ return std::tolower(c); });
-    return headers.size() > 0 ? headers[key] : nullptr;
+    transform(key.begin(), key.end(), key.begin(), [](const unsigned char c){ return std::tolower(c); });
+    return !headers.empty() ? headers[key] : nullptr;
 }
 
-bool HttpResponse::containsHeader(const String &value) {
-    for(HttpHeaders::iterator it = headers.begin(); it != headers.end(); ++it) {
+bool HttpResponse::containsHeader(const String &value) const {
+    for(const auto &[fst, snd] : headers) {
         String key = value;
-        transform(key.begin(), key.end(), key.begin(), [](unsigned char c){ return std::tolower(c); });
-        if(key.compare(it->first) == 0) return true;
+        transform(key.begin(), key.end(), key.begin(), [](const unsigned char c){ return std::tolower(c); });
+        if(key == fst) return true;
     }
     return false;
 }
+

@@ -14,8 +14,10 @@ class String: public string {
         String(const char *);
         String(const string &);
 
-        String trim(const string &chars = " ");
-        StringList split(const string&);
+        [[nodiscard]] String trim(const string &chars = " ") const;
+        [[nodiscard]] StringList split(const string&) const;
+
+        String append(const char *) const;
 };
 
 #endif // STRING_H

@@ -1,5 +1,5 @@
-#ifndef HTTPRESPONSE_H
-#define HTTPRESPONSE_H
+#ifndef HTTP_RESPONSE_H
+#define HTTP_RESPONSE_H
 
 #include "ByteArray.h"
 #include "HttpHeader.h"
@@ -9,11 +9,11 @@ class HttpRequest;
 
 class HttpResponse {
     public:
-    unsigned int getStatusCode() const;
-        ByteArray getBody() const;
+    [[nodiscard]] unsigned int getStatusCode() const;
+        [[nodiscard]] ByteArray getBody() const;
         HttpHeaders getHeaders();
         String getHeader(const String &);
-        bool containsHeader(const String &);
+        [[nodiscard]] bool containsHeader(const String &) const;
 
     private:
         friend class HttpRequest;
@@ -24,4 +24,4 @@ class HttpResponse {
         HttpHeaders headers;
 };
 
-#endif // HTTPRESPONSE_H
+#endif // HTTP_RESPONSE_H

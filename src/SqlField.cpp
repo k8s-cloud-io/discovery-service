@@ -1,7 +1,9 @@
 #include "SqlField.h"
 
-SqlField::SqlField(const String &name, Variant::Type type, const String &tableName)
-:name(name), type(type), tableName(tableName) {}
+#include <utility>
+
+SqlField::SqlField(String name, const Variant::Type type, String tableName)
+:name(std::move(name)), type(type), tableName(std::move(tableName)) {}
 
 Variant::Type SqlField::getType() const {
     return type;
@@ -19,7 +21,7 @@ Variant SqlField::getValue() const {
     return value;
 }
 
-void SqlField::setType(Variant::Type val) {
+void SqlField::setType(const Variant::Type val) {
     type = val;
 }
 

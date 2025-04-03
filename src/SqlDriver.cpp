@@ -1,20 +1,20 @@
 #include "SqlDriver.h"
 
 SqlDriver::SqlDriver()
-:driverState(SqlDriver::STATE_NONE) {
+:driverState(STATE_NONE) {
 }
 SqlDriver::State SqlDriver::state() const {
     return driverState;
 }
 
-void SqlDriver::setState(SqlDriver::State s) {
+void SqlDriver::setState(const State s) {
     driverState = s;
 }
 
 bool SqlDriver::isOpen() const {
-    return driverState == SqlDriver::STATE_OPEN;
+    return driverState == STATE_OPEN;
 }
 
 bool SqlDriver::isClosed() const {
-    return driverState == SqlDriver::STATE_CLOSED || driverState == SqlDriver::STATE_NONE;
+    return driverState == STATE_CLOSED || driverState == STATE_NONE;
 }

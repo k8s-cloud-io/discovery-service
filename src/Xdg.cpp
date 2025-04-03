@@ -12,22 +12,18 @@ using std::endl;
 bool Xdg::initialized = false;
 Xdg::XdgMap Xdg::config;
 
-Xdg::Xdg(){
-}
+Xdg::Xdg()= default;
 
-String Xdg::getDirectory(const Xdg::XdgDirectory &directory){
+String Xdg::getDirectory(const XdgDirectory &directory){
     Xdg::loadConfig();
     return config[directory];
 }
 
 void Xdg::loadConfig() {
-    if(!Xdg::initialized) {
-        const char *home = std::getenv("HOME");
-        if(home) {
-            string configPath = string(home).append("/.config");
-            if(File::isDirectory(configPath)) {
-                string xdgFile = configPath.append("/user-dirs.dirs");
-                if(File::exists(xdgFile)) {
+    if(!initialized) {
+        if(const char *home = std::getenv("HOME")) {
+            if(const String configPath = string(home).append("/.config"); File::isDirectory(configPath)) {
+                if(const String xdgFile = configPath.append("/user-dirs.dirs"); File::exists(xdgFile)) {
                     ifstream file(xdgFile);
                     String str;
 
@@ -62,32 +58,32 @@ void Xdg::loadConfig() {
                         }
 
                         XdgDirectory xdgDir;
-                        if(key.compare("XDG_DESKTOP_DIR") == 0) {
-                            xdgDir = Xdg::XDG_DESKTOP_DIR;
+                        if(key == "XDG_DESKTOP_DIR") {
+                            xdgDir = XDG_DESKTOP_DIR;
                         }
-                        if(key.compare("XDG_DOWNLOAD_DIR") == 0) {
-                            xdgDir = Xdg::XDG_DOWNLOAD_DIR;
+                        if(key == "XDG_DOWNLOAD_DIR") {
+                            xdgDir = XDG_DOWNLOAD_DIR;
                         }
-                        if(key.compare("XDG_TEMPLATES_DIR") == 0) {
-                            xdgDir = Xdg::XDG_TEMPLATES_DIR;
+                        if(key == "XDG_TEMPLATES_DIR") {
+                            xdgDir = XDG_TEMPLATES_DIR;
                         }
-                        if(key.compare("XDG_PUBLICSHARE_DIR") == 0) {
-                            xdgDir = Xdg::XDG_PUBLICSHARE_DIR;
+                        if(key == "XDG_PUBLICSHARE_DIR") {
+                            xdgDir = XDG_PUBLIC_SHARE_DIR;
                         }
-                        if(key.compare("XDG_DOCUMENTS_DIR") == 0) {
-                            xdgDir = Xdg::XDG_DOCUMENTS_DIR;
+                        if(key == "XDG_DOCUMENTS_DIR") {
+                            xdgDir = XDG_DOCUMENTS_DIR;
                         }
-                        if(key.compare("XDG_MUSIC_DIR") == 0) {
-                            xdgDir = Xdg::XDG_MUSIC_DIR;
+                        if(key == "XDG_MUSIC_DIR") {
+                            xdgDir = XDG_MUSIC_DIR;
                         }
-                        if(key.compare("XDG_PICTURES_DIR") == 0) {
-                            xdgDir = Xdg::XDG_PICTURES_DIR;
+                        if(key == "XDG_PICTURES_DIR") {
+                            xdgDir = XDG_PICTURES_DIR;
                         }
-                        if(key.compare("XDG_VIDEOS_DIR") == 0) {
-                            xdgDir = Xdg::XDG_VIDEOS_DIR;
+                        if(key == "XDG_VIDEOS_DIR") {
+                            xdgDir = XDG_VIDEOS_DIR;
                         }
 
-                        if(xdgDir != Xdg::XDG_UNKNOWN)
+                        if(xdgDir != XDG_UNKNOWN)
                             config[xdgDir] = val;
                     }
                 }

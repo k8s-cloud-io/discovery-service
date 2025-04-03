@@ -1,11 +1,10 @@
 #include "Image.h"
-
 #include <glib.h>
-
 #include <iostream>
 using namespace std;
 
-Image::Image() {
+Image::Image()
+    :pixbuf(nullptr){
 }
 
 Image Image::fromUri(const String &resource) {
@@ -32,26 +31,26 @@ Image Image::fromUri(const String &resource) {
     return img;
 }
 
-void Image::scale(int width, int height, Image::InterpType type) {
+void Image::scale(const int width, const int height, Image::InterpType type) {
     if(pixbuf != nullptr) {
         GdkInterpType interp;
 
         switch(type) {
             default:
-            case Image::INTERP_NEAREST:
-                interp = GdkInterpType::GDK_INTERP_NEAREST;
+            case INTERP_NEAREST:
+                interp = GDK_INTERP_NEAREST;
                 break;
 
-            case Image::INTERP_TILES:
-                interp = GdkInterpType::GDK_INTERP_TILES;
+            case INTERP_TILES:
+                interp = GDK_INTERP_TILES;
                 break;
 
-            case Image::INTERP_BILINEAR:
-                interp = GdkInterpType::GDK_INTERP_BILINEAR;
+            case INTERP_BILINEAR:
+                interp = GDK_INTERP_BILINEAR;
                 break;
 
-            case Image::INTERP_HYPER:
-                interp = GdkInterpType::GDK_INTERP_HYPER;
+            case INTERP_HYPER:
+                interp = GDK_INTERP_HYPER;
                 break;
         }
 
@@ -73,4 +72,13 @@ int Image::getHeight() const {
         return gdk_pixbuf_get_height(pixbuf);
     }
     return 0;
+}
+
+ByteArray Image::getBytes() const {
+    ByteArray arr;
+    if(pixbuf != nullptr) {
+        cout << "GOT PIXELS" << endl;
+        arr = reinterpret_cast<const char *>(gdk_pixbuf_get_pixels(pixbuf));
+    }
+    return arr;
 }

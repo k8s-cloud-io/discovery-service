@@ -4,5 +4,5 @@
 namespace fs = std::filesystem;
 
 String Dir::currentDir() {
-    return (String)fs::current_path();
+    return static_cast<String>(fs::current_path());
 }
