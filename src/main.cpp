@@ -13,10 +13,14 @@
 using std::cout;
 using std::endl;
 
+#include "Image.h"
+
 int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
+    Image img = Image::fromUri("https://wallpapers.com/images/hd/aesthetic-easter-eggs-and-purple-flowers-20vibq9er4gi649w.jpg");
+    img.scale(640, 480);
     /*
     string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
 
