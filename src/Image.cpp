@@ -16,14 +16,13 @@ Image Image::fromUri(const String &resource) {
 
     GFileInputStream *fis = g_file_read(f, nullptr, &err);
     if(err != nullptr) {
-        cout << err->message << endl;
+        cout << "error while fetching image from " << resource << ": " << err->message << endl;
     } else {
-        err = nullptr; 
-
+        err = nullptr;
         img.pixbuf = gdk_pixbuf_new_from_stream(G_INPUT_STREAM(fis), nullptr, &err);
         if(err != nullptr) {
             img.pixbuf = nullptr;
-            cout << err->message << endl;
+            cout << "error while reading image from stream: " << err->message << endl;
         }
     }
 
@@ -77,7 +76,6 @@ int Image::getHeight() const {
 ByteArray Image::getBytes() const {
     ByteArray arr;
     if(pixbuf != nullptr) {
-        cout << "GOT PIXELS" << endl;
         arr = reinterpret_cast<const char *>(gdk_pixbuf_get_pixels(pixbuf));
     }
     return arr;
