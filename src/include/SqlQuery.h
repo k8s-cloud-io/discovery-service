@@ -14,12 +14,13 @@ class SqlQuery {
     public:
         SqlQuery(String , const SqlDatabase &);
         void bindValue(int, Variant);
-        int exec() const;
+        void exec() const;
         void clear();
 
         [[nodiscard]] String getQuery() const;
         [[nodiscard]] SqlBindingList getBindings() const;
-        const SqlResult *getResult() const;
+        [[nodiscard]] const SqlResult *getResult() const;
+        [[nodiscard]] String getLastError() const;
 
     private:
         SqlQuery();
