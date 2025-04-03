@@ -66,6 +66,13 @@ int main(int argc, char *argv[]) {
         db.close();
 
         cout << "retrieved " << records.size() << " feed items" << endl;
+        for (const auto& record : records) {
+            for (size_t k = 0; k < record.count(); ++k) {
+                SqlField field = record.getField(k);
+                cout << field.getName()<<":"<<field.getValue().toString()<<endl;
+            }
+            cout << "---------------------------------------------" << endl;
+        }
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
