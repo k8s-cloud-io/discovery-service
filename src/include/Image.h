@@ -13,10 +13,12 @@ class Image {
             INTERP_BILINEAR,
             INTERP_HYPER
         };
-
+        virtual ~Image();
         void scale(int, int, InterpType type = INTERP_BILINEAR);
         
         static Image fromUri(const String &);
+        static Image fromBytes(const ByteArray &);
+
         [[nodiscard]] ByteArray getBytes() const;
         [[nodiscard]] int getWidth() const;
         [[nodiscard]] int getHeight() const;

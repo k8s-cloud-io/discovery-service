@@ -1,31 +1,54 @@
 #include "Image.h"
+
+#include <File.h>
+#include <fstream>
 #include <glib.h>
 #include <HttpRequest.h>
 #include <iostream>
-using namespace std;
+#include <bits/fs_fwd.h>
+#include <bits/fs_path.h>
+using std::ifstream;
 
 Image::Image()
     :pixbuf(nullptr){
 }
 
-Image Image::fromUri(const String &resource) {
-    GError *err = nullptr;
+Image::~Image() {
+    if (pixbuf) {
+        g_object_unref(pixbuf);
+        pixbuf = nullptr;
+    }
+}
 
-    const HttpRequest req(HttpRequest::GET, resource);
-    const auto *response = req.exec();
-    const ByteArray data = response->getBody();
+Image Image::fromUri(const String &uri) {
+    if (uri.find("http://") == 0 || uri.find("https://") == 0 || uri.find("ftp://") == 0) {
+        const HttpRequest req(HttpRequest::GET, uri);
+        const auto *response = req.exec();
+        if (response->getStatusCode() == 200) {
+            const ByteArray data = response->getBody();
+            return fromBytes(data);
+        }
+        cout << "Image::fromUri - unable to download from uri " << uri;
+        cout << ": HTTP CODE = " << response->getStatusCode() << endl;
+    }
+
+    if (uri.find("file://") == 0) {
+        const String name = uri.substr(strlen("file://"));
+        if(File::exists(name)) {
+            const std::filesystem::path inputFilePath{name.c_str()};
+            auto length = std::filesystem::file_size(inputFilePath);
+
+            ByteArray bytes(length);
+            std::ifstream inputFile(name, std::ios_base::binary);
+            inputFile.read(bytes.data(), static_cast<long>(length));
+            inputFile.close();
+
+            return fromBytes(bytes);
+        }
+        cout << "Image::fromUri - local file " << name << " does not exist" << endl;
+    }
 
     Image img;
-    img.pixbuf = nullptr;
-
-    err = nullptr;
-    GInputStream *stream = g_memory_input_stream_new_from_data(data.data(), static_cast<long>(data.size()), nullptr);
-    img.pixbuf = gdk_pixbuf_new_from_stream(stream, nullptr, &err);
-
-    if(err != nullptr) {
-        img.pixbuf = nullptr;
-        cout << "error while reading image from stream: " << err->message << endl;
-    }
     return img;
 }
 
@@ -78,4 +101,23 @@ ByteArray Image::getBytes() const {
         arr = reinterpret_cast<const char *>(gdk_pixbuf_get_pixels(pixbuf));
     }
     return arr;
+}
+
+Image Image::fromBytes(const ByteArray &data) {
+    Image img;
+    img.pixbuf = nullptr;
+
+    GError *err = nullptr;
+    GInputStream *stream = g_memory_input_stream_new_from_data(
+        data.data(),
+        static_cast<long>(data.size()),
+        nullptr
+    );
+    img.pixbuf = gdk_pixbuf_new_from_stream(stream, nullptr, &err);
+
+    if(err != nullptr) {
+        img.pixbuf = nullptr;
+        cout << "Image::fromBytes - error while reading image from bytes: " << err->message << endl;
+    }
+    return img;
 }
