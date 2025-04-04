@@ -2,6 +2,7 @@
 #define VARIANT_H
 
 #include "String.h"
+#include "ByteArray.h"
 
 template<typename T>
 class VariantClassHolder {
@@ -13,6 +14,8 @@ class Variant {
     public:
         enum Type {
             TYPE_UNKNOWN = 0,
+            TYPE_BYTE_ARRAY,
+            TYPE_BOOLEAN,
             TYPE_INT,
             TYPE_UNSIGNED_INT,
             TYPE_FLOAT,
@@ -22,7 +25,9 @@ class Variant {
         };
 
         Variant();
+        Variant(const ByteArray &);
         Variant(const String &);
+        Variant(bool);
         Variant(const char *);
         Variant(int);
         Variant(unsigned int);
@@ -35,12 +40,20 @@ class Variant {
             return static_cast<VariantClassHolder<String> *>(v)->value;
         }
 
+        operator ByteArray() const {
+            return static_cast<VariantClassHolder<ByteArray> *>(v)->value;
+        }
+
         operator String() const {
             return static_cast<VariantClassHolder<String> *>(v)->value;
         }
 
         operator const char*() const {
             return static_cast<VariantClassHolder<const char *> *>(v)->value;
+        }
+
+        operator bool() const {
+            return static_cast<VariantClassHolder<bool> *>(v)->value;
         }
 
         operator int() const {

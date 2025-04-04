@@ -9,6 +9,11 @@ Variant::Type Variant::getType() const {
     return type;
 }
 
+Variant::Variant(const ByteArray &val) {
+    setValue(val);
+    type = TYPE_BYTE_ARRAY;
+}
+
 Variant::Variant(const String &val) {
     setValue(val);
     type = TYPE_STRING;
@@ -17,6 +22,11 @@ Variant::Variant(const String &val) {
 Variant::Variant(const int val) {
     setValue(val);
     type = TYPE_INT;
+}
+
+Variant::Variant(const bool val) {
+    setValue(val);
+    type = TYPE_BOOLEAN;
 }
 
 Variant::Variant(const char *val) {
