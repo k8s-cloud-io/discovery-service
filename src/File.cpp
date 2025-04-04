@@ -14,7 +14,7 @@ String File::getDirectory() {
     }
 
     if(const std::size_t pos = path.rfind('/'); pos != string::npos) {
-        return String(path.substr(0, pos));
+        return path.substr(0, pos);
     }
 
     return Dir::currentDir();
