@@ -32,9 +32,20 @@ include_directories( ${GIO_INCLUDE_DIRS} )
 pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0)
 include_directories( ${GDKPIXBUF_INCLUDE_DIRS} )
 
+pkg_check_modules(JSON_GLIB REQUIRED json-glib-1.0)
+include_directories( ${JSON_GLIB_INCLUDE_DIRS} )
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 file(GLOB_RECURSE SOURCES ./src/*.cpp)
 
 # add the executable
 add_executable(cinnamon-discovery ${SOURCES})
-target_link_libraries(cinnamon-discovery ${LIBXML2_LIBRARIES} ${CURL_LIBRARIES} ${GIO_LIBRARIES} ${GDKPIXBUF_LIBRARIES} ${SQLITE3_LIBRARIES})
+target_link_libraries(
+        cinnamon-discovery
+        ${LIBXML2_LIBRARIES}
+        ${CURL_LIBRARIES}
+        ${GIO_LIBRARIES}
+        ${GDKPIXBUF_LIBRARIES}
+        ${SQLITE3_LIBRARIES}
+        ${JSON_GLIB_LIBRARIES}
+)
