@@ -35,14 +35,8 @@ Image Image::fromUri(const String &uri) {
     if (uri.find("file://") == 0) {
         const String name = uri.substr(strlen("file://"));
         if(File::exists(name)) {
-            const std::filesystem::path inputFilePath{name.c_str()};
-            auto length = std::filesystem::file_size(inputFilePath);
-
-            ByteArray bytes(length);
-            std::ifstream inputFile(name, std::ios_base::binary);
-            inputFile.read(bytes.data(), static_cast<long>(length));
-            inputFile.close();
-
+            const File f(name);
+            const ByteArray bytes = f.getBytes();
             return fromBytes(bytes);
         }
         cout << "Image::fromUri - local file " << name << " does not exist" << endl;

@@ -2,6 +2,7 @@
 #include "File.h"
 
 #include <filesystem>
+#include <fstream>
 #include <utility>
 namespace fs = std::filesystem;
 
@@ -9,7 +10,7 @@ File::File(String p)
 :path(std::move(p)) {}
 
 String File::getDirectory() {
-    if(File::isDirectory(path)) {
+    if(isDirectory(path)) {
         return path;
     }
 
@@ -27,6 +28,25 @@ String File::getAbsolutePath() const {
     }
     
     return static_cast<String>(fs::absolute(p.c_str()));
+}
+
+String File::getFilename() const {
+    string p = path;
+    if(const size_t pos = p.find_last_of("/\\"); pos != string::npos) {
+        return p.substr(pos + 1);
+    }
+    return p;
+}
+
+ByteArray File::getBytes() const {
+    const std::filesystem::path inputFilePath{path.c_str()};
+    const auto length = file_size(inputFilePath);
+
+    ByteArray bytes(length);
+    std::ifstream inputFile(path, std::ios_base::binary);
+    inputFile.read(bytes.data(), static_cast<long>(length));
+    inputFile.close();
+    return bytes;
 }
 
 bool File::exists(const String &path) {
