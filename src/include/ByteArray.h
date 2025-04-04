@@ -10,6 +10,9 @@ using std::endl;
 
 class ByteArray: public vector<char> {
     public:
+        explicit ByteArray(const size_t length = 0) {
+            resize(length);
+        }
         ByteArray &operator=(const char *a) {
             int length = 0;
             while(char ch = a[length]) {
