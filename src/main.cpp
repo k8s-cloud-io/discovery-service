@@ -21,12 +21,10 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argv);
 
     Image img = Image::fromUri(String("https://wallpapers.com/images/hd/aesthetic-easter-eggs-and-purple-flowers-20vibq9er4gi649w.jpg"));
-    img.scale(640, 480);
-
-    const ByteArray ba = img.getBytes();
-    cout << "BYTES: ";
-    cout << ba.size();
-    cout << endl;
+    cout << "LOADED IMAGE: ";
+    cout << img.getWidth();
+    cout << "x";
+    cout << img.getHeight() << endl;
 
     const string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
     cout << dir << endl;
@@ -66,6 +64,7 @@ int main(int argc, char *argv[]) {
         db.close();
 
         cout << "retrieved " << records.size() << " feed items" << endl;
+        /*
         for (const auto& record : records) {
             for (size_t k = 0; k < record.count(); ++k) {
                 SqlField field = record.getField(k);
@@ -73,6 +72,7 @@ int main(int argc, char *argv[]) {
             }
             cout << "---------------------------------------------" << endl;
         }
+        */
     } catch(Exception *e) {
         cout << e->getMessage() << endl;
     }
