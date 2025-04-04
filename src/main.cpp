@@ -1,3 +1,5 @@
+#include <File.h>
+
 #include "Global.h"
 
 #include "SqlDatabase.h"
@@ -20,8 +22,9 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
-    Image img = Image::fromUri(String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg"));
-    cout << "LOADED IMAGE: ";
+    const auto file = String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg");
+    const Image img = Image::fromUri(file);
+    cout << "loaded file as image from path " << File(file).getFilename() << ":" << endl << "size = ";
     cout << img.getWidth();
     cout << "x";
     cout << img.getHeight() << endl;
