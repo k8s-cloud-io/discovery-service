@@ -1,9 +1,9 @@
 all:
 	cmake -H. -B./build
-	make -C ./build
+	make -j8 -C ./build
 
 clean:
 	rm -rf ./build
 	rm -rf ./bin
 	rm -rf cmake-build*
-	rm sqlite3.db
+	rm -f sqlite3.db
