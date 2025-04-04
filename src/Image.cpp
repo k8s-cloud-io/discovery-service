@@ -1,5 +1,6 @@
 #include "Image.h"
 #include <glib.h>
+#include <HttpRequest.h>
 #include <iostream>
 using namespace std;
 
@@ -9,24 +10,22 @@ Image::Image()
 
 Image Image::fromUri(const String &resource) {
     GError *err = nullptr;
-    GFile *f = g_file_new_for_uri(resource.c_str());
+
+    const HttpRequest req(HttpRequest::GET, resource);
+    const auto *response = req.exec();
+    const ByteArray data = response->getBody();
 
     Image img;
     img.pixbuf = nullptr;
 
-    GFileInputStream *fis = g_file_read(f, nullptr, &err);
-    if(err != nullptr) {
-        cout << "error while fetching image from " << resource << ": " << err->message << endl;
-    } else {
-        err = nullptr;
-        img.pixbuf = gdk_pixbuf_new_from_stream(G_INPUT_STREAM(fis), nullptr, &err);
-        if(err != nullptr) {
-            img.pixbuf = nullptr;
-            cout << "error while reading image from stream: " << err->message << endl;
-        }
-    }
+    err = nullptr;
+    GInputStream *stream = g_memory_input_stream_new_from_data(data.data(), static_cast<long>(data.size()), nullptr);
+    img.pixbuf = gdk_pixbuf_new_from_stream(stream, nullptr, &err);
 
-    g_object_unref(f);
+    if(err != nullptr) {
+        img.pixbuf = nullptr;
+        cout << "error while reading image from stream: " << err->message << endl;
+    }
     return img;
 }
 
