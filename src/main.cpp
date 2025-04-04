@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
-    Image img = Image::fromUri(String("https://wallpapers.com/images/hd/aesthetic-easter-eggs-and-purple-flowers-20vibq9er4gi649w.jpg"));
+    Image img = Image::fromUri(String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg"));
     cout << "LOADED IMAGE: ";
     cout << img.getWidth();
     cout << "x";
