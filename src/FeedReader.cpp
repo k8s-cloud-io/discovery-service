@@ -33,7 +33,7 @@ FeedList FeedReader::loadFeed(const String &url) {
             xmlNode *node = doc->children;
             string version;
 
-            while((node = node->next)) {
+            while(node) {
                 if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("rss")) == 0) {
                     xmlAttr *attributes = node->properties;
                     while(attributes) {
@@ -74,11 +74,15 @@ FeedList FeedReader::loadFeed(const String &url) {
                         list.push_back(feedItem);
                     }
                 }
+
+                node = node->next;
             }
         } else {
             // throw exception here
             cout << "Invalid content-type: " << response->getHeader("content-type") << endl;
         }
+    } else {
+        cout << "unable to read feeds" << endl;
     }
 
     if (!list.empty()) {
@@ -108,6 +112,8 @@ FeedList FeedReader::loadFeed(const String &url) {
             query.bindValue(4, link);
             query.exec();
         }
+    } else {
+        cout << "LIST IS EMPTY, NOTHING TO INSERT" << endl;
     }
 
     delete response;
