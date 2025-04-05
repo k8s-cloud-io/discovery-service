@@ -32,7 +32,7 @@ FeedList FeedReader::loadFeed(const String &url) {
             xmlNode *node = doc->children;
             string version;
 
-            while(node) {
+            while((node = node->next)) {
                 if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("rss")) == 0) {
                     xmlAttr *attributes = node->properties;
                     while(attributes) {
@@ -73,7 +73,6 @@ FeedList FeedReader::loadFeed(const String &url) {
                         list.push_back(feedItem);
                     }
                 }
-                node = node->next;
             }
         } else {
             // throw exception here
