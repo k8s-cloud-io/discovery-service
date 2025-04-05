@@ -2,6 +2,10 @@
 #include <iostream>
 
 #include "FeedReader.h"
+
+#include <SqlDatabase.h>
+#include <SqlQuery.h>
+
 #include "HttpRequest.h"
 
 using std::cout;
@@ -74,6 +78,35 @@ FeedList FeedReader::loadFeed(const String &url) {
         } else {
             // throw exception here
             cout << "Invalid content-type: " << response->getHeader("content-type") << endl;
+        }
+    }
+
+    if (!list.empty()) {
+        const SqlDatabase db = SqlDatabase::addDatabase(SqlDatabase::TYPE_SQLITE);
+        SqlQuery query("CREATE TABLE IF NOT EXISTS feed_item (" \
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+                "feed TEXT," \
+                "title TEXT," \
+                "pub_date VARCHAR(255)," \
+                "link TEXT," \
+                "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP" \
+            ")",
+            db
+        );
+        query.exec();
+
+        query = SqlQuery("DELETE FROM feed_item WHERE feed = ?", db);
+        query.bindValue(1, url);
+        query.exec();
+
+        query = SqlQuery("INSERT INTO feed_item (feed, title, pub_date, link) VALUES (?, ?, ?, ?)", db);
+        for(const auto&[pubDate, title, link]: list) {
+            query.clear();
+            query.bindValue(1, url);
+            query.bindValue(2, title);
+            query.bindValue(3, pubDate);
+            query.bindValue(4, link);
+            query.exec();
         }
     }
 

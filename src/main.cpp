@@ -32,37 +32,15 @@ int main(int argc, char *argv[]) {
     const string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
     cout << dir << endl;
 
-    String feedUrl = "https://www.n-tv.de/rss";
-    FeedReader reader;
+    const String feedUrl = "https://www.n-tv.de/rss";
     FeedList feed = FeedReader::loadFeed(feedUrl);
 
     try {
         const SqlDatabase db = SqlDatabase::addDatabase(SqlDatabase::TYPE_SQLITE);
-        SqlQuery query(
-            "CREATE TABLE IF NOT EXISTS feed_item (" \
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," \
-                "feed TEXT," \
-                "title TEXT," \
-                "pub_date VARCHAR(255)," \
-                "link TEXT," \
-                "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP" \
-            ")",
-            db
-        );
+
+        const auto query = SqlQuery("SELECT * FROM feed_item", db);
         query.exec();
 
-        query = SqlQuery("INSERT INTO feed_item (feed, title, pub_date, link) VALUES (?, ?, ?, ?)", db);
-        for(const FeedItem& item: feed) {
-            query.clear();
-            query.bindValue(1, feedUrl);
-            query.bindValue(2, item.title);
-            query.bindValue(3, item.pubDate);
-            query.bindValue(4, item.link);
-            query.exec();
-        }
-
-        query = SqlQuery("SELECT * FROM feed_item", db);
-        query.exec();
         const SqlRecordList records = query.getResult()->getRecords();
         db.close();
 
