@@ -7,7 +7,7 @@ SqlField SqlRecord::getField(const int index) const {
 }
 
 Variant SqlRecord::getValue(const int index) const {
-    SqlField field = getField(index);
+    const SqlField field = getField(index);
     return field.getValue();
 }
 

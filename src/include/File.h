@@ -5,11 +5,11 @@
 
 #include "String.h"
 
-class File {
+class File final {
     public:
         File();
         explicit File(String );
-        virtual ~File() = default;
+        ~File() = default;
 
         [[nodiscard]] String getAbsolutePath() const;
         [[nodiscard]] String getFilename() const;

@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
             cout << "---------------------------------------------" << endl;
         }
         */
-    } catch(Exception *e) {
-        cout << e->getMessage() << endl;
+    } catch(const Exception &e) {
+        cout << e.getMessage() << endl;
     }
 }

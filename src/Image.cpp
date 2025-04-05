@@ -5,8 +5,6 @@
 #include <glib.h>
 #include <HttpRequest.h>
 #include <iostream>
-#include <bits/fs_fwd.h>
-#include <bits/fs_path.h>
 using std::ifstream;
 
 Image::Image()

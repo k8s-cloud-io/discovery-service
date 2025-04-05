@@ -1,5 +1,5 @@
-#ifndef BYTEARRY_H
-#define BYTEARRY_H
+#ifndef BYTE_ARRAY_H
+#define BYTE_ARRAY_H
 
 #include <vector>
 using std::vector;
@@ -19,11 +19,8 @@ class ByteArray: public vector<char> {
                 push_back(ch);
                 length++;
             }
-
-            cout << size() << endl;
-
             return *this;
         }
 };
 
-#endif // BYTEARRY_H
+#endif // BYTE_ARRAY_H

@@ -15,7 +15,7 @@ Xdg::XdgMap Xdg::config;
 Xdg::Xdg()= default;
 
 String Xdg::getDirectory(const XdgDirectory &directory){
-    Xdg::loadConfig();
+    loadConfig();
     return config[directory];
 }
 
@@ -29,7 +29,7 @@ void Xdg::loadConfig() {
 
                     while (std::getline(file, str)) {
                         String line = str.trim();
-                        if(line.length() == 0 || line.find("#") == 0 || line.find("=") == string::npos) continue;
+                        if(line.empty() || line.find("#") == 0 || line.find("=") == string::npos) continue;
                         std::size_t equalPosition = line.find("=");
                         
                         String keyPart = line.substr(0, equalPosition);
@@ -90,6 +90,6 @@ void Xdg::loadConfig() {
             }
         }
 
-        Xdg::initialized = true;
+        initialized = true;
     }
 }

@@ -12,7 +12,7 @@ using std::endl;
 using std::transform;
 using std::tolower;
 
-HttpRequest::HttpRequest(const HttpRequest::RequestMethod m, String u)
+HttpRequest::HttpRequest(const RequestMethod m, String u)
     :requestMethod(m), url(std::move(u)) {
 }
 
@@ -45,13 +45,13 @@ HttpResponse *HttpRequest::exec() const {
             curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
             response->statusCode = http_code;
 
-            struct curl_header *h;
-            struct curl_header *prev = nullptr;
+            curl_header *h;
+            curl_header *prev = nullptr;
             do {
                 h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
 
                 if(h) {
-                    String header = String(h->name);
+                    auto header = String(h->name);
                     transform(header.begin(), header.end(), header.begin(),
                         [](unsigned char c){ return std::tolower(c); });
                     response->headers[header] = String(h->value);

@@ -28,7 +28,7 @@ class SqlDriver {
         virtual int exec(const SqlQuery &) = 0;
 
     protected:
-        void setState(SqlDriver::State);
+        void setState(State);
 
     private:
         State driverState;

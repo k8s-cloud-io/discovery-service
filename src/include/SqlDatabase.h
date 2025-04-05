@@ -13,8 +13,8 @@ class SqlDatabase {
         SqlDatabase();
         static SqlDatabase addDatabase(Type);
 
-        SqlDriver *getDriver() const;
-        bool open() const;
+        [[nodiscard]] SqlDriver *getDriver() const;
+        [[nodiscard]] bool open() const;
         void close() const;
 
     private:

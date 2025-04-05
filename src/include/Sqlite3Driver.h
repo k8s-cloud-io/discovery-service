@@ -5,7 +5,7 @@
 #include "File.h"
 #include "SqlDriver.h"
 
-class Sqlite3Driver: public SqlDriver {
+class Sqlite3Driver final : public SqlDriver {
     public:
         Sqlite3Driver();
         bool open() override;

@@ -1,5 +1,5 @@
-#ifndef HTTPREQUEST_H
-#define HTTPREQUEST_H
+#ifndef HTTP_REQUEST_H
+#define HTTP_REQUEST_H
 
 #include "HttpHeader.h"
 #include "HttpResponse.h"
@@ -32,4 +32,4 @@ class HttpRequest {
         HttpHeaders headers;
 };
 
-#endif // HTTPREQUEST_H
+#endif // HTTP_REQUEST_H

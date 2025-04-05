@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 Sqlite3Driver::Sqlite3Driver()
-:SqlDriver(), db(nullptr), result(nullptr) {
+:db(nullptr), result(nullptr) {
 
     filePath = File("sqlite3.db");
     const String dir = filePath.getDirectory();
@@ -21,10 +21,10 @@ Sqlite3Driver::Sqlite3Driver()
 
 bool Sqlite3Driver::open() {
     if(File::isDirectory(filePath.getAbsolutePath())) {
-        throw ( string("unable to add database: path ") + filePath.getAbsolutePath() + " is a directory" );
+        throw Exception(( string("unable to add database: path ") + filePath.getAbsolutePath() + " is a directory" ));
     }
 
-    int o = sqlite3_open(filePath.getAbsolutePath().c_str(), &db);
+    const int o = sqlite3_open(filePath.getAbsolutePath().c_str(), &db);
     setState(o == SQLITE_OK ? STATE_OPEN : STATE_CLOSED);
 
     return state() == STATE_OPEN;
@@ -46,15 +46,15 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
     }
 
     if(state() != STATE_OPEN) {
-        throw new Exception("Unable to query database: database is not open");
+        throw Exception("Unable to query database: database is not open");
     }
 
     int rc;
     char *error = nullptr;
     if(q.getBindings().size() > 0) {
-        rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+        rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, const_cast<const char **>(&error));
         if(rc != SQLITE_OK) {
-            throw new Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
+            throw Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
         }
 
         SqlBindingList bindings = q.getBindings();
@@ -67,7 +67,7 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
                         const size_t size = std::strlen(data);
                         const auto text = new char[size + 1];
                         sprintf(text, "%s", data );
-                        sqlite3_bind_text(stmt, b.getPosition(), text, size, SQLITE_STATIC);
+                        sqlite3_bind_text(stmt, b.getPosition(), text, static_cast<int>(size), SQLITE_STATIC);
                     }
                     break;
 
@@ -107,7 +107,7 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
                 */
                     
                 default:
-                    throw new Exception("unable to bind parameter: invalid Variant type");
+                    throw Exception("unable to bind parameter: invalid Variant type");
             }
 
             // bind blob values
@@ -122,7 +122,7 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::_internal_query, &records, &error);
         if(rc != SQLITE_OK) {
             lastError = String(sqlite3_errmsg(db));
-            throw new Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
+            throw Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
         }
         result->setRecords(records);
         close();

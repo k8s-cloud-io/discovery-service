@@ -22,7 +22,7 @@ String String::trim(const string &chars) const {
     for(; end > begin; end--)
         if(chars.find_first_of(s[end]) == npos)
             break;
-    return String(s.substr(begin, end - begin + 1));
+    return substr(begin, end - begin + 1);
 }
 
 StringList String::split(const string& delimiter) const {

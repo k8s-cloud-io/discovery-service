@@ -1,9 +1,6 @@
 #include "Exception.h"
 #include "SqlQuery.h"
 
-#include <utility>
-#include "Global.h"
-
 SqlQuery::SqlQuery(String query, const SqlDatabase &db)
 :query(std::move(query)), db(db), result(nullptr) {
 }
@@ -15,7 +12,7 @@ void SqlQuery::bindValue(const int pos, const Variant value) {
 
 void SqlQuery::exec() const {
     if(const SqlDriver *driver = db.getDriver(); driver == nullptr) {
-        throw new Exception("SqlQuery: driver is not initialized.");
+        throw Exception("SqlQuery: driver is not initialized.");
     }
     db.getDriver()->exec(*this);
 }

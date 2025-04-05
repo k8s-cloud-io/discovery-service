@@ -3,7 +3,7 @@
 
 #include "String.h"
 
-class Exception {
+class Exception final : public std::exception {
     public:
         explicit Exception(String msg);
         [[nodiscard]] String getMessage() const;

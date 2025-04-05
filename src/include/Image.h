@@ -5,7 +5,7 @@
 #include "ByteArray.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-class Image {
+class Image final {
     public:
         enum InterpType {
             INTERP_NEAREST = 0,
@@ -13,7 +13,7 @@ class Image {
             INTERP_BILINEAR,
             INTERP_HYPER
         };
-        virtual ~Image();
+        ~Image();
         void scale(int, int, InterpType type = INTERP_BILINEAR);
         
         static Image fromUri(const String &);

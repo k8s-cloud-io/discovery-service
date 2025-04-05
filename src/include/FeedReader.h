@@ -1,5 +1,5 @@
-#ifndef FEEDREADER_H
-#define FEEDREADER_H
+#ifndef FEED_READER_H
+#define FEED_READER_H
 
 #include "String.h"
 #include <vector>
@@ -20,4 +20,4 @@ class FeedReader {
         static FeedList loadFeed(const String &);
 };
 
-#endif // FEEDREADER_H
+#endif // FEED_READER_H

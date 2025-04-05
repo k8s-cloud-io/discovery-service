@@ -19,7 +19,7 @@ class Xdg final {
             XDG_MUSIC_DIR,
             XDG_PUBLIC_SHARE_DIR
         };
-        virtual ~Xdg()= default;
+        ~Xdg() = default;
         static String getDirectory(const XdgDirectory &);
 
     private:

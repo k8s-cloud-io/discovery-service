@@ -1,5 +1,5 @@
-#ifndef HTTPHEADER_H
-#define HTTPHEADER_H
+#ifndef HTTP_HEADER_H
+#define HTTP_HEADER_H
 
 #include <iterator>
 #include <ostream>
@@ -29,4 +29,4 @@ ostream& operator << ( std::ostream& outs, const HttpHeaders& headers ) {
 }
 
 
-#endif // HTTPHEADER_H
+#endif // HTTP_HEADER_H
