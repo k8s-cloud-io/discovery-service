@@ -1,6 +1,6 @@
 all:
 	cmake -H. -B./build
-	make -j8 -C ./build
+	make --no-print-directory -C ./build
 
 clean:
 	rm -rf ./build
