@@ -12,16 +12,46 @@
 
 #include "ByteArray.h"
 
+#include <atomic>
 #include <iostream>
 using std::cout;
 using std::endl;
 
 #include "Image.h"
 #include "User.h"
+#include "Timer.h"
+#include "Application.h"
+#include <atomic>
+
+class InlineClass {
+    public:
+        Timer t;
+        int count = 0;
+        void start() {
+            t.setInterval(1000);
+            t.start([this](Timer *t) {
+                if (count == 10) {
+                    cout << "COUNTER: " << count << endl;
+                    t->stop();
+                } else {
+                    cout << "Timer Event" << endl;
+                    ++count;
+                }
+            });
+        }
+};
 
 int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
+
+    Application app;
+
+    InlineClass i;
+    i.start();
+
+    cout << "start application now!" << endl;
+    app.start();
 
     /*
     const auto file = String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg");
@@ -32,6 +62,7 @@ int main(int argc, char *argv[]) {
     cout << img.getHeight() << endl;
     */
 
+    /*
     const User current = User::current();
     cout << "User: " << current.getId() << endl;
     cout << "Name: " << current.getName() << endl;
@@ -41,6 +72,7 @@ int main(int argc, char *argv[]) {
     cout << "Pictures: " << current.getDirectory(XDG_PICTURES_DIR) << endl;
     cout << "Music: " << current.getDirectory(XDG_MUSIC_DIR) << endl;
     cout << "Videos: " << current.getDirectory(XDG_VIDEOS_DIR) << endl;
+    */
 
     /*
     const string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
