@@ -17,18 +17,32 @@ using std::cout;
 using std::endl;
 
 #include "Image.h"
+#include "User.h"
 
 int main(int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
+    /*
     const auto file = String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg");
     const Image img = Image::fromUri(file);
     cout << "loaded file as image from path " << File(file).getFilename() << ":" << endl << "size = ";
     cout << img.getWidth();
     cout << "x";
     cout << img.getHeight() << endl;
+    */
 
+    const User current = User::current();
+    cout << "User: " << current.getId() << endl;
+    cout << "Name: " << current.getName() << endl;
+    cout << "Home: " << current.getHomeDirectory() << endl;
+    cout << "Documents: " << current.getDirectory(XDG_DOCUMENTS_DIR) << endl;
+    cout << "Downloads: " << current.getDirectory(XDG_DOWNLOAD_DIR) << endl;
+    cout << "Pictures: " << current.getDirectory(XDG_PICTURES_DIR) << endl;
+    cout << "Music: " << current.getDirectory(XDG_MUSIC_DIR) << endl;
+    cout << "Videos: " << current.getDirectory(XDG_VIDEOS_DIR) << endl;
+
+    /*
     const string dir = Xdg::getDirectory(Xdg::XDG_PICTURES_DIR);
     cout << dir << endl;
 
@@ -45,7 +59,6 @@ int main(int argc, char *argv[]) {
         db.close();
 
         cout << "retrieved " << records.size() << " feed items" << endl;
-        /*
         for (const auto& record : records) {
             for (size_t k = 0; k < record.count(); ++k) {
                 SqlField field = record.getField(k);
@@ -53,8 +66,8 @@ int main(int argc, char *argv[]) {
             }
             cout << "---------------------------------------------" << endl;
         }
-        */
     } catch(const Exception &e) {
         cout << e.getMessage() << endl;
     }
+    */
 }

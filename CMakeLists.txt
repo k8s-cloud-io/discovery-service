@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-Ofast -ffast-math")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include_directories(/usr/include)
 include_directories(./src/include)
@@ -25,9 +25,6 @@ include_directories(${LIBXML2_INCLUDE_DIRS})
 
 pkg_check_modules(CURL REQUIRED libcurl)
 include_directories(${CURL_INCLUDE_DIRS})
-
-pkg_check_modules(GIO REQUIRED gio-2.0)
-include_directories( ${GIO_INCLUDE_DIRS} )
 
 pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0)
 include_directories( ${GDKPIXBUF_INCLUDE_DIRS} )
@@ -44,7 +41,6 @@ target_link_libraries(
         cinnamon-discovery
         ${LIBXML2_LIBRARIES}
         ${CURL_LIBRARIES}
-        ${GIO_LIBRARIES}
         ${GDKPIXBUF_LIBRARIES}
         ${SQLITE3_LIBRARIES}
         ${JSON_GLIB_LIBRARIES}
