@@ -29,14 +29,9 @@ class InlineClass {
         int count = 0;
         void start() {
             t.setInterval(1000);
-            t.start([this](Timer *t) {
-                if (count == 10) {
-                    cout << "COUNTER: " << count << endl;
-                    t->stop();
-                } else {
-                    cout << "Timer Event" << endl;
-                    ++count;
-                }
+            t.start([this](Timer *) {
+                cout << "timer event: " << count << endl;
+                count++;
             });
         }
 };
