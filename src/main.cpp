@@ -23,6 +23,8 @@ using std::endl;
 #include "Application.h"
 #include <atomic>
 
+#include "DateTime.h"
+
 class InlineClass {
     public:
         Timer t;
@@ -42,8 +44,13 @@ int main(int argc, char *argv[]) {
 
     Application app;
 
+    /*
     InlineClass i;
     i.start();
+    */
+
+    DateTime dt = DateTime::fromString("2025-05-04 12:28:00", "%Y-%m-%d %H:%M:%S");
+    std::cout << dt.getMillisecond() << endl;
 
     cout << "start application now!" << endl;
     app.start();
