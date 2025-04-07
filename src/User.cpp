@@ -9,7 +9,7 @@
 
 #include <cstring>
 
-User::User(int id) {
+User::User(const int id) {
     if(id == -1) {
       this->id = geteuid ();
     } else {
@@ -37,7 +37,7 @@ String User::getHomeDirectory() const {
   return home;
 }
 
-String User::getDirectory(XdgDirectory dir) const {
+String User::getDirectory(const XdgDirectory dir) const {
   const String home = getHomeDirectory();
   const String xdgFile = getHomeDirectory() + "/.config/user-dirs.dirs";
   XdgMap map = Xdg::loadConfig(xdgFile);
