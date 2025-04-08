@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <iostream>
 
+#define MAX_BUF_SIZE 255
+
 DateTime::DateTime() {
 }
 
@@ -62,8 +64,13 @@ int DateTime::getSecond() const {
     return _tm->tm_sec;
 }
 
-String DateTime::toString() const {
+String DateTime::toString(const String &fmt) const {
     const std::time_t t_c = std::chrono::system_clock::to_time_t(tp);
+    if (!fmt.empty()) {
+        char buf[MAX_BUF_SIZE];
+        strftime(buf, MAX_BUF_SIZE, fmt.c_str(), std::localtime(&t_c));
+        return buf;
+    }
     auto s = String(std::asctime(std::localtime(&t_c)));
     s.pop_back();
     return s;

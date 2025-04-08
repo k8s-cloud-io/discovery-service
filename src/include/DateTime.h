@@ -24,7 +24,7 @@ class DateTime final {
     int getMinute() const;
     int getSecond() const;
     long getMillisecond() const;
-    String toString() const;
+    String toString(const String &fmt = String()) const;
 
     static DateTime fromString(const String &, const String &);
 
