@@ -50,7 +50,16 @@ int main(int argc, char *argv[]) {
     */
 
     DateTime dt = DateTime::fromString("2025-05-04 12:28:00", "%Y-%m-%d %H:%M:%S");
-    std::cout << dt.getMillisecond() << endl;
+    std::cout << dt.toString() << endl;
+
+    dt.addDays(40);
+    std::cout << "ADD 40 DAYS: " << dt.toString() << endl;
+
+    dt.addHours(4);
+    std::cout << "ADD 4 HOURS: " << dt.toString() << endl;
+
+    dt.addMinutes(3);
+    std::cout << "ADD 3 Minutes: " << dt.toString() << endl;
 
     cout << "start application now!" << endl;
     app.start();
