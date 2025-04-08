@@ -62,6 +62,13 @@ int DateTime::getSecond() const {
     return _tm->tm_sec;
 }
 
+String DateTime::toString() const {
+    const std::time_t t_c = std::chrono::system_clock::to_time_t(tp);
+    auto s = String(std::asctime(std::localtime(&t_c)));
+    s.pop_back();
+    return s;
+}
+
 long DateTime::getMillisecond() const {
     return tp.time_since_epoch().count() / 1000 / 1000 / 1000;
 }
