@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
 
     DateTime dt = DateTime::fromString("2025-05-04 12:28:00", "%Y-%m-%d %H:%M:%S");
     std::cout << dt.toString() << endl;
+    std::cout << "CUSTOM STRING: " << dt.toString("%d.%m.%Y %H:%M:%S") << endl;
 
     dt.addDays(40);
     std::cout << "ADD 40 DAYS: " << dt.toString() << endl;
