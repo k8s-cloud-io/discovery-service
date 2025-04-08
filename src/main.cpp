@@ -23,6 +23,7 @@ using std::endl;
 #include "Application.h"
 #include <atomic>
 
+#include "UserSettings.h"
 #include "DateTime.h"
 
 class InlineClass {
@@ -44,11 +45,14 @@ int main(int argc, char *argv[]) {
 
     Application app;
 
+    UserSettings settings;
+
     /*
     InlineClass i;
     i.start();
     */
 
+    /*
     DateTime dt = DateTime::fromString("2025-05-04 12:28:00", "%Y-%m-%d %H:%M:%S");
     std::cout << dt.toString() << endl;
     std::cout << "CUSTOM STRING: " << dt.toString("%d.%m.%Y %H:%M:%S") << endl;
@@ -61,9 +65,10 @@ int main(int argc, char *argv[]) {
 
     dt.addMinutes(3);
     std::cout << "ADD 3 Minutes: " << dt.toString() << endl;
+    */
 
     cout << "start application now!" << endl;
-    app.start();
+    return app.start();
 
     /*
     const auto file = String("file:///home/andreas/Bilder/pawel-czerwinski-i0SaO-dWeUo-unsplash.jpg");

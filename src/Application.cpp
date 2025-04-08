@@ -5,16 +5,23 @@
 bool Application::running = false;
 std::thread Application::mainThread;
 
-void Application::start() {
+int Application::start() {
+  std::set_terminate([]() {
+    Application::mainThread.join();
+    std::abort();
+  });
   Application::running = true;
   Application::mainThread = std::thread([=](){
     while(Application::running) {};
   });
+  return 0;
 }
 
 Application::~Application() {
-  Application::mainThread.join();
-  Application::running = false;
+  if (mainThread.joinable()) {
+    Application::mainThread.join();
+    Application::running = false;
+  }
 }
 
 void Application::quit() {

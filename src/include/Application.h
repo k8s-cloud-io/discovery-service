@@ -7,7 +7,7 @@ class Application final {
     Application() = default;
     ~Application();
 
-    void start();
+    int start();
     static void quit();
 
     private:
