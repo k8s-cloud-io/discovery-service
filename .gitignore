@@ -2,6 +2,7 @@
 /.obj
 /.vscode
 /bin
+/.obj
 /data
 /build
 /cmake-build-*
