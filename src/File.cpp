@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <unistd.h>
 #include <utility>
 namespace fs = std::filesystem;
 
@@ -55,6 +56,14 @@ bool File::exists(const String &path) {
 
 bool File::isDirectory(const String &path) {
     return fs::is_directory(path.c_str());
+}
+
+bool File::isReadable(const String &path) {
+    return access(path.c_str(), R_OK) == 0;
+}
+
+bool File::isWritable(const String &path) {
+    return access(path.c_str(), W_OK) == 0;
 }
 
 // private
