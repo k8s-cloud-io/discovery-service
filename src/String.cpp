@@ -7,6 +7,9 @@ String::String() = default;
 String::String(const char *str)
 :string(str) {}
 
+String::String(const ByteArray &str)
+:string(str.data()) {}
+
 String::String(const string &str)
 :string(str) {}
 
