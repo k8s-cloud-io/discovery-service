@@ -3,12 +3,12 @@
 #include "File.h"
 #include "User.h"
 #include <iostream>
+#include <json/json.h>
 
 UserSettings::UserSettings()
 :settingsFile("/etc/discovery-service/default.json") {
-  User user = User::current();
-  String localSettingsFile = user.getHomeDirectory().append("/.config/discovery-service/settings.json");
-  if(File::exists(localSettingsFile)) {
+  const User user = User::current();
+  if(const String localSettingsFile = user.getHomeDirectory().append("/.config/discovery-service/settings.json"); File::exists(localSettingsFile)) {
     settingsFile = localSettingsFile;
   }
 
@@ -25,11 +25,24 @@ UserSettings::UserSettings()
   String content = File(settingsFile).getBytes();
   content = content.trim();
 
-  if(content.find("{") != 0 || content.find_last_of("}") != content.length()-1) {
-    std::cout << "unable to read settings file '" << settingsFile << "': file is not a valid json file" << std::endl;
-    exit(1);
+  Json::Value root;
+  Json::Reader reader;
+  reader.parse(content, root);
+
+  feeds.clear();
+  if (const Json::Value feedList = root["feeds"]; feedList.isArray()) {
+    for (const auto & i : feedList) {
+      if (i.isString()) {
+        feeds.emplace_back(i.asString());
+      }
+    }
   }
+  std::cout << "feeds size: " << feeds.size() << std::endl;
 }
 
 UserSettings::~UserSettings() {
+}
+
+StringList UserSettings::getFeeds() const {
+  return feeds;
 }
