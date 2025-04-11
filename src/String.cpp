@@ -1,6 +1,22 @@
+#include <algorithm>
 #include <cstddef>
 #include "StringList.h"
 #include "String.h"
+
+inline String ltrim(String &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+    return s;
+}
+
+// trim from end (in place)
+inline String rtrim(String &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
+    return s;
+}
 
 String::String() = default;
 
@@ -13,19 +29,10 @@ String::String(const ByteArray &str)
 String::String(const string &str)
 :string(str) {}
 
-String String::trim(const string &chars) const {
-    const String s(c_str());
-    std::size_t begin = 0;
-    std::size_t end = s.size()-1;
-
-    for(; begin < s.size(); begin++)
-        if(chars.find_first_of(s[begin]) == npos)
-            break;
-
-    for(; end > begin; end--)
-        if(chars.find_first_of(s[end]) == npos)
-            break;
-    return substr(begin, end - begin + 1);
+String String::trim() const {
+    String s = c_str();
+    s = ltrim(s);
+    return rtrim(s);
 }
 
 StringList String::split(const string& delimiter) const {

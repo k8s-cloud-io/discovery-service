@@ -19,7 +19,7 @@ class String: public string {
         String(const string &);
         String(const ByteArray &);
 
-        [[nodiscard]] String trim(const string &chars = " ") const;
+        [[nodiscard]] String trim() const;
         [[nodiscard]] StringList split(const string&) const;
 
         String append(const char *) const;
