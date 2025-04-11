@@ -7,22 +7,23 @@ CPPFLAGS+=-I./src/include \
 	$(shell pkg-config --cflags gio-2.0) \
 	$(shell pkg-config --cflags gdk-pixbuf-2.0) \
 	$(shell pkg-config --cflags sqlite3) \
-	$(shell pkg-config --cflags libcurl)
+	$(shell pkg-config --cflags libcurl) \
+	$(shell pkg-config --cflags jsoncpp)
+
 
 LDFLAGS+=$(shell pkg-config --libs libxml-2.0) \
 	$(shell pkg-config --libs gio-2.0) \
 	$(shell pkg-config --libs gdk-pixbuf-2.0) \
 	$(shell pkg-config --libs sqlite3) \
-	$(shell pkg-config --libs libcurl)
+	$(shell pkg-config --libs libcurl) \
+	$(shell pkg-config --libs jsoncpp)
 
 TARGET_EXEC := discovery-service
 BUILD_DIR := .obj
 SRCS := $(shell find ./src -name '*.cpp')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-#all:
-#	cmake -H. -B./build
-#	make --no-print-directory -C ./build
+all: $(BUILD_DIR)/$(TARGET_EXEC)
 
 # all: dirs discovery-service
 
