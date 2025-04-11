@@ -17,7 +17,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_RULE_MESSAGES OFF)
 
 include_directories(/usr/include)
-include_directories(./src/include)
+include_directories(src/include)
 
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 include_directories(${SQLITE3_INCLUDE_DIRS})
@@ -31,8 +31,11 @@ include_directories(${CURL_INCLUDE_DIRS})
 pkg_check_modules(GDKPIXBUF REQUIRED gdk-pixbuf-2.0)
 include_directories( ${GDKPIXBUF_INCLUDE_DIRS} )
 
-pkg_check_modules(JSON_GLIB REQUIRED json-glib-1.0)
-include_directories( ${JSON_GLIB_INCLUDE_DIRS} )
+pkg_check_modules(GIO REQUIRED gio-2.0)
+include_directories( ${GIO_INCLUDE_DIRS} )
+
+pkg_check_modules(JSON_CPP REQUIRED jsoncpp)
+include_directories( ${JSON_CPP_INCLUDE_DIRS} )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 file(GLOB_RECURSE SOURCES ./src/*.cpp)
@@ -44,6 +47,7 @@ target_link_libraries(
         ${LIBXML2_LIBRARIES}
         ${CURL_LIBRARIES}
         ${GDKPIXBUF_LIBRARIES}
+        ${GIO_LIBRARIES}
         ${SQLITE3_LIBRARIES}
-        ${JSON_GLIB_LIBRARIES}
+        ${JSON_CPP_LIBRARIES}
 )
