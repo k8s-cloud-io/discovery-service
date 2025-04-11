@@ -23,6 +23,12 @@ UserSettings::UserSettings()
   }
 
   String content = File(settingsFile).getBytes();
+  content = content.trim();
+
+  if(content.find("{") != 0 || content.find_last_of("}") != content.length()-1) {
+    std::cout << "unable to read settings file '" << settingsFile << "': file is not a valid json file" << std::endl;
+    exit(1);
+  }
 }
 
 UserSettings::~UserSettings() {
