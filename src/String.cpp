@@ -4,7 +4,7 @@
 #include "String.h"
 
 inline String ltrim(String &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+    s.erase(s.begin(), std::ranges::find_if(s, [](const unsigned char ch) {
         return !std::isspace(ch);
     }));
     return s;
@@ -12,7 +12,7 @@ inline String ltrim(String &s) {
 
 // trim from end (in place)
 inline String rtrim(String &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](const unsigned char ch) {
         return !std::isspace(ch);
     }).base(), s.end());
     return s;
@@ -32,7 +32,8 @@ String::String(const string &str)
 String String::trim() const {
     String s = c_str();
     s = ltrim(s);
-    return rtrim(s);
+    s = rtrim(s);
+    return s;
 }
 
 StringList String::split(const string& delimiter) const {
