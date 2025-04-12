@@ -5,7 +5,7 @@
 
 class WeatherConfiguration {
   public:
-    WeatherConfiguration(const WeatherProvider &);
+    explicit WeatherConfiguration(const WeatherProvider &provider = WeatherProvider());
     WeatherProvider getWeatherProvider() const;
 
   private:

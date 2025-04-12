@@ -11,7 +11,7 @@ class WeatherProvider {
 	  PROVIDER_WORLD_WEATHER_ONLINE
 	};
 
-	WeatherProvider(ProviderType = PROVIDER_NONE);
+	explicit WeatherProvider(ProviderType = PROVIDER_NONE);
 
     void setCredentials(const Credentials &);
 
