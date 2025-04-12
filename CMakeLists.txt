@@ -17,7 +17,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_RULE_MESSAGES OFF)
 
 include_directories(/usr/include)
-include_directories(src/include)
+include_directories(./src/include)
 
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 include_directories(${SQLITE3_INCLUDE_DIRS})
