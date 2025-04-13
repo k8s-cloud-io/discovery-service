@@ -53,8 +53,10 @@ void UnixSocket::close() {
 	if (fd > -1) {
 		::close(fd);
 		fd = -1;
-		unlink(path.c_str());
-		std::cout << "unix socket closed" << std::endl;
+
+		if (File::exists(path)) {
+			unlink(path.c_str());
+		}
 	}
 }
 
