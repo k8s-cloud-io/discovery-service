@@ -41,6 +41,8 @@ String User::getDirectory(const XdgDirectory dir) const {
   const String home = getHomeDirectory();
   const String xdgFile = getHomeDirectory() + "/.config/user-dirs.dirs";
   XdgMap map = Xdg::loadConfig(xdgFile);
+  if (dir == XDG_RUNTIME_DIR) return map[dir];
+
   String path = map[dir];
   if(path.find("$HOME") == 0) {
     path = path.substr(std::strlen("$HOME")+1);
