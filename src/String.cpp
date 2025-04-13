@@ -22,7 +22,11 @@ inline String rtrim(String &s) {
 String::String() = default;
 
 String::String(const char *str)
-:string(str) {}
+:string() {
+    if (str != nullptr && strlen(str) > 0) {
+        string::append(str);
+    }
+}
 
 String::String(const ByteArray &str)
 :string(str.data()) {}
@@ -53,6 +57,10 @@ StringList String::split(const string& delimiter) const {
 
 String String::append(const char * str) const {
     string s(c_str());
+    if (str == nullptr) {
+        return s;
+    }
+
     s.append(str);
     return s;
 }
