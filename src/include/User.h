@@ -12,11 +12,11 @@ class User {
 
          [[nodiscard]] String getName() const;
          [[nodiscard]] String getHomeDirectory() const;
-         [[nodiscard]] int getId() const;
+         [[nodiscard]] int getUid() const;
          [[nodiscard]] String getDirectory(XdgDirectory) const;
 
     private:
-         int id;
+         int uid;
 };
 
 #endif //USER_H

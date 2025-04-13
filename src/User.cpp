@@ -11,9 +11,9 @@
 
 User::User(const int id) {
     if(id == -1) {
-      this->id = geteuid ();
+      this->uid = geteuid ();
     } else {
-      this->id = id;
+      this->uid = id;
     }
 }
 
@@ -21,16 +21,16 @@ User User::current() {
   return User();
 }
 
-int User::getId() const {
-  return id;
+int User::getUid() const {
+  return uid;
 }
 
 String User::getName() const {
-  return getpwuid(this->id)->pw_name;
+  return getpwuid(this->uid)->pw_name;
 }
 
 String User::getHomeDirectory() const {
-  String home = getpwuid(this->id)->pw_dir;
+  String home = getpwuid(this->uid)->pw_dir;
   if(home.size() == 0) {
     home = getenv("HOME");
   }
