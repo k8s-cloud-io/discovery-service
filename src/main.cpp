@@ -14,6 +14,7 @@
 
 #include <atomic>
 #include <iostream>
+#include <UnixSocket.h>
 using std::cout;
 using std::endl;
 
@@ -44,6 +45,10 @@ int main(const int argc, char *argv[]) {
     Q_UNUSED(argv);
 
     Application app;
+
+    UnixSocket socket("./socket.sock");
+    socket.listen();
+    socket.close();
 
     UserSettings settings;
 
