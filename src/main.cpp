@@ -47,14 +47,11 @@ int main(const int argc, char *argv[]) {
     Application app;
 
     const User u;
-    const String dir = u.getDirectory(XDG_RUNTIME_DIR);
-    std::cout << "RUNTIME DIR = " << dir << endl;
+    const String runtimeDir = u.getDirectory(XDG_RUNTIME_DIR);
 
-    /*
-    UnixSocket socket("./socket.sock");
+    UnixSocket socket(runtimeDir + "/socket.sock");
     socket.listen();
     socket.close();
-    */
 
     // UserSettings settings;
 
