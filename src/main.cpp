@@ -39,7 +39,7 @@ class InlineClass {
         }
 };
 
-int main(int argc, char *argv[]) {
+int main(const int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
     std::cout << "ADD 3 Minutes: " << dt.toString() << endl;
     */
 
-    cout << "start application now!" << endl;
     return app.start();
 
     /*
