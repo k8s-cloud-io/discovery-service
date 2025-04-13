@@ -4,6 +4,7 @@
 #include "Xdg.h"
 
 #include <Exception.h>
+#include <unistd.h>
 
 using std::ifstream;
 
@@ -75,6 +76,16 @@ XdgMap Xdg::loadConfig(const String &configPath) {
 
         if(xdgDir != XDG_UNKNOWN)
             config[xdgDir] = val;
+
+        if (!config.contains(XDG_RUNTIME_DIR)) {
+            String runtimeDir = getenv("XDG_RUNTIME_DIR");
+            if (runtimeDir.empty()) {
+                int uid = getuid();
+                String uidStr = std::to_string(uid);
+                runtimeDir = "/run/user/" + uidStr;
+            }
+            config[XDG_RUNTIME_DIR] = runtimeDir;
+        }
     }
     return config;
 }

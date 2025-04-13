@@ -15,7 +15,8 @@ enum XdgDirectory {
     XDG_VIDEOS_DIR,
     XDG_DESKTOP_DIR,
     XDG_MUSIC_DIR,
-    XDG_PUBLIC_SHARE_DIR
+    XDG_PUBLIC_SHARE_DIR,
+    XDG_RUNTIME_DIR
 };
 typedef map<XdgDirectory, String> XdgMap;
 
