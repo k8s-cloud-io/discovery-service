@@ -40,7 +40,6 @@ UserSettings::UserSettings()
       }
     }
   }
-  std::cout << "feeds size: " << feeds.size() << std::endl;
 
   const Json::Value weatherJson = root["weather"];
   if (weatherJson.isObject()) {
@@ -77,15 +76,17 @@ UserSettings::UserSettings()
       }
 
       if (providerType.empty()) {
-        std::cout << "weather provider type is empty" << std::endl;
+        std::cout << "configuration error: weather provider type is empty" << std::endl;
         exit(1);
       }
 
       if (providerType.compare("WORLD_WEATHER_ONLINE") == 0) {
         if (credentials.getApiKey().empty()) {
-          std::cout << "weather provider api key for provider WORLD_WEATHER_ONLINE is empty" << std::endl;
+          std::cout << "configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty" << std::endl;
         }
-        std::cout << "weather provider type is WORLD_WEATHER_ONLINE" << std::endl;
+        auto provider = WeatherProvider(WeatherProvider::PROVIDER_WORLD_WEATHER_ONLINE);
+        provider.setCredentials(credentials);
+        weatherConfiguration.setWeatherProvider(provider);
       }
     }
   }
