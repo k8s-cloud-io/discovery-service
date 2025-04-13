@@ -1,5 +1,5 @@
 CXX=c++
-CPPFLAGS=-I./src/include -Wall -Wextra -pedantic -Os -std=c++20 -MMD -MP
+CPPFLAGS=-I./src/include -Wall -Wextra -Wno-deprecated -Wunused -pedantic -funroll-all-loops -Os -std=c++20 -MMD -MP
 LDFLAGS=
 
 CPPFLAGS+=$(shell pkg-config --cflags libxml-2.0) \
@@ -18,7 +18,7 @@ LDFLAGS+=$(shell pkg-config --libs libxml-2.0) \
 
 TARGET_EXEC := discovery-service
 BUILD_DIR := .obj
-SRCS := $(shell find ./src -name '*.cpp')
+SRCS := $(shell find src -name '*.cpp')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 all: $(BUILD_DIR)/$(TARGET_EXEC)
