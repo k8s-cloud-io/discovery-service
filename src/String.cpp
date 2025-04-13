@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstddef>
+#include <cstring>
 #include "StringList.h"
 #include "String.h"
 
@@ -54,4 +55,8 @@ String String::append(const char * str) const {
     string s(c_str());
     s.append(str);
     return s;
+}
+
+int String::compare(const String &s) const {
+    return std::strcmp(c_str(), s.c_str());
 }

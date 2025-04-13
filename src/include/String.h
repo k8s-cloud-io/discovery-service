@@ -19,6 +19,7 @@ class String: public string {
         String(const string &);
         String(const ByteArray &);
 
+		int compare(const String &) const;
         [[nodiscard]] String trim() const;
         [[nodiscard]] StringList split(const string&) const;
 
