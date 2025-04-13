@@ -30,15 +30,65 @@ UserSettings::UserSettings()
   Json::Reader reader;
   reader.parse(content, root);
 
+  weatherConfiguration.setWeatherProvider(WeatherProvider());
   feeds.clear();
-  if (const Json::Value feedList = root["feeds"]; feedList.isArray()) {
-    for (const auto &i: feedList) {
+
+  if (const Json::Value feedsJson = root["feeds"]; feedsJson.isArray()) {
+    for (const auto &i: feedsJson) {
       if (i.isString()) {
         feeds.emplace_back(i.asString());
       }
     }
   }
   std::cout << "feeds size: " << feeds.size() << std::endl;
+
+  const Json::Value weatherJson = root["weather"];
+  if (weatherJson.isObject()) {
+    String providerType;
+    Json::Value providerJson = weatherJson["provider"];
+
+    if (providerJson.isObject()) {
+      Credentials credentials = Credentials::CREDENTIALS_TYPE_NONE;
+
+      if (providerJson["type"].isString()) {
+        providerType = providerJson["type"].asString();
+      }
+
+      if (providerJson["credentials"].isObject()) {
+        Json::Value credentialsJson = providerJson["credentials"];
+        auto names = credentialsJson.getMemberNames();
+        StringMap credentialsMap;
+        for (const auto &i: names) {
+          if (credentialsJson[i].isString()) {
+            credentialsMap[i] = credentialsJson[i].asString();
+          }
+        }
+
+        if (credentialsMap.contains("apiKey")) {
+          credentials = Credentials::CREDENTIALS_TYPE_API_KEY;
+          credentials.setApiKey(credentialsMap["apiKey"]);
+        }
+
+        if (credentialsMap.contains("userName") && credentialsMap.contains("password")) {
+          credentials = Credentials::CREDENTIALS_TYPE_USER;
+          credentials.setUserName(credentialsMap["userName"]);
+          credentials.setPassword(credentialsMap["password"]);
+        }
+      }
+
+      if (providerType.empty()) {
+        std::cout << "weather provider type is empty" << std::endl;
+        exit(1);
+      }
+
+      if (providerType.compare("WORLD_WEATHER_ONLINE") == 0) {
+        if (credentials.getApiKey().empty()) {
+          std::cout << "weather provider api key for provider WORLD_WEATHER_ONLINE is empty" << std::endl;
+        }
+        std::cout << "weather provider type is WORLD_WEATHER_ONLINE" << std::endl;
+      }
+    }
+  }
 }
 
 UserSettings::~UserSettings() {
