@@ -6,3 +6,7 @@ WeatherConfiguration::WeatherConfiguration(const WeatherProvider &provider)
 WeatherProvider WeatherConfiguration::getWeatherProvider() const {
   return provider;
 }
+
+void WeatherConfiguration::setWeatherProvider(const WeatherProvider &value) {
+  provider = value;
+}

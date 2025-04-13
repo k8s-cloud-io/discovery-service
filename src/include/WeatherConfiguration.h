@@ -6,6 +6,8 @@
 class WeatherConfiguration {
   public:
     explicit WeatherConfiguration(const WeatherProvider &provider = WeatherProvider());
+
+    void setWeatherProvider(const WeatherProvider &);
     WeatherProvider getWeatherProvider() const;
 
   private:
