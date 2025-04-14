@@ -50,11 +50,21 @@ void UnixSocket::listen() {
 	}
 
 	listening = true;
-	runner = std::thread([this]() {
+	runner = std::thread([this, address]() {
 		while (isListening()) {
 			// TODO implement IO: without, the service is stopping
 			sleep(1);
 			std::cout << "Listening..." << std::endl;
+
+			socklen_t len = sizeof(address);
+			int socket = accept(fd, (sockaddr *)&address, &len);
+			if(socket != 0) {
+				std::cout << "connection received" << std::endl;
+				for(auto it = listeners.begin(); it != listeners.end(); ++it) {
+					std::cout << "call listener..." << std::endl;
+					it->onSocketEvent(nullptr);
+				}
+			}
 		}
 	});
 }

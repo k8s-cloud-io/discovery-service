@@ -2,6 +2,22 @@
 #define UNIX_SOCKET_H
 #include <String.h>
 #include <thread>
+#include <list>
+
+class SocketEvent {
+	public:
+		SocketEvent() = default;
+};
+
+class SocketEventListener {
+	public:
+		SocketEventListener() = default;
+		virtual ~SocketEventListener() = default;
+
+		virtual void onSocketEvent(SocketEvent *);
+};
+
+typedef std::list<SocketEventListener> SocketEventListeners;
 
 class UnixSocket {
   public:
@@ -10,6 +26,7 @@ class UnixSocket {
 
 	void listen();
 	void close();
+	void addEventListener(const SocketEventListener &);
 
 	String getPath() const;
 	bool isListening() const;
@@ -19,6 +36,7 @@ class UnixSocket {
 	String path;
 	int fd;
 	std::thread runner;
+	SocketEventListeners listeners;
 };
 
 #endif // UNIX_SOCKET_H
