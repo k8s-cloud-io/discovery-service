@@ -6,22 +6,26 @@ bool Application::running = false;
 std::thread Application::mainThread;
 
 int Application::start() {
-  std::set_terminate([]() {
-    Application::mainThread.join();
-    std::abort();
-  });
   Application::running = true;
-  Application::mainThread = std::thread([=](){
-    while(Application::running) {};
+
+  atexit([]() {
+    std::cout << "atexit!" << std::endl;
+    quit();
+  });
+
+  std::set_terminate([]() {
+    std::cout << "terminate!" << std::endl;
+  });
+
+  mainThread = std::thread([&]() {
+    while (running) {};
   });
   return 0;
 }
 
 Application::~Application() {
-  if (mainThread.joinable()) {
-    Application::mainThread.join();
-    Application::running = false;
-  }
+  mainThread.join();
+  quit();
 }
 
 void Application::quit() {

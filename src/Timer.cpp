@@ -6,7 +6,7 @@ Timer::Timer()
 
 Timer::~Timer() {
   timer.join();
-  running = false;
+  stop();
 }
 
 int Timer::getInterval() const {

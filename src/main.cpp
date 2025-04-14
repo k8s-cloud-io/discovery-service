@@ -49,9 +49,14 @@ int main(const int argc, char *argv[]) {
     const User u;
     const String runtimeDir = u.getDirectory(XDG_RUNTIME_DIR);
 
-    UnixSocket socket(runtimeDir + "/socket.sock");
+    UnixSocket socket(runtimeDir + "/discovery-service.sock");
     socket.listen();
-    socket.close();
+
+    Timer t;
+    t.setInterval(2000);
+    t.start([](Timer *) {
+        std::cout << "Timer event..." << std::endl;
+    });
 
     // UserSettings settings;
 
