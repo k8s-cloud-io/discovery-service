@@ -1,31 +1,13 @@
 #include <File.h>
-
 #include "Global.h"
-
-#include "SqlDatabase.h"
-#include "SqlQuery.h"
-#include "SqlRecord.h"
-#include "Exception.h"
-#include "FeedReader.h"
-#include "Variant.h"
 #include "Xdg.h"
 
 #include "ByteArray.h"
-
-#include <atomic>
-#include <iostream>
 #include <UnixSocket.h>
-using std::cout;
-using std::endl;
 
-#include "Image.h"
 #include "User.h"
 #include "Timer.h"
 #include "Application.h"
-#include <atomic>
-
-#include "UserSettings.h"
-#include "DateTime.h"
 
 class InlineClass {
     public:
