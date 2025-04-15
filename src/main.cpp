@@ -9,6 +9,9 @@
 #include "Timer.h"
 #include "Application.h"
 
+#include <cstring>
+#include <thread>
+
 class InlineClass {
     public:
         Timer t;
@@ -22,6 +25,29 @@ class InlineClass {
         }
 };
 
+class Listener: public SocketEventListener {
+    public:
+        Listener();
+        void onSocketEvent(SocketEvent *e) override;
+};
+
+inline
+Listener::Listener()
+:SocketEventListener() {}
+
+inline void
+Listener::onSocketEvent(SocketEvent *e) {
+    std::cout << "socket event!" << std::endl;
+    const char *data = "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n";
+    int bytesWritten = ::write(e->getSocket(), data, ::std::strlen(data));
+    if(bytesWritten < 0) {
+        std::cout << "unable to write to socket." << std::endl;
+    }
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    ::close(e->getSocket());
+}
+
 int main(const int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
@@ -32,6 +58,10 @@ int main(const int argc, char *argv[]) {
     const String runtimeDir = u.getDirectory(XDG_RUNTIME_DIR);
 
     UnixSocket socket(runtimeDir + "/discovery-service.sock");
+
+    Listener listener;
+
+    socket.addEventListener(&listener);
     socket.listen();
 
     Timer t;
