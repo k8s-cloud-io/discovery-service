@@ -4,10 +4,27 @@
 #include <thread>
 #include <list>
 
+class UnixSocket;
+
 class SocketEvent {
 	public:
-		SocketEvent() = default;
+		SocketEvent();
+
+		int getSocket() const;
+
+	private:
+		friend UnixSocket;
+		int socket;
 };
+
+inline
+SocketEvent::SocketEvent()
+:socket(-1) {}
+
+inline
+int SocketEvent::getSocket() const {
+	return socket;
+}
 
 class SocketEventListener {
 	public:
@@ -17,7 +34,11 @@ class SocketEventListener {
 		virtual void onSocketEvent(SocketEvent *);
 };
 
-typedef std::list<SocketEventListener> SocketEventListeners;
+inline
+void SocketEventListener::onSocketEvent(SocketEvent *) {}
+
+using std::list;
+typedef list<SocketEventListener *> SocketEventListeners;
 
 class UnixSocket {
   public:
@@ -26,7 +47,7 @@ class UnixSocket {
 
 	void listen();
 	void close();
-	void addEventListener(const SocketEventListener &);
+	void addEventListener(SocketEventListener *);
 
 	String getPath() const;
 	bool isListening() const;
@@ -36,7 +57,7 @@ class UnixSocket {
 	String path;
 	int fd;
 	std::thread runner;
-	SocketEventListeners listeners;
+	SocketEventListeners *listeners;
 };
 
 #endif // UNIX_SOCKET_H

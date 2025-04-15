@@ -2,6 +2,7 @@
 
 #include <Dir.h>
 #include <File.h>
+#include <cstring>
 #include <iostream>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -10,6 +11,7 @@
 
 UnixSocket::UnixSocket(const String &path)
 	:listening(false), path(path), fd(-1) {
+		listeners = new SocketEventListeners();
 }
 
 UnixSocket::~UnixSocket() {
@@ -27,6 +29,10 @@ void UnixSocket::listen() {
 	if (const String dir = f.getDirectory(); !File::isDirectory(dir)) {
 		std::cout << "error in UnixSocket: directory " << dir << " does not exists" << std::endl;
 		exit(1);
+	}
+
+	if(File::exists(path)) {
+		unlink(path.c_str());
 	}
 
 	sockaddr_un address;
@@ -52,18 +58,20 @@ void UnixSocket::listen() {
 	listening = true;
 	runner = std::thread([this, address]() {
 		while (isListening()) {
-			// TODO implement IO: without, the service is stopping
-			sleep(1);
-			std::cout << "Listening..." << std::endl;
-
 			socklen_t len = sizeof(address);
-			int socket = accept(fd, (sockaddr *)&address, &len);
-			if(socket != 0) {
-				std::cout << "connection received" << std::endl;
-				for(auto it = listeners.begin(); it != listeners.end(); ++it) {
-					std::cout << "call listener..." << std::endl;
-					it->onSocketEvent(nullptr);
-				}
+			int s = accept(fd, (sockaddr *)&address, &len);
+			if(s != 0) {
+				std::thread child([this,s](){
+					std::cout << "connection received, calling " << listeners->size() << " listeners." << std::endl;
+					for(auto it = listeners->begin(); it != listeners->end(); ++it) {
+						SocketEvent *e = new SocketEvent();
+						e->socket = s;
+						SocketEventListener *l = *it;
+						l->onSocketEvent(e);
+						std::cout << "called listener..." << std::endl;
+					}
+				});
+				child.detach();
 			}
 		}
 	});
@@ -86,4 +94,8 @@ String UnixSocket::getPath() const {
 
 bool UnixSocket::isListening() const {
 	return listening;
+}
+
+void UnixSocket::addEventListener(SocketEventListener *l) {
+	listeners->push_back(l);
 }
