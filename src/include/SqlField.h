@@ -1,9 +1,9 @@
 #ifndef SQL_FIELD_H
 #define SQL_FIELD_H
 
+#include <vector>
 #include "String.h"
 #include "Variant.h"
-#include <vector>
 using std::vector;
 
 class SqlField;

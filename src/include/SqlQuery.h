@@ -1,14 +1,13 @@
 #ifndef SQL_QUERY_H
 #define SQL_QUERY_H
 
-#include "SqlResult.h"
 #include <vector>
-using std::vector;
-
 #include "String.h"
 #include "SqlBinding.h"
 #include "SqlDatabase.h"
+#include "SqlResult.h"
 #include "Variant.h"
+using std::vector;
 
 class SqlQuery {
     public:

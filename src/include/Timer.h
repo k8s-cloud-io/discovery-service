@@ -1,9 +1,9 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <chrono>
 #include <functional>
 #include <thread>
+using std::thread;
 
 class Timer {
     public:
@@ -20,7 +20,7 @@ class Timer {
     private:
       int interval;
       bool running;
-      std::thread timer;
+      thread timer;
 };
 
 #endif //TIMER_H

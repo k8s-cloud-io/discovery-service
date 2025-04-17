@@ -3,6 +3,9 @@
 
 #include <chrono>
 #include "String.h"
+using std::chrono::time_point;
+using std::chrono::system_clock;
+
 
 class DateTime final {
   public:
@@ -29,7 +32,7 @@ class DateTime final {
     static DateTime fromString(const String &, const String &);
 
   private:
-    std::chrono::time_point<std::chrono::system_clock> tp;
+    time_point<system_clock> tp;
 };
 
 #endif // DATETIME_H

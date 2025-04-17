@@ -2,9 +2,8 @@
 #define XDG_H
 
 #include <map>
-using std::map;
-
 #include "StringMap.h"
+using std::map;
 
 enum XdgDirectory {
     XDG_UNKNOWN = 0,

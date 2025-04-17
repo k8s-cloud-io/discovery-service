@@ -1,8 +1,11 @@
 #ifndef UNIX_SOCKET_H
 #define UNIX_SOCKET_H
-#include <String.h>
+
 #include <thread>
 #include <list>
+#include "String.h"
+using std::list;
+using std::thread;
 
 class UnixSocket;
 
@@ -37,7 +40,6 @@ class SocketEventListener {
 inline
 void SocketEventListener::onSocketEvent(SocketEvent *) {}
 
-using std::list;
 typedef list<SocketEventListener *> SocketEventListeners;
 
 class UnixSocket {
@@ -56,7 +58,7 @@ class UnixSocket {
 	bool listening;
 	String path;
 	int fd;
-	std::thread runner;
+	thread runner;
 	SocketEventListeners *listeners;
 };
 

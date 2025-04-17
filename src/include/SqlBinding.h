@@ -3,6 +3,7 @@
 
 #include "Variant.h"
 #include <vector>
+using std::vector;
 
 class SqlBinding {
     public:
@@ -15,6 +16,6 @@ class SqlBinding {
         Variant value;
 };
 
-typedef std::vector<SqlBinding> SqlBindingList;
+typedef vector<SqlBinding> SqlBindingList;
 
 #endif // SQL_BINDING_H

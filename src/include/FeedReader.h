@@ -1,9 +1,8 @@
 #ifndef FEED_READER_H
 #define FEED_READER_H
 
-#include "String.h"
 #include <vector>
-
+#include "String.h"
 using std::vector;
 
 struct FeedItem {

@@ -4,10 +4,6 @@
 #include <vector>
 using std::vector;
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 class ByteArray: public vector<char> {
     public:
         explicit ByteArray(const size_t length = 0) {

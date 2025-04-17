@@ -1,6 +1,7 @@
 #ifndef SQL_DRIVER_H
 #define SQL_DRIVER_H
-#include <String.h>
+
+#include "String.h"
 
 class SqlQuery;
 class SqlResult;

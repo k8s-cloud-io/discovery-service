@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <list>
+using std::thread;
 
 class Thread;
 typedef std::list<Thread> ThreadList;
@@ -16,7 +17,7 @@ class Thread {
 
   private:
     static ThreadList threadList;
-    std::thread nativeThread;
+    thread nativeThread;
 };
 
 #endif // THREAD_H

@@ -1,9 +1,9 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "String.h"
 #include "ByteArray.h"
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 class Image final {
     public:
