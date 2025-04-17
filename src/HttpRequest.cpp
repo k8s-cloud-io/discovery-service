@@ -1,12 +1,9 @@
 #include <algorithm>
 #include <cctype>
-#include <curl/curl.h>
 #include <iostream>
-#include <utility>
-
-#include "HttpRequest.h"
+#include <curl/curl.h>
 #include "ByteArray.h"
-
+#include "HttpRequest.h"
 using std::cout;
 using std::endl;
 using std::transform;

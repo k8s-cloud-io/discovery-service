@@ -1,16 +1,15 @@
-#include <File.h>
-#include "Global.h"
-#include "Xdg.h"
-
-#include "ByteArray.h"
-#include <UnixSocket.h>
-
-#include "User.h"
-#include "Timer.h"
-#include "Application.h"
 
 #include <cstring>
+#include <iostream>
 #include <thread>
+#include "Application.h"
+#include "Global.h"
+#include "Timer.h"
+#include "UnixSocket.h"
+#include "User.h"
+#include "Xdg.h"
+using std::cout;
+using std::endl;
 
 class InlineClass {
     public:

@@ -1,11 +1,8 @@
 #include <fstream>
-
+#include <unistd.h>
+#include "Exception.h"
 #include "File.h"
 #include "Xdg.h"
-
-#include <Exception.h>
-#include <unistd.h>
-
 using std::ifstream;
 
 XdgMap Xdg::loadConfig(const String &configPath) {

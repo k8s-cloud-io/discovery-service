@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstring>
-#include "StringList.h"
 #include "String.h"
+#include "StringList.h"
 
 inline String ltrim(String &s) {
     s.erase(s.begin(), std::ranges::find_if(s, [](const unsigned char ch) {

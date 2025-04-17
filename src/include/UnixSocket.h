@@ -1,8 +1,8 @@
 #ifndef UNIX_SOCKET_H
 #define UNIX_SOCKET_H
 
-#include <thread>
 #include <list>
+#include <thread>
 #include "String.h"
 using std::list;
 using std::thread;

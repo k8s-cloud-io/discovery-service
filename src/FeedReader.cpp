@@ -1,13 +1,9 @@
-#include <libxml/xmlreader.h>
 #include <iostream>
-
+#include <libxml/xmlreader.h>
 #include "FeedReader.h"
-
-#include <SqlDatabase.h>
-#include <SqlQuery.h>
-
 #include "HttpRequest.h"
-
+#include "SqlDatabase.h"
+#include "SqlQuery.h"
 using std::cout;
 using std::endl;
 

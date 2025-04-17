@@ -1,6 +1,6 @@
-#include "Application.h"
-#include <thread>
 #include <iostream>
+#include <thread>
+#include "Application.h"
 
 bool Application::running = false;
 std::thread Application::mainThread;

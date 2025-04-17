@@ -1,13 +1,11 @@
-#include "UnixSocket.h"
-
-#include <Dir.h>
-#include <File.h>
 #include <cstring>
 #include <iostream>
-#include <unistd.h>
+#include <thread>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <thread>
+#include <unistd.h>
+#include "File.h"
+#include "UnixSocket.h"
 
 UnixSocket::UnixSocket(const String &path)
 	:listening(false), path(path), fd(-1) {

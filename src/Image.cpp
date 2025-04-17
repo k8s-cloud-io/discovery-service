@@ -1,11 +1,12 @@
-#include "Image.h"
-
-#include <File.h>
 #include <fstream>
-#include <glib.h>
-#include <HttpRequest.h>
 #include <iostream>
+#include <glib.h>
+#include "File.h"
+#include "HttpRequest.h"
+#include "Image.h"
 using std::ifstream;
+using std::cout;
+using std::endl;
 
 Image::Image()
     :pixbuf(nullptr){

@@ -1,7 +1,5 @@
 #include "SqlField.h"
 
-#include <utility>
-
 SqlField::SqlField(String name, const Variant::Type type, String tableName)
 :name(std::move(name)), type(type), tableName(std::move(tableName)) {}
 

@@ -1,5 +1,5 @@
-#include "Timer.h"
 #include <thread>
+#include "Timer.h"
 
 Timer::Timer()
 :interval(0),running(false) {}

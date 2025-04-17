@@ -1,8 +1,8 @@
 #ifndef VARIANT_H
 #define VARIANT_H
 
-#include "String.h"
 #include "ByteArray.h"
+#include "String.h"
 
 template<typename T>
 class VariantClassHolder {

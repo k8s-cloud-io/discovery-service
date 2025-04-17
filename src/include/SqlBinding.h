@@ -1,8 +1,8 @@
 #ifndef SQL_BINDING_H
 #define SQL_BINDING_H
 
-#include "Variant.h"
 #include <vector>
+#include "Variant.h"
 using std::vector;
 
 class SqlBinding {

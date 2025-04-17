@@ -1,8 +1,8 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-#include <thread>
 #include <list>
+#include <thread>
 using std::thread;
 
 class Thread;

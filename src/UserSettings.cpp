@@ -1,9 +1,8 @@
-#include "UserSettings.h"
-
-#include "File.h"
-#include "User.h"
 #include <iostream>
 #include <json/json.h>
+#include "File.h"
+#include "User.h"
+#include "UserSettings.h"
 
 UserSettings::UserSettings()
   : settingsFile("/etc/discovery-service/default.json") {

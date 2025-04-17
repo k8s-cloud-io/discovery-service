@@ -2,8 +2,8 @@
 #define IMAGE_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "String.h"
 #include "ByteArray.h"
+#include "String.h"
 
 class Image final {
     public:

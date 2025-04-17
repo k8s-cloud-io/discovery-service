@@ -1,13 +1,8 @@
-//
-// Created by andreas on 05.04.25.
-//
-
-#include "User.h"
-#include "Xdg.h"
+#include <cstring>
 #include <pwd.h>
 #include <unistd.h>
-
-#include <cstring>
+#include "User.h"
+#include "Xdg.h"
 
 User::User(const int id) {
     if(id == -1) {

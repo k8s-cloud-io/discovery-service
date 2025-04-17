@@ -1,15 +1,11 @@
+#include <cstring>
+#include <filesystem>
 #include "Exception.h"
 #include "SqlField.h"
 #include "Sqlite3Driver.h"
 #include "SqlQuery.h"
 #include "SqlRecord.h"
-
-#include <cstring>
-#include <filesystem>
-#include <iostream>
 namespace fs = std::filesystem;
-using std::cout;
-using std::endl;
 
 Sqlite3Driver::Sqlite3Driver()
 :db(nullptr), result(nullptr) {

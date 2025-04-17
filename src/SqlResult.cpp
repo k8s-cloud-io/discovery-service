@@ -1,5 +1,5 @@
-#include "SqlResult.h"
 #include "SqlRecord.h"
+#include "SqlResult.h"
 
 SqlResult::SqlResult() = default;
 

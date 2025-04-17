@@ -1,9 +1,9 @@
 #ifndef USER_SETTINGS_H
 #define USER_SETTINGS_H
 
-#include "WeatherConfiguration.h"
 #include "String.h"
 #include "StringList.h"
+#include "WeatherConfiguration.h"
 
 class UserSettings {
   public:

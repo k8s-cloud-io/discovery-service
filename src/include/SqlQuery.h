@@ -2,10 +2,10 @@
 #define SQL_QUERY_H
 
 #include <vector>
-#include "String.h"
 #include "SqlBinding.h"
 #include "SqlDatabase.h"
 #include "SqlResult.h"
+#include "String.h"
 #include "Variant.h"
 using std::vector;
 

@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cctype>
-#include "String.h"
 #include "HttpResponse.h"
+#include "String.h"
 
 using std::transform;
 

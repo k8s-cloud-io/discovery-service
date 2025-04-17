@@ -3,7 +3,6 @@
 
 #include <map>
 #include "String.h"
-
 using std::map;
 
 typedef map<String, String> StringMap;
