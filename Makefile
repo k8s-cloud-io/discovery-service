@@ -25,12 +25,12 @@ all: $(BUILD_DIR)/$(TARGET_EXEC)
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	mkdir -p ./bin
-	$(CXX) $(CPPFLAGS) $(OBJS) -o ./bin/$(TARGET_EXEC) $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(OBJS) $(LDFLAGS) -o ./bin/$(TARGET_EXEC)
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) -c $< -o $@
 
 .PHONY: clean
 
