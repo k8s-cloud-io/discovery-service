@@ -97,3 +97,7 @@ UserSettings::~UserSettings() {
 StringList UserSettings::getFeeds() const {
   return feeds;
 }
+
+WeatherConfiguration UserSettings::getWeatherConfiguraton() const {
+  return weatherConfiguration;
+}
