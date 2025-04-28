@@ -5,17 +5,13 @@
 
 class SqlDatabase {
     public:
-        enum Type {
-            TYPE_NONE,
-            TYPE_SQLITE
-        };
-
         SqlDatabase();
-        static SqlDatabase addDatabase(Type);
+
+        void setDriver(SqlDriver *);
+        void close() const;
 
         [[nodiscard]] SqlDriver *getDriver() const;
         [[nodiscard]] bool open() const;
-        void close() const;
 
     private:
         SqlDriver *driver;

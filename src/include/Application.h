@@ -3,7 +3,7 @@
 
 #include <thread>
 
-class Application final {
+class Application {
   public:
     Application() = default;
     ~Application();

@@ -22,6 +22,8 @@ class SqlDriver {
         [[nodiscard]] bool isOpen() const;
         [[nodiscard]] bool isClosed() const;
 
+        virtual void setDatabaseName(const String &) = 0;
+        virtual String getDatabaseName() const = 0;
         virtual String getLastError() = 0;
         virtual bool open() = 0;
         virtual void close() = 0;

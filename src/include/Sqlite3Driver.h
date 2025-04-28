@@ -8,6 +8,10 @@
 class Sqlite3Driver final : public SqlDriver {
     public:
         Sqlite3Driver();
+
+        void setDatabaseName(const String &) override;
+
+        String getDatabaseName() const override;
         bool open() override;
         int exec(const SqlQuery &) override;
         String getLastError() override;

@@ -1,5 +1,6 @@
 #include <cstring>
 #include <filesystem>
+#include <iostream>
 #include "Exception.h"
 #include "SqlField.h"
 #include "Sqlite3Driver.h"
@@ -9,13 +10,25 @@ namespace fs = std::filesystem;
 
 Sqlite3Driver::Sqlite3Driver()
 :db(nullptr), result(nullptr) {
+}
 
-    filePath = File("sqlite3.db");
+void Sqlite3Driver::setDatabaseName(const String &name) {
+    filePath = File(name);
     const String dir = filePath.getDirectory();
     fs::create_directories(dir.c_str());
+
+    std::cout << "create dir " << dir << std::endl;
+}
+
+String Sqlite3Driver::getDatabaseName() const {
+    return filePath.getAbsolutePath();
 }
 
 bool Sqlite3Driver::open() {
+    if(filePath.getFilename().empty()) {
+        throw Exception("unable to add database: path is empty");
+    }
+
     if(File::isDirectory(filePath.getAbsolutePath())) {
         throw Exception(( string("unable to add database: path ") + filePath.getAbsolutePath() + " is a directory" ));
     }

@@ -3,13 +3,19 @@
 #include <iostream>
 #include <thread>
 #include "Application.h"
+#include "Exception.h"
 #include "Global.h"
+#include "SqlDatabase.h"
+#include "Sqlite3Driver.h"
 #include "Timer.h"
 #include "UnixSocket.h"
 #include "User.h"
+#include "UserSettings.h"
 #include "Xdg.h"
 using std::cout;
 using std::endl;
+
+static String APPLICATION_NAME = "cinnamon-discovery";
 
 class InlineClass {
     public:
@@ -53,6 +59,7 @@ int main(const int argc, char *argv[]) {
 
     Application app;
 
+    /*
     const User u;
     const String runtimeDir = u.getDirectory(XDG_RUNTIME_DIR);
 
@@ -62,12 +69,25 @@ int main(const int argc, char *argv[]) {
 
     socket.addEventListener(&listener);
     socket.listen();
+    */
 
-    Timer t;
-    t.setInterval(2000);
-    t.start([](Timer *) {
-        std::cout << "Timer event..." << std::endl;
-    });
+    UserSettings us;
+    std::cout << us.getWeatherConfiguraton().getWeatherProvider().getCredentials().getApiKey() << std::endl;
+
+    SqlDatabase db;
+    try {
+        User u = User::current();
+        String databasePath = u.getDirectory(XDG_DOCUMENTS_DIR).append("/") + APPLICATION_NAME;
+        databasePath = databasePath.append("/discovery.db");
+
+        auto driver = new Sqlite3Driver();
+        driver->setDatabaseName(databasePath);
+        db.setDriver(driver);
+        db.open();
+    }
+    catch(const Exception &e) {
+        std::cout << e.getMessage() << std::endl;
+    }
 
     // UserSettings settings;
 

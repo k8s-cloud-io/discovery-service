@@ -1,15 +1,11 @@
 #include "SqlDatabase.h"
-#include "Sqlite3Driver.h"
+#include "Exception.h"
 
 SqlDatabase::SqlDatabase()
 :driver(nullptr){}
 
-SqlDatabase SqlDatabase::addDatabase(const Type type) {
-    SqlDatabase database;
-    if( type == TYPE_SQLITE) {
-        database.driver = new Sqlite3Driver();
-    }
-    return database;
+void SqlDatabase::setDriver(SqlDriver *d) {
+    driver = d;
 }
 
 SqlDriver *SqlDatabase::getDriver() const {
@@ -17,6 +13,10 @@ SqlDriver *SqlDatabase::getDriver() const {
 }
 
 bool SqlDatabase::open() const {
+    if(driver == nullptr) {
+        throw Exception("Unable to open database: driver is null");
+    }
+
     return driver->open();
 }
 
