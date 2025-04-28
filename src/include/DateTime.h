@@ -30,6 +30,7 @@ class DateTime final {
     String toString(const String &fmt = String()) const;
 
     static DateTime fromString(const String &, const String &);
+    static DateTime currentDateTime();
 
   private:
     time_point<system_clock> tp;

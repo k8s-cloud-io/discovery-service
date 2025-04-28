@@ -106,3 +106,9 @@ void DateTime::addSeconds(const int value) {
 void DateTime::addMilliseconds(const int value) {
     tp += std::chrono::milliseconds(value);
 }
+
+DateTime DateTime::currentDateTime() {
+    DateTime dt;
+    dt.tp = std::chrono::system_clock::now();
+    return dt;
+}
