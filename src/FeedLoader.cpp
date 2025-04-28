@@ -8,6 +8,8 @@
 FeedLoader::FeedLoader() {
 }
 
+FeedLoader::~FeedLoader(){}
+
 void FeedLoader::load(const StringList &list) const {
     try {
         User u = User::current();
