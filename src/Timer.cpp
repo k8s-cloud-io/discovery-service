@@ -19,6 +19,11 @@ void Timer::setInterval(int i) {
 
 void Timer::start(const std::function<void(Timer *)> &cb) {
   running = true;
+  std::thread t([this, cb](){
+    (cb)(this);
+  });
+  t.detach();
+  
   timer = std::thread([this, cb]() {
       do {
           std::this_thread::sleep_for(std::chrono::milliseconds(interval));

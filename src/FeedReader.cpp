@@ -1,10 +1,7 @@
-#include <iostream>
 #include <libxml/xmlreader.h>
 #include "FeedReader.h"
 #include "Exception.h"
 #include "HttpRequest.h"
-using std::cout;
-using std::endl;
 
 FeedReader::FeedReader() {
     LIBXML_TEST_VERSION;
@@ -70,7 +67,7 @@ FeedList FeedReader::loadFeed(const String &url) {
                     }
                 }
 
-                node = node->next;
+            node = node->next;
             }
         } else {
             // throw exception here

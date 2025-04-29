@@ -29,7 +29,6 @@ UserSettings::UserSettings()
   Json::Reader reader;
   reader.parse(content, root);
 
-  weatherConfiguration.setWeatherProvider(WeatherProvider());
   feeds.clear();
 
   if (const Json::Value feedsJson = root["feeds"]; feedsJson.isArray()) {
@@ -83,9 +82,16 @@ UserSettings::UserSettings()
         if (credentials.getApiKey().empty()) {
           std::cout << "configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty" << std::endl;
         }
-        auto provider = WeatherProvider(WeatherProvider::PROVIDER_WORLD_WEATHER_ONLINE);
-        provider.setCredentials(credentials);
-        weatherConfiguration.setWeatherProvider(provider);
+        weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_WORLD_WEATHER_ONLINE);
+        weatherProvider.setCredentials(credentials);
+      }
+
+      if (providerType.compare("OPEN_WEATHER_MAP") == 0) {
+        if (credentials.getApiKey().empty()) {
+          std::cout << "configuration error: weather provider api key for provider OPEN_WEATHER_MAP is empty" << std::endl;
+        }
+        weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_OPEN_WEATHER_MAP);
+        weatherProvider.setCredentials(credentials);
       }
     }
   }
@@ -98,6 +104,6 @@ StringList UserSettings::getFeeds() const {
   return feeds;
 }
 
-WeatherConfiguration UserSettings::getWeatherConfiguraton() const {
-  return weatherConfiguration;
+WeatherProvider UserSettings::getWeatherProvider() const {
+  return weatherProvider;
 }

@@ -1,26 +1,23 @@
-#ifndef WEATHER_PROVIDER_H
-#define WEATHER_PROVIDER_H
+#ifndef WEATHER_PROVIDER_MANAGER_H
+#define WEATHER_PROVIDER_MANAGER_H
 
 #include "Credentials.h"
 
 class WeatherProvider {
-  public:
-	enum ProviderType {
-	  PROVIDER_NONE = 0,
-	  PROVIDER_OPEN_WEATHER_MAP,
-	  PROVIDER_WORLD_WEATHER_ONLINE
-	};
+	public:
+		enum ProviderType {
+		WEATHER_PROVIDER_NONE = 0,
+		WEATHER_PROVIDER_OPEN_WEATHER_MAP,
+		WEATHER_PROVIDER_WORLD_WEATHER_ONLINE
+		};
 
-	explicit WeatherProvider(ProviderType = PROVIDER_NONE);
+		WeatherProvider(ProviderType type = WEATHER_PROVIDER_NONE);
+		void setCredentials(const Credentials &);
+		void load();
 
-    void setCredentials(const Credentials &);
-
-	ProviderType getProviderType() const;
-    Credentials getCredentials() const;
-
-  private:
-	ProviderType type;
-    Credentials credentials;
+	private:
+		ProviderType type;
+		Credentials credentials;
 };
 
-#endif // WEATHER_PROVIDER_H
+#endif // WEATHER_PROVIDER_MANAGER_H

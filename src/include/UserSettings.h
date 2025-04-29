@@ -3,7 +3,7 @@
 
 #include "String.h"
 #include "StringList.h"
-#include "WeatherConfiguration.h"
+#include "WeatherProvider.h"
 
 class UserSettings {
   public:
@@ -11,12 +11,12 @@ class UserSettings {
     ~UserSettings();
 
     [[nodiscard]] StringList getFeeds() const;
-    WeatherConfiguration getWeatherConfiguraton() const;
+    WeatherProvider getWeatherProvider() const;
 
   private:
     String settingsFile;
     StringList feeds;
-    WeatherConfiguration weatherConfiguration;
+    WeatherProvider weatherProvider;
 };
 
 #endif //USER_SETTINGS_H
