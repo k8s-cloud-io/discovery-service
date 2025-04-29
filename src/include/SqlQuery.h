@@ -11,7 +11,7 @@ using std::vector;
 
 class SqlQuery {
     public:
-        SqlQuery(String , const SqlDatabase &);
+        SqlQuery(const String &, const String &, const SqlDatabase &);
         void bindValue(int, Variant);
         void exec() const;
         void clear();
@@ -24,6 +24,7 @@ class SqlQuery {
     private:
         SqlQuery();
         String query;
+        String table;
         SqlDatabase db;
         SqlBindingList bindings;
         SqlResult *result{};

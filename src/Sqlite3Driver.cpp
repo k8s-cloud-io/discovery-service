@@ -1,10 +1,12 @@
 #include <cstring>
 #include <filesystem>
+#include <iostream>
 #include "Exception.h"
 #include "SqlField.h"
 #include "Sqlite3Driver.h"
 #include "SqlQuery.h"
 #include "SqlRecord.h"
+#include "Variant.h"
 namespace fs = std::filesystem;
 
 Sqlite3Driver::Sqlite3Driver()
@@ -46,9 +48,7 @@ void Sqlite3Driver::close() {
     setState(STATE_CLOSED);
 }
 
-int Sqlite3Driver::exec(const SqlQuery &q) {
-    const String query = q.getQuery();
-
+int Sqlite3Driver::exec(const SqlQuery &q, const String &table) {
     if(!isOpen()) {
         open();
     }
@@ -59,6 +59,10 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
     int rc;
     char *error = nullptr;
+
+    String query = q.getQuery();
+    result = new SqlResult();
+
     if(q.getBindings().size() > 0) {
         rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, const_cast<const char **>(&error));
         if(rc != SQLITE_OK) {
@@ -122,7 +126,27 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
         }
         
         try {
-            sqlite3_step(stmt);
+            int cols = sqlite3_column_count(stmt);
+            String col_name;
+            String col_value;
+
+            SqlRecordList records;
+            while(sqlite3_step(stmt) == SQLITE_ROW) {
+                SqlRecord record;
+                for (int i=0;i<cols;i++) {
+                    if (sqlite3_column_name(stmt,i))
+                        col_name = sqlite3_column_name(stmt,i);
+                
+                    if (sqlite3_column_text(stmt,i))
+                        col_value = reinterpret_cast<const char *>(sqlite3_column_text(stmt,i));
+
+                    SqlField field(col_name, Variant::TYPE_STRING, table);
+                    field.setValue(col_value);
+                    record.append(field);
+                }
+                records.push_back(record);
+            }
+            result->setRecords(records);
             sqlite3_finalize(stmt);
         }
         catch(const Exception &e) {

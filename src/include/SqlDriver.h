@@ -28,7 +28,7 @@ class SqlDriver {
         virtual bool open() = 0;
         virtual void close() = 0;
         [[nodiscard]] virtual SqlResult *createResult() const = 0;
-        virtual int exec(const SqlQuery &) = 0;
+        virtual int exec(const SqlQuery &, const String &) = 0;
 
     protected:
         void setState(State);

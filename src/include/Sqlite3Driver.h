@@ -13,7 +13,7 @@ class Sqlite3Driver final : public SqlDriver {
 
         String getDatabaseName() const override;
         bool open() override;
-        int exec(const SqlQuery &) override;
+        int exec(const SqlQuery &, const String &) override;
         String getLastError() override;
         [[nodiscard]] SqlResult *createResult() const override;
 
