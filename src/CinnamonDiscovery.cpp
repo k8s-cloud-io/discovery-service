@@ -2,7 +2,6 @@
 #include "FeedLoader.h"
 #include "Timer.h"
 #include "UserSettings.h"
-#include <iostream>
 
 void CinnamonDiscovery::init() {
     UserSettings settings;

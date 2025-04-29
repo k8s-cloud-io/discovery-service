@@ -2,17 +2,10 @@
 #include <cstring>
 #include <iostream>
 #include <thread>
-#include "Application.h"
 #include "CinnamonDiscovery.h"
-#include "Exception.h"
 #include "Global.h"
-#include "SqlDatabase.h"
-#include "Sqlite3Driver.h"
 #include "Timer.h"
 #include "UnixSocket.h"
-#include "User.h"
-#include "UserSettings.h"
-#include "Xdg.h"
 using std::cout;
 using std::endl;
 

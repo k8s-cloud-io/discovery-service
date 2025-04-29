@@ -1,6 +1,5 @@
 #include <cstring>
 #include <filesystem>
-#include <iostream>
 #include "Exception.h"
 #include "SqlField.h"
 #include "Sqlite3Driver.h"
