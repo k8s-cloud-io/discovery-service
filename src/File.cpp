@@ -43,7 +43,7 @@ ByteArray File::getBytes() const {
 
     ByteArray bytes(length);
     std::ifstream inputFile(path, std::ios_base::binary);
-    inputFile.read(bytes.data(), static_cast<long>(length));
+    inputFile.read((char *)bytes.data(), static_cast<long>(length));
     inputFile.close();
     return bytes;
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include "Application.h"
+#include "CinnamonDiscovery.h"
 #include "Exception.h"
 #include "Global.h"
 #include "SqlDatabase.h"
@@ -57,7 +58,9 @@ int main(const int argc, char *argv[]) {
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
-    Application app;
+    CinnamonDiscovery app;
+
+    app.init();
 
     /*
     const User u;
@@ -70,24 +73,6 @@ int main(const int argc, char *argv[]) {
     socket.addEventListener(&listener);
     socket.listen();
     */
-
-    UserSettings us;
-    std::cout << us.getWeatherConfiguraton().getWeatherProvider().getCredentials().getApiKey() << std::endl;
-
-    SqlDatabase db;
-    try {
-        User u = User::current();
-        String databasePath = u.getDirectory(XDG_DOCUMENTS_DIR).append("/") + APPLICATION_NAME;
-        databasePath = databasePath.append("/discovery.db");
-
-        auto driver = new Sqlite3Driver();
-        driver->setDatabaseName(databasePath);
-        db.setDriver(driver);
-        db.open();
-    }
-    catch(const Exception &e) {
-        std::cout << e.getMessage() << std::endl;
-    }
 
     // UserSettings settings;
 

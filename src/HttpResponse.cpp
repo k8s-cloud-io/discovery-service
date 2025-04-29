@@ -16,14 +16,14 @@ ByteArray HttpResponse::getBody() const {
     return body;
 }
 
-HttpHeaders HttpResponse::getHeaders() {
+HttpHeaders HttpResponse::getHeaders() const {
     return headers;
 }
 
-String HttpResponse::getHeader(const String &value) {
+String HttpResponse::getHeader(const String &value) const {
     String key = value;
     transform(key.begin(), key.end(), key.begin(), [](const unsigned char c){ return std::tolower(c); });
-    return !headers.empty() ? headers[key] : nullptr;
+    return !headers.empty() ? headers.at(key) : nullptr;
 }
 
 bool HttpResponse::containsHeader(const String &value) const {

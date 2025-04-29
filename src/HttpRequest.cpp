@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cctype>
+#include <cstddef>
 #include <iostream>
 #include <curl/curl.h>
 #include "ByteArray.h"
@@ -10,7 +11,7 @@ using std::transform;
 using std::tolower;
 
 HttpRequest::HttpRequest(const RequestMethod m, String u)
-    :requestMethod(m), url(std::move(u)) {
+    :requestMethod(m), url(u) {
 }
 
 HttpRequest::RequestMethod HttpRequest::getRequestMethod() const {
@@ -23,7 +24,7 @@ String HttpRequest::getUrl() const {
 
 HttpResponse *HttpRequest::exec() const {
     ByteArray buffer;
-    auto *response = new HttpResponse();
+    auto response = new HttpResponse();
 
     if(CURL *curl = curl_easy_init(); curl != nullptr) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -36,11 +37,10 @@ HttpResponse *HttpRequest::exec() const {
         if(const CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
             cout << "CURL ERROR: " << curl_easy_strerror(res) << endl;
         } else {
-            response->body = buffer;
-
             int http_code;
             curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
             response->statusCode = http_code;
+            response->body = buffer;
 
             curl_header *h;
             curl_header *prev = nullptr;
@@ -72,8 +72,14 @@ void HttpRequest::setHeader(const String &k, const String &v) {
 
 // private
 size_t HttpRequest::WriteCallback(const void *contents, std::size_t size, std::size_t nmemb, void *userp) {
+    if(contents == nullptr) {
+        std::cout << "contents is null!" << std::endl;
+        return 0;
+    }
+
     const std::size_t realSize = size * nmemb;
-    const auto data = static_cast<const char *>(contents);
+    const auto data = static_cast<const unsigned char *>(contents);
+
     for(std::size_t index = 0; index < realSize; index++) {
         static_cast<ByteArray *>(userp)->push_back(data[index]);
     }

@@ -15,9 +15,9 @@ Sqlite3Driver::Sqlite3Driver()
 void Sqlite3Driver::setDatabaseName(const String &name) {
     filePath = File(name);
     const String dir = filePath.getDirectory();
-    fs::create_directories(dir.c_str());
-
-    std::cout << "create dir " << dir << std::endl;
+    if(!fs::is_directory(fs::path(dir.c_str()))) {
+        fs::create_directories(dir.c_str());
+    }
 }
 
 String Sqlite3Driver::getDatabaseName() const {
@@ -121,17 +121,27 @@ int Sqlite3Driver::exec(const SqlQuery &q) {
 
             // bind blob values
         }
-        sqlite3_step(stmt);
-        sqlite3_finalize(stmt);
+        
+        try {
+            sqlite3_step(stmt);
+            sqlite3_finalize(stmt);
+        }
+        catch(const Exception &e) {
+            throw Exception(e);
+        }
         close();
     }
     else {
         result = new SqlResult();
         SqlRecordList records;
-        rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::_internal_query, &records, &error);
-        if(rc != SQLITE_OK) {
-            lastError = String(sqlite3_errmsg(db));
-            throw Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
+        try {
+            rc = sqlite3_exec(db, query.c_str(), &Sqlite3Driver::_internal_query, &records, &error);
+            if(rc != SQLITE_OK) {
+                lastError = String(sqlite3_errmsg(db));
+                throw Exception((error ? error : String(sqlite3_errmsg(db)) + ": "  + query).data());
+            }
+        } catch(const Exception &e) {
+            throw Exception(e);
         }
         result->setRecords(records);
         close();

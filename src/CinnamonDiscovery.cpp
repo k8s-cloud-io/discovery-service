@@ -5,13 +5,14 @@
 #include <iostream>
 
 void CinnamonDiscovery::init() {
-    FeedLoader feedLoader;
     UserSettings settings;
     
+    // initial load before timer starts
+    FeedLoader::load(settings.getFeeds());
+
     Timer t;
-    t.setInterval(1000);
-    t.start([feedLoader, settings](Timer *) {
-        std::cout << "Timer event..." << std::endl;
-        feedLoader.load(settings.getFeeds());
+    t.setInterval(1000 * 30);
+    t.start([settings](Timer *) {
+        FeedLoader::load(settings.getFeeds());
     });
 }

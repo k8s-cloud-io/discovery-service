@@ -11,8 +11,8 @@ class HttpResponse {
     public:
     [[nodiscard]] unsigned int getStatusCode() const;
         [[nodiscard]] ByteArray getBody() const;
-        HttpHeaders getHeaders();
-        String getHeader(const String &);
+        HttpHeaders getHeaders() const;
+        String getHeader(const String &) const;
         [[nodiscard]] bool containsHeader(const String &) const;
 
     private:

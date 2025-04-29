@@ -29,7 +29,7 @@ String::String(const char *str)
 }
 
 String::String(const ByteArray &str)
-:string(str.data()) {}
+:string((const char *)str.data()) {}
 
 String::String(const string &str)
 :string(str) {}

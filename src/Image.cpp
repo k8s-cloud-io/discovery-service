@@ -91,7 +91,7 @@ int Image::getHeight() const {
 ByteArray Image::getBytes() const {
     ByteArray arr;
     if(pixbuf != nullptr) {
-        arr = reinterpret_cast<const char *>(gdk_pixbuf_get_pixels(pixbuf));
+        arr = reinterpret_cast<const unsigned char *>(gdk_pixbuf_get_pixels(pixbuf));
     }
     return arr;
 }

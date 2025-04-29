@@ -4,12 +4,12 @@
 #include <vector>
 using std::vector;
 
-class ByteArray: public vector<char> {
+class ByteArray: public vector<unsigned char> {
     public:
         explicit ByteArray(const size_t length = 0) {
             resize(length);
         }
-        ByteArray &operator=(const char *a) {
+        ByteArray &operator=(const unsigned char *a) {
             int length = 0;
             while(char ch = a[length]) {
                 push_back(ch);

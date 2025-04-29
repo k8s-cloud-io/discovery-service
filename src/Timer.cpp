@@ -22,7 +22,10 @@ void Timer::start(const std::function<void(Timer *)> &cb) {
   timer = std::thread([this, cb]() {
       do {
           std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-          (cb)(this);
+          std::thread t([this, cb](){
+            (cb)(this);
+          });
+          t.detach();
       } while(running);
   });
 }

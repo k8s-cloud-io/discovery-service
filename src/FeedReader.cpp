@@ -1,6 +1,7 @@
 #include <iostream>
 #include <libxml/xmlreader.h>
 #include "FeedReader.h"
+#include "Exception.h"
 #include "HttpRequest.h"
 using std::cout;
 using std::endl;
@@ -13,7 +14,7 @@ FeedList FeedReader::loadFeed(const String &url) {
     FeedList list;
 
     HttpRequest req(HttpRequest::GET, url);
-    HttpResponse *response = req.exec();
+    auto response = req.exec();
 
     if(response->getStatusCode() == 200 && response->containsHeader("content-type")) {
         if(string contentType = response->getHeader("content-type");
@@ -21,7 +22,7 @@ FeedList FeedReader::loadFeed(const String &url) {
         {
             ByteArray buffer = response->getBody();
             buffer.push_back('\0');
-            string content(buffer.data());
+            string content((const char *)buffer.data());
 
             xmlDocPtr doc = xmlReadDoc(reinterpret_cast<const xmlChar *>(content.c_str()), nullptr, nullptr, 0 );
             xmlNode *node = doc->children;
@@ -73,14 +74,10 @@ FeedList FeedReader::loadFeed(const String &url) {
             }
         } else {
             // throw exception here
-            cout << "Invalid content-type: " << response->getHeader("content-type") << endl;
+            throw Exception("Invalid content-type header: " + response->getHeader("content-type"));
         }
     } else {
-        cout << "unable to read feeds" << endl;
-    }
-
-    if (list.empty()) {
-        cout << "LIST IS EMPTY, NOTHING TO INSERT" << endl;
+        throw Exception("unable to read feeds");
     }
 
     delete response;

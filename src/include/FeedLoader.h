@@ -1,7 +1,6 @@
 #ifndef FEED_LOADER_H
 #define FEED_LOADER_H
 
-#include "FeedReader.h"
 #include "StringList.h"
 
 class FeedLoader {
@@ -9,10 +8,10 @@ class FeedLoader {
         FeedLoader();
         virtual ~FeedLoader();
 
-        void load(const StringList &) const;
+        static void load(const StringList &);
 
     private:
-        FeedReader feedReader;
+        static bool loading;
 };
 
 #endif
