@@ -1,10 +1,10 @@
 #include <cstring>
-#include <iostream>
 #include <thread>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
 #include "File.h"
+#include "Logger.h"
 #include "UnixSocket.h"
 
 UnixSocket::UnixSocket(const String &path)
@@ -19,13 +19,13 @@ UnixSocket::~UnixSocket() {
 
 void UnixSocket::listen() {
 	if (fd > -1) {
-		std::cout << "error in UnixSocket: unable to listen (socket in use)" << std::endl;
+		Logger::log("error in UnixSocket: unable to listen (socket in use)");
 		exit(1);
 	}
 
 	File f(path);
 	if (const String dir = f.getDirectory(); !File::isDirectory(dir)) {
-		std::cout << "error in UnixSocket: directory " << dir << " does not exists" << std::endl;
+		Logger::log("error in UnixSocket: directory " + dir + " does not exists");
 		exit(1);
 	}
 
@@ -39,17 +39,17 @@ void UnixSocket::listen() {
 	fd = socket(AF_UNIX, SOCK_STREAM, 0);
 
 	if (fd == -1) {
-		std::cout << "error in UnixSocket: unable to create socket" << std::endl;
+		Logger::log("error in UnixSocket: unable to create socket");
 		exit(1);
 	}
 
 	if (bind(fd, reinterpret_cast<sockaddr *>(&address), sizeof(address)) != 0) {
-		std::cout << "error in UnixSocket: unable to bind socket" << std::endl;
+		Logger::log("error in UnixSocket: unable to bind socket");
 		exit(1);
 	}
 
 	if (::listen(fd, 100) != 0) {
-		std::cout << "error in UnixSocket: unable to listen on socket" << std::endl;
+		Logger::log("error in UnixSocket: unable to listen on socket");
 		exit(1);
 	}
 
@@ -60,13 +60,13 @@ void UnixSocket::listen() {
 			int s = accept(fd, (sockaddr *)&address, &len);
 			if(s != 0) {
 				std::thread child([this,s](){
-					std::cout << "connection received, calling " << listeners->size() << " listeners." << std::endl;
+					Logger::log(String("connection received, calling ") + String::valueOf(listeners->size()) + " listeners.");
 					for(auto it = listeners->begin(); it != listeners->end(); ++it) {
 						SocketEvent *e = new SocketEvent();
 						e->socket = s;
 						SocketEventListener *l = *it;
 						l->onSocketEvent(e);
-						std::cout << "called listener..." << std::endl;
+						Logger::log("called listener...");
 					}
 				});
 				child.detach();

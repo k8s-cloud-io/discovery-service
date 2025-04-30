@@ -6,14 +6,14 @@
 namespace fs = std::filesystem;
 
 File::File(String p)
-:path(std::move(p)) {}
+:path(p) {}
 
 String File::getDirectory() {
     if(isDirectory(path)) {
         return path;
     }
 
-    if(const std::size_t pos = path.rfind('/'); pos != string::npos) {
+    if(const std::size_t pos = path.rfind('/'); pos != String::npos) {
         return path.substr(0, pos);
     }
 
@@ -21,7 +21,7 @@ String File::getDirectory() {
 }
 
 String File::getAbsolutePath() const {
-    string p = path;
+    String p = path;
     if(const std::size_t pos = path.find("./"); pos != String::npos && pos == 0) {
         p = path.substr(2);
     }
@@ -30,8 +30,8 @@ String File::getAbsolutePath() const {
 }
 
 String File::getFilename() const {
-    string p = path;
-    if(const size_t pos = p.find_last_of("/\\"); pos != string::npos) {
+    String p = path;
+    if(const size_t pos = p.find_last_of("/\\"); pos != String::npos) {
         return p.substr(pos + 1);
     }
     return p;

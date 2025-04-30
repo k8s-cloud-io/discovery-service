@@ -1,6 +1,5 @@
 #include <cstring>
 #include <filesystem>
-#include <iostream>
 #include "Exception.h"
 #include "SqlField.h"
 #include "Sqlite3Driver.h"
@@ -31,7 +30,7 @@ bool Sqlite3Driver::open() {
     }
 
     if(File::isDirectory(filePath.getAbsolutePath())) {
-        throw Exception(( string("unable to add database: path ") + filePath.getAbsolutePath() + " is a directory" ));
+        throw Exception(( String("unable to add database: path ") + filePath.getAbsolutePath() + " is a directory" ));
     }
 
     const int o = sqlite3_open(filePath.getAbsolutePath().c_str(), &db);

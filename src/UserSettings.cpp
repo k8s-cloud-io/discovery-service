@@ -1,6 +1,6 @@
-#include <iostream>
 #include <json/json.h>
 #include "File.h"
+#include "Logger.h"
 #include "User.h"
 #include "UserSettings.h"
 
@@ -13,12 +13,12 @@ UserSettings::UserSettings()
   }
 
   if (!File::exists(settingsFile)) {
-    std::cout << "unable to read settings file '" << settingsFile << "': file does not exist" << std::endl;
+    Logger::log("unable to read settings file '" + settingsFile + "': file does not exist");
     exit(1);
   }
 
   if (!File::isReadable(settingsFile)) {
-    std::cout << "unable to read settings file '" << settingsFile << "': file is not readable" << std::endl;
+    Logger::log("unable to read settings file '" + settingsFile + "': file is not readable");
     exit(1);
   }
 
@@ -74,13 +74,13 @@ UserSettings::UserSettings()
       }
 
       if (providerType.empty()) {
-        std::cout << "configuration error: weather provider type is empty" << std::endl;
+        Logger::log("configuration error: weather provider type is empty");
         exit(1);
       }
 
       if (providerType.compare("WORLD_WEATHER_ONLINE") == 0) {
         if (credentials.getApiKey().empty()) {
-          std::cout << "configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty" << std::endl;
+          Logger::log("configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty");
         }
         weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_WORLD_WEATHER_ONLINE);
         weatherProvider.setCredentials(credentials);
@@ -88,7 +88,7 @@ UserSettings::UserSettings()
 
       if (providerType.compare("OPEN_WEATHER_MAP") == 0) {
         if (credentials.getApiKey().empty()) {
-          std::cout << "configuration error: weather provider api key for provider OPEN_WEATHER_MAP is empty" << std::endl;
+          Logger::log("configuration error: weather provider api key for provider OPEN_WEATHER_MAP is empty");
         }
         weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_OPEN_WEATHER_MAP);
         weatherProvider.setCredentials(credentials);

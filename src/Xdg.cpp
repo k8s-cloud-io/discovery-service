@@ -28,7 +28,7 @@ XdgMap Xdg::loadConfig(const String &configPath) {
 
     while (std::getline(file, str)) {
         String line = str.trim();
-        if(line.empty() || line.find("#") == 0 || line.find("=") == string::npos) continue;
+        if(line.empty() || line.find("#") == 0 || line.find("=") == String::npos) continue;
         std::size_t equalPosition = line.find("=");
 
         String keyPart = line.substr(0, equalPosition);

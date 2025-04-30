@@ -2,7 +2,6 @@
 #define STRING_H
 
 #include <string>
-using std::string;
 
 #ifndef STRINGLIST_H
 #include "StringList.h"
@@ -12,18 +11,20 @@ using std::string;
 #include "ByteArray.h"
 #endif
 
-class String: public string {
+class String: public std::string {
     public:
         String();
         String(const char *);
-        String(const string &);
+        String(const std::string &);
         String(const ByteArray &);
 
 		int compare(const String &) const;
         [[nodiscard]] String trim() const;
-        [[nodiscard]] StringList split(const string&) const;
+        [[nodiscard]] StringList split(const std::string&) const;
 
         String append(const char *) const;
+
+        static String valueOf(int);
 };
 
 #endif // STRING_H

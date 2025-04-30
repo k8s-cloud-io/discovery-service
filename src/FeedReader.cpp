@@ -14,16 +14,16 @@ FeedList FeedReader::loadFeed(const String &url) {
     auto response = req.exec();
 
     if(response->getStatusCode() == 200 && response->containsHeader("content-type")) {
-        if(string contentType = response->getHeader("content-type");
-            contentType.find("application/xml") != string::npos || contentType.find("text/xml") != string::npos)
+        if(String contentType = response->getHeader("content-type");
+            contentType.find("application/xml") != String::npos || contentType.find("text/xml") != String::npos)
         {
             ByteArray buffer = response->getBody();
             buffer.push_back('\0');
-            string content((const char *)buffer.data());
+            String content((const char *)buffer.data());
 
             xmlDocPtr doc = xmlReadDoc(reinterpret_cast<const xmlChar *>(content.c_str()), nullptr, nullptr, 0 );
             xmlNode *node = doc->children;
-            string version;
+            String version;
 
             while(node) {
                 if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("rss")) == 0) {
@@ -44,7 +44,7 @@ FeedList FeedReader::loadFeed(const String &url) {
                 else 
                 if(xmlStrcmp(node->name, reinterpret_cast<const xmlChar *>("item")) == 0 && version == "2.0") {
                     xmlNode *itemTags = node->children;
-                    string title, link, pubDate;
+                    String title, link, pubDate;
                     while(itemTags) {
                         if(xmlStrcmp(itemTags->name, reinterpret_cast<const xmlChar *>("title")) == 0) {
                             title = reinterpret_cast<const char *>(itemTags->children->content);

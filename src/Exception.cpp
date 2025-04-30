@@ -1,7 +1,7 @@
 #include "Exception.h"
 
 Exception::Exception(String msg)
-:message(std::move(msg)) {
+:message(msg) {
 }
 
 String Exception::getMessage() const {

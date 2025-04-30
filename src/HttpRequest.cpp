@@ -1,12 +1,9 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
-#include <iostream>
 #include <curl/curl.h>
 #include "ByteArray.h"
 #include "HttpRequest.h"
-using std::cout;
-using std::endl;
 using std::transform;
 using std::tolower;
 
@@ -26,7 +23,7 @@ HttpResponse *HttpRequest::exec() const {
     ByteArray buffer;
     auto response = new HttpResponse();
 
-    if(CURL *curl = curl_easy_init(); curl != nullptr) {
+    if(auto curl = curl_easy_init(); curl != nullptr) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &HttpRequest::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
@@ -34,9 +31,7 @@ HttpResponse *HttpRequest::exec() const {
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 2000L);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-        if(const CURLcode res = curl_easy_perform(curl); res != CURLE_OK) {
-            cout << "CURL ERROR: " << curl_easy_strerror(res) << endl;
-        } else {
+        if(const CURLcode res = curl_easy_perform(curl); res == CURLE_OK) {
             int http_code;
             curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
             response->statusCode = http_code;
@@ -73,7 +68,6 @@ void HttpRequest::setHeader(const String &k, const String &v) {
 // private
 size_t HttpRequest::WriteCallback(const void *contents, std::size_t size, std::size_t nmemb, void *userp) {
     if(contents == nullptr) {
-        std::cout << "contents is null!" << std::endl;
         return 0;
     }
 

@@ -5,14 +5,12 @@
 #include <iterator>
 #include <ostream>
 #include <sstream>
-#include <vector>
 #include "StringList.h"
 #include "StringMap.h"
 using std::copy;
 using std::ostream;
 using std::ostream_iterator;
 using std::stringstream;
-using std::vector;
 
 typedef StringMap HttpHeaders;
 

@@ -1,9 +1,9 @@
 #include <cstdio>
-#include <iostream>
 #include "DateTime.h"
 #include "FeedLoader.h"
 #include "FeedReader.h"
 #include "Exception.h"
+#include "Logger.h"
 #include "SqlDatabase.h"
 #include "SqlQuery.h"
 #include "Sqlite3Driver.h"
@@ -37,7 +37,7 @@ void FeedLoader::load(const StringList &list) {
         createTable.exec();
 
         for(String feed: list) {
-            std::cout << "load feed " << feed << std::endl;
+            Logger::log("load feed " + feed);
             FeedList feedItems = FeedReader::loadFeed(feed);
             
             // delete old feed items from table
@@ -55,7 +55,7 @@ void FeedLoader::load(const StringList &list) {
                 insertQuery.exec();
             }
 
-            std::cout << DateTime::currentDateTime().toString() << ": feed was loaded successfully" << std::endl;
+            Logger::log(DateTime::currentDateTime().toString() + ": feed was loaded successfully");
 
             /*
             SqlQuery selection("SELECT pub_date FROM feed_item WHERE feed_url = :1", "feed_item", db);
@@ -70,7 +70,7 @@ void FeedLoader::load(const StringList &list) {
             */
         }
     } catch(const Exception &e) {
-        std::cout << e.what() << " in class 'FeedLoader::load' - " << e.getMessage() << std::endl;
+        Logger::log("Exception in class 'FeedLoader::load' - " + e.getMessage());
     }
 
     loading = false;

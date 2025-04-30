@@ -1,4 +1,4 @@
-#include <iostream>
+#include "Logger.h"
 #include "WeatherProvider.h"
 
 WeatherProvider::WeatherProvider(ProviderType type)
@@ -11,15 +11,15 @@ void WeatherProvider::setCredentials(const Credentials &value) {
 void WeatherProvider::load() {
 	switch (type) {
 		case WEATHER_PROVIDER_WORLD_WEATHER_ONLINE:
-		std::cout << "loading weather from world weather online" << std::endl;
+		Logger::log("loading weather from world weather online");
 		break;
 
 		case WEATHER_PROVIDER_OPEN_WEATHER_MAP:
-		std::cout << "loading weather from open weather map" << std::endl;
+		Logger::log("loading weather from open weather map");
 		break;
 
 		default:
-		std::cout << "no weather configured, abort" << std::endl;
+		Logger::log("no weather configured, abort");
 		break;
 	}
 }

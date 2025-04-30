@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Exception.h"
 #include "UserSettings.h"
 #include "WeatherLoader.h"
@@ -15,7 +14,6 @@ void WeatherLoader::load() {
 
     loading = true;
     try {
-        std::cout << "WeatherLoader: loading weather..." << std::endl;
         UserSettings settings;
         WeatherProvider provider = settings.getWeatherProvider();
         provider.load();

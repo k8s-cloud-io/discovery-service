@@ -1,12 +1,10 @@
 #include <fstream>
-#include <iostream>
 #include <glib.h>
 #include "File.h"
 #include "HttpRequest.h"
 #include "Image.h"
+#include "Logger.h"
 using std::ifstream;
-using std::cout;
-using std::endl;
 
 Image::Image()
     :pixbuf(nullptr){
@@ -22,13 +20,12 @@ Image::~Image() {
 Image Image::fromUri(const String &uri) {
     if (uri.find("http://") == 0 || uri.find("https://") == 0 || uri.find("ftp://") == 0) {
         const HttpRequest req(HttpRequest::GET, uri);
-        const auto *response = req.exec();
+        const auto response = req.exec();
         if (response->getStatusCode() == 200) {
             const ByteArray data = response->getBody();
             return fromBytes(data);
         }
-        cout << "Image::fromUri - unable to download from uri " << uri;
-        cout << ": HTTP CODE = " << response->getStatusCode() << endl;
+        Logger::log("Image::fromUri - unable to download from uri " + uri + ", status code = " + String::valueOf(response->getStatusCode()));
     }
 
     if (uri.find("file://") == 0) {
@@ -38,7 +35,7 @@ Image Image::fromUri(const String &uri) {
             const ByteArray bytes = f.getBytes();
             return fromBytes(bytes);
         }
-        cout << "Image::fromUri - local file " << name << " does not exist" << endl;
+        Logger::log("Image::fromUri - local file " + name + " does not exist");
     }
 
     Image img;
@@ -110,7 +107,7 @@ Image Image::fromBytes(const ByteArray &data) {
 
     if(err != nullptr) {
         img.pixbuf = nullptr;
-        cout << "Image::fromBytes - error while reading image from bytes: " << err->message << endl;
+        Logger::log(String("Image::fromBytes - error while reading image from bytes: ") + err->message);
     }
     return img;
 }

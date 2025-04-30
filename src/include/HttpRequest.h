@@ -25,7 +25,7 @@ class HttpRequest {
 
     private:
         HttpRequest();
-        static std::size_t WriteCallback(const void *, std::size_t, std::size_t, void *);
+        static ::size_t WriteCallback(const void *, ::size_t, ::size_t, void *);
 
         RequestMethod requestMethod;
         String url;
