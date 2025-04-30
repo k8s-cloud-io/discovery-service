@@ -4,8 +4,6 @@
 #include <curl/curl.h>
 #include "ByteArray.h"
 #include "HttpRequest.h"
-using std::transform;
-using std::tolower;
 
 HttpRequest::HttpRequest(const RequestMethod m, String u)
     :requestMethod(m), url(u) {
@@ -43,10 +41,10 @@ HttpResponse *HttpRequest::exec() const {
                 h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
 
                 if(h) {
-                    auto header = String(h->name);
-                    transform(header.begin(), header.end(), header.begin(),
-                        [](unsigned char c){ return std::tolower(c); });
-                    response->headers[header] = String(h->value);
+                    String header = h->name;
+                    std::transform(header.begin(), header.end(), header.begin(),
+                        [](unsigned char c){ return ::tolower(c); });
+                    response->headers[header] = h->value;
                 }
                 prev = h;
             } while(h);
@@ -66,13 +64,13 @@ void HttpRequest::setHeader(const String &k, const String &v) {
 }
 
 // private
-size_t HttpRequest::WriteCallback(const void *contents, std::size_t size, std::size_t nmemb, void *userp) {
+::size_t HttpRequest::WriteCallback(const void *contents, std::size_t size, std::size_t nmemb, void *userp) {
     if(contents == nullptr) {
         return 0;
     }
 
-    const std::size_t realSize = size * nmemb;
-    const auto data = static_cast<const unsigned char *>(contents);
+    const ::size_t realSize = size * nmemb;
+    auto data = static_cast<const unsigned char *>(contents);
 
     for(std::size_t index = 0; index < realSize; index++) {
         static_cast<ByteArray *>(userp)->push_back(data[index]);

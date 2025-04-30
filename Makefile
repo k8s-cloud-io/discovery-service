@@ -1,5 +1,5 @@
 CXX=c++
-CPPFLAGS=-I./src/include -O2 -Wall -Wextra -Wno-deprecated -Wunused -pedantic -funroll-all-loops -std=c++20 -MMD -MP
+CPPFLAGS=-I./src/include -O3 -Wall -Wextra -Wno-deprecated -Wunused -pedantic -std=c++20 -MMD -MP
 LDFLAGS=
 
 CPPFLAGS+=$(shell pkg-config --cflags libxml-2.0) \

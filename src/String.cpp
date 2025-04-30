@@ -5,7 +5,7 @@
 #include "StringList.h"
 
 inline String ltrim(String &s) {
-    s.erase(s.begin(), std::ranges::find_if(s, [](const unsigned char ch) {
+    s.erase(s.begin(), std::ranges::find_if(s, [](const char ch) {
         return !std::isspace(ch);
     }));
     return s;
@@ -13,7 +13,7 @@ inline String ltrim(String &s) {
 
 // trim from end (in place)
 inline String rtrim(String &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](const unsigned char ch) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](const char ch) {
         return !std::isspace(ch);
     }).base(), s.end());
     return s;
@@ -21,15 +21,17 @@ inline String rtrim(String &s) {
 
 String::String() = default;
 
-String::String(const char *str)
-:std::string() {
-    if (str != nullptr && strlen(str) > 0) {
+String::String(const char *str) {
+    if (str != nullptr) {
         std::string::append(str);
     }
 }
 
-String::String(const ByteArray &str)
-:std::string((const char *)str.data()) {}
+String::String(const ByteArray &str) {
+    if(str.size()) {
+        std::string::append(reinterpret_cast<const char *>(str.data()));
+    }
+}
 
 String::String(const std::string &str)
 :std::string(str) {}
@@ -55,16 +57,14 @@ StringList String::split(const std::string& delimiter) const {
     return res;
 }
 
-String String::append(const char * str) const {
-    std::string s(c_str());
-    if (str == nullptr) {
-        return s;
-    }
-
-    s.append(str);
-    return s;
+String String::append(const char * str) {
+    return std::string::append(str);
 }
 
 int String::compare(const String &s) const {
     return std::strcmp(c_str(), s.c_str());
+}
+
+String String::valueOf(int value) {
+    return std::to_string(value);
 }

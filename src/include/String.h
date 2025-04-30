@@ -22,7 +22,7 @@ class String: public std::string {
         [[nodiscard]] String trim() const;
         [[nodiscard]] StringList split(const std::string&) const;
 
-        String append(const char *) const;
+        String append(const char *);
 
         static String valueOf(int);
 };
