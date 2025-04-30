@@ -12,6 +12,8 @@ class WeatherProvider {
 		};
 
 		WeatherProvider(ProviderType type = WEATHER_PROVIDER_NONE);
+		virtual ~WeatherProvider() = default;
+
 		void setCredentials(const Credentials &);
 		void load();
 

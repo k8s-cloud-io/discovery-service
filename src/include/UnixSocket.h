@@ -12,6 +12,7 @@ class UnixSocket;
 class SocketEvent {
 	public:
 		SocketEvent();
+		virtual ~SocketEvent() = default;
 
 		int getSocket() const;
 

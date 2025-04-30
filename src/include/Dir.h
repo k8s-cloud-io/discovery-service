@@ -5,6 +5,7 @@
 
 class Dir {
     public:
+        virtual ~Dir() = default;
         static String currentDir();
 };
 

@@ -7,6 +7,7 @@
 class User {
     public:
          explicit User(int id = -1);
+         virtual ~User() = default;
 
          static User current();
 

@@ -9,7 +9,9 @@ class HttpRequest;
 
 class HttpResponse {
     public:
-    [[nodiscard]] unsigned int getStatusCode() const;
+        virtual ~HttpResponse() = default;
+        
+        [[nodiscard]] unsigned int getStatusCode() const;
         [[nodiscard]] ByteArray getBody() const;
         HttpHeaders getHeaders() const;
         String getHeader(const String &) const;

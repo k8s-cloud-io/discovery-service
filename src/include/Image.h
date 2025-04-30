@@ -13,7 +13,8 @@ class Image final {
             INTERP_BILINEAR,
             INTERP_HYPER
         };
-        ~Image();
+        
+        virtual ~Image();
         void scale(int, int, InterpType type = INTERP_BILINEAR);
         
         static Image fromUri(const String &);

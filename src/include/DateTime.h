@@ -10,7 +10,7 @@ using std::chrono::system_clock;
 class DateTime final {
   public:
     DateTime();
-    ~DateTime();
+    virtual ~DateTime();
 
     void addDays(int);
     void addHours(int);

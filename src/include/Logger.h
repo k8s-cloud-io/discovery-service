@@ -5,7 +5,7 @@
 
 class Logger {
     public:
-        virtual ~Logger(){}
+        virtual ~Logger() = default;
         static void log(const String &);
 
     private:

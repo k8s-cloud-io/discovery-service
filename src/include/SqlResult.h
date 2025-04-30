@@ -6,6 +6,7 @@
 class SqlResult {
     public:
         SqlResult();
+        virtual ~SqlResult() = default;
 
         void setRecords(const SqlRecordList &);
         [[nodiscard]] SqlRecordList getRecords() const;

@@ -8,7 +8,7 @@ using std::thread;
 class Timer {
     public:
       Timer();
-      ~Timer();
+      virtual ~Timer();
 
       int getInterval() const;
 

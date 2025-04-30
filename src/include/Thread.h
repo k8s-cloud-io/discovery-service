@@ -11,7 +11,7 @@ typedef std::list<Thread> ThreadList;
 class Thread {
   public:
     Thread();
-    ~Thread();
+    virtual ~Thread();
 
     void start();
 

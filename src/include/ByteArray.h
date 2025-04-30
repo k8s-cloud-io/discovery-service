@@ -9,6 +9,8 @@ class ByteArray: public vector<unsigned char> {
         explicit ByteArray(const size_t length = 0) {
             resize(length);
         }
+        virtual ~ByteArray()= default;
+        
         ByteArray &operator=(const unsigned char *a) {
             int length = 0;
             while(char ch = a[length]) {

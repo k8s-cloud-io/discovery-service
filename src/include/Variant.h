@@ -33,6 +33,7 @@ class Variant {
         Variant(unsigned int);
         Variant(float);
         Variant(double);
+        virtual ~Variant() = default;
 
         [[nodiscard]] Type getType() const;
 

@@ -16,6 +16,7 @@ typedef vector<FeedItem> FeedList;
 class FeedReader {
     public:
         FeedReader();
+        virtual ~FeedReader() = default;
         static FeedList loadFeed(const String &);
 };
 

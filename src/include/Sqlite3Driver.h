@@ -8,6 +8,7 @@
 class Sqlite3Driver final : public SqlDriver {
     public:
         Sqlite3Driver();
+        virtual ~Sqlite3Driver() = default;
 
         void setDatabaseName(const String &) override;
 

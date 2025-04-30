@@ -15,7 +15,9 @@ class HttpRequest {
             PATCH
         };
 
-        HttpRequest(RequestMethod, String );
+        HttpRequest(RequestMethod, String);
+        virtual ~HttpRequest() = default;
+
         void setHeaders(const HttpHeaders &);
         void setHeader(const String &, const String &);
 

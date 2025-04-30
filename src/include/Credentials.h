@@ -12,6 +12,7 @@ class Credentials {
     };
 
     Credentials(CredentialsType);
+    virtual ~Credentials() = default;
 
     void setUserName(const String &);
     void setPassword(const String &);

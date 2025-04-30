@@ -8,7 +8,7 @@
 class UserSettings {
   public:
     UserSettings();
-    ~UserSettings();
+    virtual ~UserSettings();
 
     [[nodiscard]] StringList getFeeds() const;
     WeatherProvider getWeatherProvider() const;

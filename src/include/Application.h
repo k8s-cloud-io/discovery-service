@@ -6,7 +6,7 @@
 class Application {
   public:
     Application() = default;
-    ~Application();
+    virtual ~Application();
 
     int start();
     static void quit();

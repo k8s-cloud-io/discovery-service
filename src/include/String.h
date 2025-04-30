@@ -14,12 +14,13 @@
 class String: public std::string {
     public:
         String();
+        virtual ~String() = default;
         String(const char *);
         String(const std::string &);
         String(const ByteArray &);
 
 		int compare(const String &) const;
-        [[nodiscard]] String trim() const;
+        [[nodiscard]] String trim();
         [[nodiscard]] StringList split(const std::string&) const;
 
         String append(const char *);

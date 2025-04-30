@@ -8,6 +8,8 @@ using std::vector;
 class SqlBinding {
     public:
         SqlBinding(int, Variant);
+        virtual ~SqlBinding() = default;
+
         [[nodiscard]] Variant getValue() const;
         [[nodiscard]] int getPosition() const;
 

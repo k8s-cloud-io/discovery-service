@@ -12,6 +12,8 @@ typedef vector<SqlField> SqlFieldList;
 class SqlField {
     public:
         SqlField(String , Variant::Type, String );
+        virtual ~SqlField() = default;
+
         [[nodiscard]] Variant::Type getType() const;
         [[nodiscard]] String getName() const;
         [[nodiscard]] String getTableName() const;

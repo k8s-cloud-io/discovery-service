@@ -12,6 +12,7 @@ typedef vector<SqlRecord> SqlRecordList;
 class SqlRecord {
     public:
         SqlRecord();
+        virtual ~SqlRecord() = default;
 
         [[nodiscard]] SqlField getField(int) const;
         [[nodiscard]] Variant getValue(int) const;

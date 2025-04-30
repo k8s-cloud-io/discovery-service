@@ -8,8 +8,6 @@ class SqlResult;
 
 class SqlDriver {
     public:
-        virtual ~SqlDriver() = default;
-
         enum State {
             STATE_NONE = 0,
             STATE_OPEN,
@@ -17,6 +15,8 @@ class SqlDriver {
         };
 
         SqlDriver();
+        virtual ~SqlDriver() = default;
+        
         [[nodiscard]] State state() const;
 
         [[nodiscard]] bool isOpen() const;

@@ -6,6 +6,7 @@
 class WeatherConfiguration {
   public:
     explicit WeatherConfiguration(const WeatherProvider &provider = WeatherProvider());
+    virtual ~WeatherConfiguration() = default;
 
     void setWeatherProvider(const WeatherProvider &);
     WeatherProvider getWeatherProvider() const;

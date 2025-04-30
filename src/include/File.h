@@ -8,7 +8,7 @@ class File final {
     public:
         File();
         explicit File(String);
-        ~File() = default;
+        virtual ~File() = default;
 
         [[nodiscard]] String getAbsolutePath() const;
         [[nodiscard]] String getFilename() const;

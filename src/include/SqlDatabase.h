@@ -6,6 +6,7 @@
 class SqlDatabase {
     public:
         SqlDatabase();
+        virtual ~SqlDatabase() = default;
 
         void setDriver(SqlDriver *);
         void close() const;
