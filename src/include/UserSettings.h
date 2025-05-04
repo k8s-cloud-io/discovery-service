@@ -11,12 +11,12 @@ class UserSettings {
     virtual ~UserSettings();
 
     [[nodiscard]] StringList getFeeds() const;
-    WeatherProvider getWeatherProvider() const;
+    WeatherProvider *getWeatherProvider() const;
 
   private:
     String settingsFile;
     StringList feeds;
-    WeatherProvider weatherProvider;
+    WeatherProvider *weatherProvider;
 };
 
 #endif //USER_SETTINGS_H

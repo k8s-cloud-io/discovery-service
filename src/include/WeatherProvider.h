@@ -5,20 +5,14 @@
 
 class WeatherProvider {
 	public:
-		enum ProviderType {
-		WEATHER_PROVIDER_NONE = 0,
-		WEATHER_PROVIDER_OPEN_WEATHER_MAP,
-		WEATHER_PROVIDER_WORLD_WEATHER_ONLINE
-		};
 
-		WeatherProvider(ProviderType type = WEATHER_PROVIDER_NONE);
+		WeatherProvider();
 		virtual ~WeatherProvider() = default;
 
 		void setCredentials(const Credentials &);
-		void load();
+		virtual void load() const = 0;
 
-	private:
-		ProviderType type;
+	protected:
 		Credentials credentials;
 };
 

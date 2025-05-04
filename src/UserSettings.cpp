@@ -2,6 +2,8 @@
 #include "File.h"
 #include "Logger.h"
 #include "User.h"
+#include "weather/OpenWeatherMapProvider.h"
+#include "weather/WorldWeatherOnlineProvider.h"
 #include "UserSettings.h"
 
 UserSettings::UserSettings()
@@ -82,16 +84,16 @@ UserSettings::UserSettings()
         if (credentials.getApiKey().empty()) {
           Logger::log("configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty");
         }
-        weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_WORLD_WEATHER_ONLINE);
-        weatherProvider.setCredentials(credentials);
+        weatherProvider = new WorldWeatherOnlineProvider();
+        weatherProvider->setCredentials(credentials);
       }
 
       if (providerType.compare("OPEN_WEATHER_MAP") == 0) {
         if (credentials.getApiKey().empty()) {
           Logger::log("configuration error: weather provider api key for provider OPEN_WEATHER_MAP is empty");
         }
-        weatherProvider = WeatherProvider(WeatherProvider::WEATHER_PROVIDER_OPEN_WEATHER_MAP);
-        weatherProvider.setCredentials(credentials);
+        weatherProvider = new OpenWeatherMapProvider();
+        weatherProvider->setCredentials(credentials);
       }
     }
   }
@@ -104,6 +106,6 @@ StringList UserSettings::getFeeds() const {
   return feeds;
 }
 
-WeatherProvider UserSettings::getWeatherProvider() const {
+WeatherProvider *UserSettings::getWeatherProvider() const {
   return weatherProvider;
 }
