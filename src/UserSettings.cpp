@@ -1,5 +1,7 @@
+#include "json/value.h"
 #include <json/json.h>
 #include "File.h"
+#include "Location.h"
 #include "Logger.h"
 #include "User.h"
 #include "weather/OpenWeatherMapProvider.h"
@@ -16,12 +18,12 @@ UserSettings::UserSettings()
 
   if (!File::exists(settingsFile)) {
     Logger::log("unable to read settings file '" + settingsFile + "': file does not exist");
-    exit(1);
+    ::exit(1);
   }
 
   if (!File::isReadable(settingsFile)) {
     Logger::log("unable to read settings file '" + settingsFile + "': file is not readable");
-    exit(1);
+    ::exit(1);
   }
 
   String content = File(settingsFile).getBytes();
@@ -47,10 +49,15 @@ UserSettings::UserSettings()
     Json::Value providerJson = weatherJson["provider"];
 
     if (providerJson.isObject()) {
-      Credentials credentials = Credentials::CREDENTIALS_TYPE_NONE;
+      Credentials credentials;
 
       if (providerJson["type"].isString()) {
         providerType = providerJson["type"].asString();
+      }
+
+      if (providerType.empty()) {
+        Logger::log("configuration error: weather provider type is empty");
+        ::exit(1);
       }
 
       if (providerJson["credentials"].isObject()) {
@@ -64,36 +71,64 @@ UserSettings::UserSettings()
         }
 
         if (credentialsMap.contains("apiKey")) {
-          credentials = Credentials::CREDENTIALS_TYPE_API_KEY;
           credentials.setApiKey(credentialsMap["apiKey"]);
         }
 
-        if (credentialsMap.contains("userName") && credentialsMap.contains("password")) {
-          credentials = Credentials::CREDENTIALS_TYPE_USER;
+        if (credentialsMap.contains("userName")) {
           credentials.setUserName(credentialsMap["userName"]);
+        }
+
+        if (credentialsMap.contains("password")) {
           credentials.setPassword(credentialsMap["password"]);
         }
       }
 
-      if (providerType.empty()) {
-        Logger::log("configuration error: weather provider type is empty");
-        exit(1);
-      }
-
       if (providerType.compare("WORLD_WEATHER_ONLINE") == 0) {
-        if (credentials.getApiKey().empty()) {
-          Logger::log("configuration error: weather provider api key for provider WORLD_WEATHER_ONLINE is empty");
-        }
         weatherProvider = new WorldWeatherOnlineProvider();
         weatherProvider->setCredentials(credentials);
       }
 
       if (providerType.compare("OPEN_WEATHER_MAP") == 0) {
-        if (credentials.getApiKey().empty()) {
-          Logger::log("configuration error: weather provider api key for provider OPEN_WEATHER_MAP is empty");
-        }
         weatherProvider = new OpenWeatherMapProvider();
         weatherProvider->setCredentials(credentials);
+      }
+
+      if (weatherProvider == nullptr) {
+          Logger::log("Unable to load weather: invalid provider configuration");
+          ::exit(1);
+      }
+
+      if(providerJson["location"].isObject()) {
+        Location location;
+        Json::Value locationJson = providerJson["location"];
+        String latitude;
+        String longitude;
+        String city;
+        String country;
+        String state;
+
+        if(locationJson["latitude"].isObject()) {
+          latitude = locationJson.get("latitude", "").asString();
+          location.setLatitude(latitude);
+        }
+        if(locationJson["longitude"].isObject()) {
+          longitude = locationJson.get("longitude", "").asString();
+          location.setLongitude(longitude);
+        }
+        if(locationJson["city"].isObject()) {
+          city = locationJson.get("city", "").asString();
+          location.setCity(city);
+        }
+        if(locationJson["country"].isObject()) {
+          country = locationJson.get("country", "").asString();
+          location.setCountry(country);
+        }
+        if(locationJson["state"].isObject()) {
+          state = locationJson.get("state", "").asString();
+          location.setState(state);
+        }
+
+        weatherProvider->setLocation(location);
       }
     }
   }
