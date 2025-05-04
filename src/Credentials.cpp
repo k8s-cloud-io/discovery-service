@@ -1,8 +1,5 @@
 #include "Credentials.h"
 
-Credentials::Credentials(CredentialsType type)
-:type(type) {}
-
 void Credentials::setUserName(const String &value) {
   userName = value;
 }

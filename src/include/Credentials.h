@@ -5,13 +5,8 @@
 
 class Credentials {
   public:
-    enum CredentialsType {
-      CREDENTIALS_TYPE_NONE = 0,
-      CREDENTIALS_TYPE_API_KEY,
-      CREDENTIALS_TYPE_USER,
-    };
 
-    Credentials(CredentialsType);
+    Credentials() = default;
     virtual ~Credentials() = default;
 
     void setUserName(const String &);
@@ -23,7 +18,6 @@ class Credentials {
     String getApiKey() const;
 
   private:
-    CredentialsType type;
     String userName;
     String password;
     String apiKey;
