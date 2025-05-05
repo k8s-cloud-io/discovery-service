@@ -34,7 +34,6 @@ HttpResponse *HttpRequest::exec() const {
         int port = url.getPort();
 
         String baseUri = String("%1%2%3").arg(3, scheme.c_str(), host.c_str(), path.c_str());
-        std::cout << "HttpRequest: connecting to uri " << baseUri << std::endl;
         curl_easy_setopt(curl, CURLOPT_URL, baseUri.c_str());
 
         if(!url.getQuery().empty()) {
@@ -62,6 +61,9 @@ HttpResponse *HttpRequest::exec() const {
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 10L);
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 2000L);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+#ifdef DEBUG
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+#endif
 
         if(const CURLcode res = curl_easy_perform(curl); res == CURLE_OK) {
             int http_code;
