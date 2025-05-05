@@ -11,6 +11,8 @@
 #include "ByteArray.h"
 #endif
 
+#include <cstdarg>
+
 class String: public std::string {
     public:
         String();
@@ -24,6 +26,7 @@ class String: public std::string {
         [[nodiscard]] StringList split(const std::string&) const;
 
         String append(const char *);
+        String arg(int numArgs, ...);
 
         static String valueOf(int);
 };

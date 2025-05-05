@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdarg>
 #include <cstddef>
 #include <cstring>
 #include "String.h"
@@ -60,4 +61,19 @@ int String::compare(const String &s) const {
 
 String String::valueOf(int value) {
     return std::to_string(value);
+}
+
+String String::arg(int numArgs, ...) {
+    va_list args;
+    va_start(args, numArgs);
+
+    for(int i = 0; i < numArgs; i++) {
+        String arg = va_arg(args, const char*);
+        String argName = String("%") + String::valueOf(i+1);
+        size_t pos = std::string::find(argName);
+        if(pos != String::npos)
+            std::string::replace(pos, argName.length(), arg);
+    }
+    ::va_end(args);
+    return *this;
 }
