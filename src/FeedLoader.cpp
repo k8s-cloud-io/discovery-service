@@ -37,7 +37,6 @@ void FeedLoader::load(const StringList &list) {
         createTable.exec();
 
         for(String feed: list) {
-            Logger::log("load feed " + feed);
             FeedList feedItems = FeedReader::loadFeed(feed);
             
             // delete old feed items from table
@@ -55,7 +54,7 @@ void FeedLoader::load(const StringList &list) {
                 insertQuery.exec();
             }
 
-            Logger::log(DateTime::currentDateTime().toString() + ": feed was loaded successfully");
+            Logger::log(DateTime::currentDateTime().toString() + ": FeedLoader - feed was loaded successfully");
 
             /*
             SqlQuery selection("SELECT pub_date FROM feed_item WHERE feed_url = :1", "feed_item", db);
