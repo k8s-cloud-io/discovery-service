@@ -5,15 +5,19 @@
 #include "ByteArray.h"
 #include "HttpRequest.h"
 
-HttpRequest::HttpRequest(const RequestMethod m, String u)
+HttpRequest::HttpRequest(const RequestMethod m, Url u)
     :requestMethod(m), url(u) {
+}
+
+HttpRequest::HttpRequest(const RequestMethod m, const String &u)
+    :requestMethod(m), url(Url::parse(u)) {
 }
 
 HttpRequest::RequestMethod HttpRequest::getRequestMethod() const {
     return requestMethod;
 }
 
-String HttpRequest::getUrl() const {
+Url HttpRequest::getUrl() const {
     return url;
 }
 
@@ -22,7 +26,7 @@ HttpResponse *HttpRequest::exec() const {
     auto response = new HttpResponse();
 
     if(auto curl = curl_easy_init(); curl != nullptr) {
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, url.getPath().c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &HttpRequest::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 10L);

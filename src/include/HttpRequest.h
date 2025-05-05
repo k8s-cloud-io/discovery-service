@@ -4,6 +4,7 @@
 #include "HttpHeader.h"
 #include "HttpResponse.h"
 #include "String.h"
+#include "Url.h"
 
 class HttpRequest {
     public:
@@ -15,7 +16,8 @@ class HttpRequest {
             PATCH
         };
 
-        HttpRequest(RequestMethod, String);
+        HttpRequest(RequestMethod, const String &);
+        HttpRequest(RequestMethod, Url);
         virtual ~HttpRequest() = default;
 
         void setHeaders(const HttpHeaders &);
@@ -23,14 +25,14 @@ class HttpRequest {
 
         [[nodiscard]] HttpResponse *exec() const;
         [[nodiscard]] RequestMethod getRequestMethod() const;
-        [[nodiscard]] String getUrl() const;
+        [[nodiscard]] Url getUrl() const;
 
     private:
         HttpRequest();
         static ::size_t WriteCallback(const void *, ::size_t, ::size_t, void *);
 
         RequestMethod requestMethod;
-        String url;
+        Url url;
         HttpHeaders headers;
 };
 
