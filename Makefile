@@ -26,6 +26,7 @@ all: $(BUILD_DIR)/$(TARGET_EXEC)
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	mkdir -p ./bin
 	$(CXX) $(CPPFLAGS) $(OBJS) $(LDFLAGS) -o ./bin/$(TARGET_EXEC)
+	strip -s ./bin/$(TARGET_EXEC)
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
