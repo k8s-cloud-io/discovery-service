@@ -1,6 +1,6 @@
 all:
 	 rm -rf build bin
-	 cmake -S. -Bbuild -G Ninja
+	 cmake -DCMAKE_BUILD_TYPE=Release -S. -Bbuild
 	 cmake --build build
 
 debug:
