@@ -2,9 +2,11 @@
 #include <cstring>
 #include <iostream>
 #include <thread>
+#include <unistd.h>
 #include "CinnamonDiscovery.h"
 #include "Global.h"
 #include "Timer.h"
+#include "String.h"
 #include "UnixSocket.h"
 using std::cout;
 using std::endl;
