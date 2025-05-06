@@ -1,4 +1,5 @@
 #include <cstdio>
+#include "CinnamonDiscovery.h"
 #include "DateTime.h"
 #include "FeedLoader.h"
 #include "FeedReader.h"
@@ -6,8 +7,6 @@
 #include "Logger.h"
 #include "SqlDatabase.h"
 #include "SqlQuery.h"
-#include "Sqlite3Driver.h"
-#include "User.h"
 
 bool FeedLoader::loading = false;
 
@@ -23,14 +22,7 @@ void FeedLoader::load(const StringList &list) {
 
     loading = true;
     try {
-        User u = User::current();
-        String databasePath = u.getDirectory(XDG_DOCUMENTS_DIR).append("/cinnamon-discovery");
-        databasePath = databasePath.append("/discovery.db");
-
-        SqlDatabase db;
-        auto driver = new Sqlite3Driver();
-        driver->setDatabaseName(databasePath);
-        db.setDriver(driver);
+        SqlDatabase db = CinnamonDiscovery::getDatabase();
 
         // create table if not exists
         SqlQuery createTable("CREATE TABLE IF NOT EXISTS feed_item (id INTEGER PRIMARY KEY, feed_url VARCHAR(255), link VARCHAR(255), pub_date VARCHAR(255), title VARCHAR(255))", nullptr, db);

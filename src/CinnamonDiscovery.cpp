@@ -1,11 +1,29 @@
 #include "CinnamonDiscovery.h"
 #include "FeedLoader.h"
 #include "Timer.h"
+#include "User.h"
 #include "UserSettings.h"
+#include "SqlDatabase.h"
+#include "Sqlite3Driver.h"
 #include "WeatherProvider.h"
+
+SqlDatabase CinnamonDiscovery::database;
+
+SqlDatabase CinnamonDiscovery::getDatabase() {
+    return database;
+}
 
 void CinnamonDiscovery::init() {
     UserSettings settings;
+
+    User u = User::current();
+    String databasePath = u.getDirectory(XDG_DOCUMENTS_DIR).append("/cinnamon-discovery");
+    databasePath = databasePath.append("/discovery.db");
+
+    auto driver = new Sqlite3Driver();
+    driver->setDatabaseName(databasePath);
+    database.setDriver(driver);
+
     WeatherProvider *provider = settings.getWeatherProvider();
 
     Timer t;
