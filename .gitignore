@@ -1,9 +1,6 @@
+/.cache
 /.idea
 /.obj
 /.vscode
 /bin
-/.obj
-/data
 /build
-/cmake-build-*
-/sqlite3.db
