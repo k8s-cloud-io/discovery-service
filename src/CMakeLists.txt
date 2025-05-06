@@ -20,7 +20,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
 set(CMAKE_RULE_MESSAGES OFF)
 
 include_directories(/usr/include)
-include_directories(./src/include)
+include_directories(./include)
 
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 include_directories(${SQLITE3_INCLUDE_DIRS})
@@ -41,16 +41,16 @@ pkg_check_modules(JSON_CPP REQUIRED jsoncpp)
 include_directories( ${JSON_CPP_INCLUDE_DIRS} )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
-file(GLOB_RECURSE SOURCES ./src/*.cpp)
+file(GLOB_RECURSE SOURCES *.cpp)
 
 # add the executable
 add_executable(discovery-service ${SOURCES})
 target_link_libraries(
-        discovery-service
-        ${LIBXML2_LIBRARIES}
-        ${CURL_LIBRARIES}
-        ${GDKPIXBUF_LIBRARIES}
-        ${GIO_LIBRARIES}
-        ${SQLITE3_LIBRARIES}
-        ${JSON_CPP_LIBRARIES}
+    discovery-service
+    ${LIBXML2_LIBRARIES}
+    ${CURL_LIBRARIES}
+    ${GDKPIXBUF_LIBRARIES}
+    ${GIO_LIBRARIES}
+    ${SQLITE3_LIBRARIES}
+    ${JSON_CPP_LIBRARIES}
 )
