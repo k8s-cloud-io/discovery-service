@@ -2,10 +2,13 @@ cmake_minimum_required(VERSION 3.20)
 include(FindPkgConfig)
 
 # set the project name
-project(cinnamon-discovery VERSION 1.0)
+project(discovery-service VERSION 1.0)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+else(
+    set(CMAKE_VERBOSE_MAKEFILE ON)
+)
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -13,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
-set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
 set(CMAKE_RULE_MESSAGES OFF)
 
 include_directories(/usr/include)
@@ -41,9 +44,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 file(GLOB_RECURSE SOURCES ./src/*.cpp)
 
 # add the executable
-add_executable(cinnamon-discovery ${SOURCES})
+add_executable(discovery-service ${SOURCES})
 target_link_libraries(
-        cinnamon-discovery
+        discovery-service
         ${LIBXML2_LIBRARIES}
         ${CURL_LIBRARIES}
         ${GDKPIXBUF_LIBRARIES}
