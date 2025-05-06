@@ -1,3 +1,5 @@
+#include "json/json.h"
+#include "json/value.h"
 #include "weather/WorldWeatherOnlineProvider.h"
 #include "DateTime.h"
 #include "Exception.h"
@@ -21,5 +23,21 @@ void WorldWeatherOnlineProvider::load() const {
     String body = response->getBody();
     if(response->getStatusCode() == 200 && body.find("{") == 0) {
         Logger::log(DateTime::currentDateTime().toString() + ": WorldWeatherOnlineProvider - weather was loaded successfully");
+        Json::Value root;
+        Json::Reader reader;
+        reader.parse(body, root);
+
+        if(!root["data"]) {
+            Logger::log("WorldWeatherOnlineProvider: unable to load weather, missing data attribute node.");
+            return;
+        }
+
+        if(root["data"]["weather"]) {
+            Json::Value weatherJson = root["data"]["weather"];
+            for(Json::Value weather: weatherJson) {
+                // TODO store to database table(s)
+                // Logger::log(weather["date"].asString());
+            }
+        }
     }
 }
