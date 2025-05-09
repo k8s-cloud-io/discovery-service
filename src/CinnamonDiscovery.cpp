@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "FeedLoader.h"
 #include "Logger.h"
-#include "WebService.h"
 #include "Timer.h"
 #include "User.h"
 #include "UserSettings.h"
@@ -37,7 +36,7 @@ void CinnamonDiscovery::init() {
     driver->setDatabaseName(databasePath);
     database.setDriver(driver);
 
-    webService = new WebService();
+    webService = new CinnamonWebService();
     webService->start();
 
     WeatherProvider *provider = settings.getWeatherProvider();

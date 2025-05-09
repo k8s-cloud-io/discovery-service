@@ -3,18 +3,18 @@
 
 #include "Application.h"
 #include "SqlDatabase.h"
-#include "WebService.h"
+#include "CinnamonWebService.h"
 
 class CinnamonDiscovery: public Application {
     public:
         CinnamonDiscovery();
         virtual ~CinnamonDiscovery();
-        
+
         void init();
         static SqlDatabase getDatabase();
 
     private:
-        WebService *webService;
+    CinnamonWebService *webService;
         static SqlDatabase database;
 };
 
