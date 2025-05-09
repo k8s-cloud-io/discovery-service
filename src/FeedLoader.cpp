@@ -46,7 +46,7 @@ void FeedLoader::load(const StringList &list) {
                 insertQuery.exec();
             }
 
-            Logger::log(DateTime::currentDateTime().toString() + ": FeedLoader - feed was loaded successfully");
+            Logger::log(DateTime::currentDateTime().toString() + ": FeedLoader - feed " + feed +" was loaded successfully");
 
             /*
             SqlQuery selection("SELECT pub_date FROM feed_item WHERE feed_url = :1", "feed_item", db);
