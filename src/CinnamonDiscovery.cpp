@@ -1,5 +1,8 @@
 #include "CinnamonDiscovery.h"
+#include "Application.h"
 #include "FeedLoader.h"
+#include "Logger.h"
+#include "WebService.h"
 #include "Timer.h"
 #include "User.h"
 #include "UserSettings.h"
@@ -13,6 +16,16 @@ SqlDatabase CinnamonDiscovery::getDatabase() {
     return database;
 }
 
+CinnamonDiscovery::CinnamonDiscovery()
+:Application(), webService(nullptr) {
+    Logger::log("CinnamonDiscovery::CinnamonDiscovery");
+}
+
+CinnamonDiscovery::~CinnamonDiscovery() {
+    Logger::log("CinnamonDiscovery::~CinnamonDiscovery");
+    delete webService;
+}
+
 void CinnamonDiscovery::init() {
     UserSettings settings;
 
@@ -23,6 +36,9 @@ void CinnamonDiscovery::init() {
     auto driver = new Sqlite3Driver();
     driver->setDatabaseName(databasePath);
     database.setDriver(driver);
+
+    webService = new WebService();
+    webService->start();
 
     WeatherProvider *provider = settings.getWeatherProvider();
 

@@ -5,11 +5,11 @@
 
 class Application {
   public:
-    Application() = default;
-    virtual ~Application();
+    Application();
+    virtual ~Application() = default;
 
     int start();
-    static void quit();
+    static void quit(int signal = 0);
 
     private:
       static bool running;
