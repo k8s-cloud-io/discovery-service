@@ -55,6 +55,8 @@ void UnixSocket::listen() {
 
 	listening = true;
 	runner = std::thread([this, address]() {
+		Logger::log("UnixSocket::listen: listening for unix domain socket events on " + path);
+
 		while (isListening()) {
 			socklen_t len = sizeof(address);
 			int s = accept(fd, (sockaddr *)&address, &len);
