@@ -1,8 +1,9 @@
 #include <thread>
 #include "csignal"
 #include <cstdlib>
-#include "Application.h"
 #include <csignal>
+#include "Application.h"
+#include "Global.h"
 
 bool Application::running = false;
 std::thread Application::mainThread;
@@ -20,6 +21,7 @@ int Application::start() {
 }
 
 void Application::quit(int signal) {
+  Q_UNUSED(signal);
   Application::running = false;
   if (mainThread.joinable()) {
     mainThread.join();
