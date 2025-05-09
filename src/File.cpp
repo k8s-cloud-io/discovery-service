@@ -64,5 +64,12 @@ bool File::isWritable(const String &path) {
     return access(path.c_str(), W_OK) == 0;
 }
 
+bool File::remove(const String &path) {
+    if(!exists(path)) {
+        return false;
+    }
+    return fs::remove(path.c_str());
+}
+
 // private
 File::File() = default;

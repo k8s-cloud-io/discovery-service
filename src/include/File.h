@@ -16,6 +16,7 @@ class File final {
         String getDirectory();
 
         static bool exists(const String &);
+        static bool remove(const String &);
         static bool isReadable(const String &);
         static bool isWritable(const String &);
         static bool isDirectory(const String &);
