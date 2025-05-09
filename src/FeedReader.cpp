@@ -15,7 +15,8 @@ FeedList FeedReader::loadFeed(const String &url) {
 
     if(response->getStatusCode() == 200 && response->containsHeader("content-type")) {
         if(String contentType = response->getHeader("content-type");
-            contentType.find("application/xml") != String::npos || contentType.find("text/xml") != String::npos)
+            contentType.find("application/xml") != String::npos || contentType.find("text/xml") != String::npos ||
+            contentType.find("application/rss+xml") != String::npos || contentType.find("text/rss+xml") != String::npos)
         {
             ByteArray buffer = response->getBody();
             buffer.push_back('\0');
