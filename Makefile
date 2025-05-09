@@ -2,6 +2,7 @@ all:
 	 rm -rf bin build/CMakeFiles/discovery-service.dir
 	 cmake -DCMAKE_BUILD_TYPE=Release --fresh -S. -Bbuild -G Ninja
 	 ninja -C build
+	 strip -s bin/discovery-service
 
 debug:
 	 rm -rf bin build/discovery-service.dir
